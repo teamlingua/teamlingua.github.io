@@ -659,6 +659,7 @@
                         <p class="text-[11px] text-slate-500 mt-0.5">连签每满 7 天 +20，每满 30 天再 +100；同一天两者都满则都发，每个里程碑只奖励一次</p>
                     </div>
                 </div>
+                <p class="text-[11px] text-slate-600 pt-1">同一道题在当天（新西兰时间）重复作答不再加分（错题本复习规则不变）。</p>
             </div>
 
             <!-- 唯一国王规则提示 -->
@@ -1285,7 +1286,7 @@
             const { data, error } = await sb.rpc('claim_prince_bounty', { p_bounty_id: bounty.id });
             if (error) {
                 const msg = String(error.message || error);
-                if (/已过期|已被领取|不能领取自己/.test(msg)) {
+                if (/已过期|已被领取|不能领取自己|今天已做过/.test(msg)) {
                     await refreshBounties();
                     return null;
                 }
@@ -2702,7 +2703,8 @@
             const { data, error } = await sb.rpc('apply_answer_skill_effects', {
                 p_room_id: appState.currentRoomId,
                 p_question_id: String(qid),
-                p_is_correct: !!isCorrect
+                p_is_correct: !!isCorrect,
+                p_is_review: !!appState.reviewMode
             });
             if (error) {
                 console.warn('结算技能效果失败:', error.message || error);
@@ -4247,7 +4249,7 @@
             showToast(`正在以 ${targetRate}x 倍速朗读听力音频`, 'info');
         };
 
-        window.selectAndCheckOption = function(idx) {
+        window.selectAndCheckOption = async function(idx) {
             if (appState.questionAnswered) return;
             const q = appState.currentQuestion;
             if (!q) return;
@@ -4272,7 +4274,7 @@
                 }
             });
 
-            finalizeExerciseResult(isCorrect, q.explanation || '');
+            await finalizeExerciseResult(isCorrect, q.explanation || '');
         };
 
         window.toggleSpeechRecognition = async function() {
@@ -4391,7 +4393,7 @@
             if (!attempted) {
                 if (!canCapture) {
                     appState.questionAnswered = true;
-                    finalizeExerciseResult(false, '当前浏览器无法录音或识别。已记录为练习，未评分、未获得积分。请用 Safari 或 Chrome 打开后再练口语。 ' + ((q && q.explanation) || ''), { skipScoring: true });
+                    await finalizeExerciseResult(false, '当前浏览器无法录音或识别。已记录为练习，未评分、未获得积分。请用 Safari 或 Chrome 打开后再练口语。 ' + ((q && q.explanation) || ''), { skipScoring: true });
                     return;
                 }
                 showToast('请先点击「开始录音」跟读一次后再标记完成；未跟读不会获得积分', 'warning');
@@ -4403,11 +4405,11 @@
                 appState.latestGrammar = gram;
                 const evalRes = evaluateSpeechSimilarity(q && q.targetSpeech, appState.latestSpeechTranscript);
                 appState.questionAnswered = true;
-                finalizeExerciseResult(evalRes.score >= 55, '跟读匹配度 ' + evalRes.score + '%。' + ((q && q.explanation) || ''));
+                await finalizeExerciseResult(evalRes.score >= 55, '跟读匹配度 ' + evalRes.score + '%。' + ((q && q.explanation) || ''));
                 renderGrammarFeedback('grammarFeedbackBox', appState.latestSpeechTranscript, gram, { title: '识别文本的语法与拼写建议' });
             } else {
                 appState.questionAnswered = true;
-                finalizeExerciseResult(false, '已保存你的跟读录音，但当前环境无法自动识别打分，故未计分。可点播放复习，下次可用 Chrome 获得识别匹配度。 ' + ((q && q.explanation) || ''), { skipScoring: true });
+                await finalizeExerciseResult(false, '已保存你的跟读录音，但当前环境无法自动识别打分，故未计分。可点播放复习，下次可用 Chrome 获得识别匹配度。 ' + ((q && q.explanation) || ''), { skipScoring: true });
             }
         };
 
@@ -4435,26 +4437,48 @@
             const sampleInfo = q.sampleAnswer ? ' Sample response: "' + q.sampleAnswer + '"' : '';
             const gram = await checkEnglishGrammar(text);
             appState.latestGrammar = gram;
-            finalizeExerciseResult(isGood, (q.explanation || '') + sampleInfo);
+            await finalizeExerciseResult(isGood, (q.explanation || '') + sampleInfo);
             renderGrammarFeedback('grammarFeedbackBox', text, gram, { title: '写作语法与拼写建议' });
         };
 
-        function finalizeExerciseResult(isCorrect, explanationText, options) {
+        async function finalizeExerciseResult(isCorrect, explanationText, options) {
             const q = appState.currentQuestion;
             let skipScoring = !!(options && options.skipScoring);
             if (!skipScoring && q && appState.officialQuestion && appState.officialQuestion.id === q.id && appState.currentUser && appState.officialQuestion._officerAuthorId === appState.currentUser.id) {
                 skipScoring = true;
                 showToast('出题官不能作答自己发布的题目', 'warning');
             }
-            if (!appState.answeredHistoryIds.includes(q.id)) {
+            if (q && q.id && !appState.answeredHistoryIds.includes(q.id)) {
                 appState.answeredHistoryIds.push(q.id);
             }
 
             const u = appState.currentUser;
+            let alreadyToday = false;
+            let claimFailed = false;
+            if (u && !skipScoring && !appState.reviewMode && sb && q && q.id) {
+                try {
+                    const { data, error } = await sb.rpc('claim_daily_question_score', {
+                        p_question_id: String(q.id),
+                        p_is_review: false,
+                        p_is_correct: !!isCorrect
+                    });
+                    if (error) {
+                        console.warn('记录当日作答失败:', error.message || error);
+                        claimFailed = true;
+                    } else if (data && data.already_today) {
+                        alreadyToday = true;
+                    }
+                } catch (err) {
+                    console.warn('记录当日作答失败:', err && err.message ? err.message : err);
+                    claimFailed = true;
+                }
+            }
+
+            const denyAwards = alreadyToday || claimFailed;
             let levelChangeNotice = '';
             let pointsNotice = '';
 
-            if (u && !skipScoring) {
+            if (u && !skipScoring && !denyAwards) {
                 u.solvedCount = (u.solvedCount || 0) + 1;
                 if (isCorrect) {
                     const prevTitle = getMemberNobleTitle(u);
@@ -4530,8 +4554,16 @@
             const feedbackTitle = document.getElementById('feedbackTitle');
             const feedbackExplanation = document.getElementById('feedbackExplanation');
 
-            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-900', 'bg-rose-50', 'border-rose-200', 'text-rose-900');
-            if (skipScoring) {
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-900', 'bg-rose-50', 'border-rose-200', 'text-rose-900', 'bg-slate-50', 'border-slate-200', 'text-slate-800', 'bg-amber-50', 'border-amber-200', 'text-amber-900');
+            if (alreadyToday) {
+                feedbackBox.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-900');
+                feedbackIcon.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-amber-600"></i>`;
+                feedbackTitle.textContent = '这题今天已做过，不再加分';
+            } else if (claimFailed && u && !skipScoring) {
+                feedbackBox.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-900');
+                feedbackIcon.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-amber-600"></i>`;
+                feedbackTitle.textContent = '计分登记失败，本题暂不加分';
+            } else if (skipScoring) {
                 feedbackBox.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-800');
                 feedbackIcon.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-slate-500"></i>`;
                 feedbackTitle.textContent = '已记录练习（未评分，未获得积分）';
