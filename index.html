@@ -308,8 +308,32 @@
                     </div>
                 </div>
 
+                <div id="skillsHelpCard" class="mb-3 rounded-2xl border border-sky-200 bg-sky-50/80">
+                    <button type="button" onclick="toggleSkillsHelp()" class="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left cursor-pointer">
+                        <span class="text-xs font-bold text-sky-900">怎么用？</span>
+                        <span id="skillsHelpChevron" class="text-sky-700 text-xs">▾</span>
+                    </button>
+                    <div id="skillsHelpBody" class="px-3.5 pb-3 text-xs text-slate-700 leading-relaxed space-y-1">
+                        <p>按听力、口语、阅读、写作筛选题目，或用「综合轮换」交替练习。</p>
+                        <p>答对得 +1 积分；连对 3 题升阶，答错可能降阶。每天学满 20 分钟再加 +10 积分。</p>
+                        <p>口语请先开口，再点「Mark as Practiced」才会计分。</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-2xl mb-3 text-xs font-semibold">
+                    <button type="button" id="practiceTabPractice" onclick="setPracticeTab('practice')" class="py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer">练习</button>
+                    <button type="button" id="practiceTabWrongbook" onclick="openWrongBook()" class="py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer">
+                        错题本 <span id="wrongBookDueBadge" class="hidden ml-1 px-1.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px] font-bold">0</span>
+                    </button>
+                </div>
+
+                <div id="reviewReminderBanner" class="hidden mb-3 px-3.5 py-3 rounded-2xl border border-amber-200 bg-amber-50 flex flex-wrap items-center justify-between gap-2">
+                    <span id="reviewReminderText" class="text-xs font-semibold text-amber-900">今天有 <span id="reviewReminderCount">0</span> 道题待复习</span>
+                    <button type="button" onclick="startWrongBookReview()" class="shrink-0 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold cursor-pointer">开始复习</button>
+                </div>
+
                 <!-- 听说读写四维技能筛选胶囊 -->
-                <div class="grid grid-cols-5 gap-1.5 p-1 bg-slate-100 rounded-2xl mb-4 text-xs font-semibold">
+                <div id="skillFilterWrap" class="grid grid-cols-5 gap-1.5 p-1 bg-slate-100 rounded-2xl mb-4 text-xs font-semibold">
                     <button type="button" onclick="setSkillFilter('all')" id="skillBtnAll" class="py-2 rounded-xl bg-white text-indigo-600 shadow-2xs transition cursor-pointer">综合轮换</button>
                     <button type="button" onclick="setSkillFilter('listening')" id="skillBtnListening" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">🎧 听力</button>
                     <button type="button" onclick="setSkillFilter('speaking')" id="skillBtnSpeaking" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">🗣️ 口语</button>
@@ -318,7 +342,7 @@
                 </div>
 
                 <!-- 每日 20 分钟打卡目标进度条 -->
-                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
+                <div id="dailyGoalWrap" class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
                     <div class="flex justify-between items-center text-xs mb-1.5">
                         <span class="font-semibold text-slate-700">今日达标进度 (<span id="myTodayMinutesText">0</span> / 20 分钟 · <span class="text-amber-600">满20m奖+10分</span>)</span>
                         <span id="myGoalStatusText" class="font-bold text-indigo-600">0%</span>
@@ -337,6 +361,7 @@
 
             <!-- 互动练习卡片 -->
             <div id="quizCard" class="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs relative overflow-hidden">
+                <div id="reviewSessionBar" class="hidden mb-4 px-3.5 py-2.5 rounded-2xl bg-indigo-50 border border-indigo-200"></div>
                 <div class="flex items-center justify-between gap-2 mb-4">
                     <div class="flex items-center gap-2 flex-wrap">
                         <span id="questionCategoryTag" class="px-2.5 py-1 rounded-lg bg-violet-50 text-violet-700 text-xs font-semibold">📖 Reading</span>
@@ -347,6 +372,8 @@
                         <span id="aiGenerateBtnText">AI New Question</span>
                     </button>
                 </div>
+
+                <div id="princeBountyBar" class="hidden mb-4"></div>
 
                 <!-- 题干与情境文本 -->
                 <div class="mb-5">
@@ -377,6 +404,28 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="wrongBookPanel" class="hidden bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
+                <div id="wrongBookHelpCard" class="mb-3 rounded-2xl border border-rose-200 bg-rose-50/80">
+                    <button type="button" onclick="toggleWrongBookHelp()" class="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left cursor-pointer">
+                        <span class="text-xs font-bold text-rose-900">怎么用？</span>
+                        <span id="wrongBookHelpChevron" class="text-rose-700 text-xs">▾</span>
+                    </button>
+                    <div id="wrongBookHelpBody" class="px-3.5 pb-3 text-xs text-slate-700 leading-relaxed space-y-1.5">
+                        <p>答错的题目会自动保存到错题本。</p>
+                        <p>请在 1 天后复习；每次复习答对，间隔依次变为 3 天、7 天、14 天。</p>
+                        <p>再次答错会重置为 1 天后复习。在 14 天那一轮复习中答对，记为「已掌握」。</p>
+                        <p>每天登录时，若有到期题目，会提示「今天有 N 道题待复习」。</p>
+                        <p>复习答对计 +1 积分，不会重复计分。也可以随时手动移除。</p>
+                    </div>
+                </div>
+                <div id="wrongBookFilters" class="flex flex-wrap gap-1 p-1 bg-slate-100 rounded-2xl mb-3">
+                    <button type="button" id="wrongFilterDue" onclick="setWrongBookFilter('due')" class="px-2.5 py-1 rounded-lg bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer">待复习</button>
+                    <button type="button" id="wrongFilterAll" onclick="setWrongBookFilter('all')" class="px-2.5 py-1 rounded-lg text-slate-600 text-xs font-semibold cursor-pointer">全部</button>
+                    <button type="button" id="wrongFilterMastered" onclick="setWrongBookFilter('mastered')" class="px-2.5 py-1 rounded-lg text-slate-600 text-xs font-semibold cursor-pointer">已掌握</button>
+                </div>
+                <div id="wrongBookList" class="space-y-2.5 max-h-[28rem] overflow-y-auto custom-scrollbar"></div>
             </div>
         </section>
 
@@ -468,7 +517,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins w-4 h-4 text-amber-600"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg>
                     <span>如何获取学习积分？</span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
                     <div class="bg-white rounded-xl p-3 border border-amber-100">
                         <div class="text-xs font-bold text-slate-800">✅ 答题正确奖励</div>
                         <div class="text-lg font-extrabold text-emerald-600 mt-0.5">+1 积分 / 题</div>
@@ -479,6 +528,11 @@
                         <div class="text-lg font-extrabold text-amber-600 mt-0.5">+10 积分 / 天</div>
                         <p class="text-[11px] text-slate-500 mt-0.5">每日累计学习满 20 分钟自动额外奖励</p>
                     </div>
+                    <div class="bg-white rounded-xl p-3 border border-amber-100">
+                        <div class="text-xs font-bold text-slate-800">🔥 连续学习奖励</div>
+                        <div class="text-lg font-extrabold text-rose-600 mt-0.5">+20 / 7天 · +100 / 30天</div>
+                        <p class="text-[11px] text-slate-500 mt-0.5">连签每满 7 天 +20，每满 30 天再 +100；同一天两者都满则都发，每个里程碑只奖励一次</p>
+                    </div>
                 </div>
             </div>
 
@@ -488,7 +542,34 @@
                     <span>👑 「唯一国王」至高规则：</span>
                 </div>
                 <p class="text-xs text-amber-50 mt-1 leading-relaxed">
-                    积分达到 <strong>10,000 分</strong> 即可获得加冕资格！全队<strong>有且仅有 1 位国王</strong>——在所有突破 10,000 分的成员中，<strong>总积分最高者</strong>加冕为<strong>「👑 国王」</strong>，其余超过 10,000 分的强者暂居<strong>「⚜️ 亲王」</strong>（积分被超越时王位将实时易主！）。
+                    积分达到 <strong>4,500 分</strong> 即可获得加冕资格！全队<strong>有且仅有 1 位国王</strong>——在所有突破 4,500 分的成员中，<strong>总积分最高且没有并列</strong>者加冕为<strong>「👑 国王」</strong>，其余达到 4,500 分的强者暂居<strong>「⚜️ 亲王」</strong>（积分被超越或出现并列时王位将实时易主！）。
+                </p>
+            </div>
+
+            <div class="bg-violet-50 border border-violet-200 rounded-2xl p-3.5 mb-4">
+                <div class="flex items-center gap-2 font-bold text-xs sm:text-sm text-violet-900">
+                    <span>⚜️ 亲王悬赏令：</span>
+                </div>
+                <p class="text-xs text-violet-800 mt-1 leading-relaxed">
+                    头衔为「亲王」的成员<strong>每周可发布 1 次</strong>悬赏，由系统出资，<strong>不扣除亲王自身积分</strong>。悬赏绑定当前题目，<strong>48 小时内</strong>首位答对的队友获得 <strong>+20 积分</strong>，发布的亲王获得 <strong>+5 积分</strong>；超时未解开则自动过期，无积分变动。
+                </p>
+            </div>
+
+            <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3.5 mb-4">
+                <div class="flex items-center gap-2 font-bold text-xs sm:text-sm text-sky-900">
+                    <span>📘 听说读写练习怎么用？</span>
+                </div>
+                <p class="text-xs text-sky-900 mt-1 leading-relaxed">
+                    可按听力、口语、阅读、写作筛选，也可「综合轮换」。答对一题得 <strong>+1 积分</strong>；连对 3 题会升阶，答错可能降阶。每日累计学习满 20 分钟额外 <strong>+10 积分</strong>。口语请先开口再点「Mark as Practiced」才会计分；只点练习、没有作答不会得分。
+                </p>
+            </div>
+
+            <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3.5 mb-4">
+                <div class="flex items-center gap-2 font-bold text-xs sm:text-sm text-rose-900">
+                    <span>📒 错题本与复习提醒：</span>
+                </div>
+                <p class="text-xs text-rose-900 mt-1 leading-relaxed">
+                    答错的题目会<strong>自动保存</strong>到错题本。请在 1 天后复习；每次复习答对，间隔依次变为 3 天、7 天、14 天。再次答错会重置为 1 天后复习。在 14 天那一轮复习中答对，题目记为「已掌握」。每天登录时，若有到期题目，会提示「今天有 N 道题待复习」。复习答对计 <strong>+1 积分</strong>（不会重复计分）。也可以随时手动移除。
                 </p>
             </div>
 
@@ -562,6 +643,7 @@
                 flag: p.flag || '',
                 flagDate: p.flag_date,
                 dailyBonusAwardedDate: p.daily_bonus_awarded_date,
+                streakBonusAwarded: p.streak_bonus_awarded || 0,
                 updatedAt: p.updated_at ? new Date(p.updated_at).getTime() : Date.now()
             };
         }
@@ -580,6 +662,7 @@
                 flag: u.flag || null,
                 flag_date: u.flagDate || null,
                 daily_bonus_awarded_date: u.dailyBonusAwardedDate || null,
+                streak_bonus_awarded: u.streakBonusAwarded || 0,
                 avatar: u.color || 'bg-indigo-600',
                 display_name: u.name || null
             };
@@ -592,19 +675,74 @@
         }
 
         function applyDailyLoginReset(user) {
-            if (!user) return;
+            if (!user) return false;
             const todayStr = getTodayDateString();
-            if (user.lastActiveDate === todayStr) return;
+            if (user.lastActiveDate === todayStr) return false;
             const yesterdayStr = getDateStringFromOffset(-1);
             if (user.lastActiveDate === yesterdayStr) {
                 user.streak = (user.streak || 0) + 1;
             } else {
                 user.streak = 1;
+                user.streakBonusAwarded = 0;
             }
             user.todayMinutes = 0;
             user.solvedCount = 0;
             user.correctCount = 0;
             user.lastActiveDate = todayStr;
+            return true;
+        }
+
+        function awardStreakMilestones(user) {
+            if (!user) return 0;
+            const streak = user.streak || 0;
+            let last = user.streakBonusAwarded || 0;
+            if (streak < last) {
+                last = 0;
+                user.streakBonusAwarded = 0;
+            }
+            if (streak <= last) return 0;
+            let bonus7 = 0;
+            let bonus30 = 0;
+            const hits = [];
+            for (let m = last + 1; m <= streak; m++) {
+                if (m % 7 === 0) {
+                    bonus7 += 20;
+                    hits.push({ milestone: m, points: 20, kind: 7 });
+                }
+                if (m % 30 === 0) {
+                    bonus30 += 100;
+                    hits.push({ milestone: m, points: 100, kind: 30 });
+                }
+            }
+            const bonus = bonus7 + bonus30;
+            if (!bonus) return 0;
+            const prevTitle = getMemberNobleTitle(user);
+            user.points = (user.points || 0) + bonus;
+            user.streakBonusAwarded = streak;
+            hits.forEach(hit => {
+                const label = hit.kind === 30 ? '超长连签里程碑奖励' : '连签里程碑奖励';
+                const icon = hit.kind === 30 ? '🏆' : '🔥';
+                postTeamActivity(
+                    user.name,
+                    user.color,
+                    `连续学习 ${hit.milestone} 天，获得${label} +${hit.points} 积分！${icon}`,
+                    'system'
+                );
+            });
+            const parts = [];
+            if (bonus7) parts.push('+20（每满 7 天）');
+            if (bonus30) parts.push('+100（每满 30 天）');
+            showToast(`🎉 连续学习 ${streak} 天，获得 ${parts.join(' 和 ')}，共 +${bonus} 积分！`, 'success');
+            const newTitle = getMemberNobleTitle(user);
+            if (prevTitle && newTitle && prevTitle.id !== newTitle.id) {
+                postTeamActivity(user.name, user.color, `积分突破 ${user.points} 分，晋升为【${newTitle.icon} ${newTitle.name}】！👑`, 'levelup');
+            }
+            if (appState.currentUser && user.id && appState.currentUser.id === user.id && appState.currentUser !== user) {
+                appState.currentUser.points = user.points;
+                appState.currentUser.streakBonusAwarded = user.streakBonusAwarded;
+            }
+            upsertMember(appState.currentUser && appState.currentUser.id === user.id ? appState.currentUser : user);
+            return bonus;
         }
 
         function getPublicAppUrl() {
@@ -778,8 +916,17 @@
             const u = appState.currentUser;
             if (!u || !u.id) return false;
             try {
-                const { error } = await sb.from('profiles').update(memberToProfilePatch(u)).eq('id', u.id);
+                const { data, error } = await sb.from('profiles').update(memberToProfilePatch(u)).eq('id', u.id).select('*').single();
                 if (error) throw error;
+                if (!data) throw new Error('云端未写入资料（0 行）');
+                const fresh = profileToMember(data);
+                const localMins = u.todayMinutes || 0;
+                appState.currentUser = {
+                    ...u,
+                    ...fresh,
+                    todayMinutes: Math.max(localMins, fresh.todayMinutes || 0)
+                };
+                upsertMember(appState.currentUser);
                 updateSyncStatusUI(true);
                 saveLocalState();
                 return true;
@@ -824,6 +971,571 @@
             return room;
         }
 
+        function isBountyActive(b) {
+            if (!b || b.status !== 'active') return false;
+            const exp = b.expires_at ? new Date(b.expires_at).getTime() : 0;
+            return exp > Date.now();
+        }
+
+        function getActiveBountyForQuestion(questionId) {
+            if (!questionId) return null;
+            return (appState.bounties || []).find(b => b.question_id === questionId && isBountyActive(b)) || null;
+        }
+
+        function canIssuePrinceBounty() {
+            const u = appState.currentUser;
+            if (!u || !appState.currentRoomId || !sb) return false;
+            const title = getMemberNobleTitle(u);
+            if (!title || title.id !== 'prince') return false;
+            const q = appState.currentQuestion;
+            if (!q || !q.id) return false;
+            if (getActiveBountyForQuestion(q.id)) return false;
+            const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+            const issuedThisWeek = (appState.bounties || []).some(b =>
+                b.issuer_id === u.id && b.created_at && new Date(b.created_at).getTime() > weekAgo
+            );
+            return !issuedThisWeek;
+        }
+
+        function formatBountyRemaining(expiresAt) {
+            const ms = new Date(expiresAt).getTime() - Date.now();
+            if (ms <= 0) return '已过期';
+            const hours = Math.floor(ms / 3600000);
+            const mins = Math.floor((ms % 3600000) / 60000);
+            if (hours >= 1) return '剩余 ' + hours + ' 小时 ' + mins + ' 分钟';
+            return '剩余 ' + mins + ' 分钟';
+        }
+
+        function renderPrinceBountyBar() {
+            const bar = document.getElementById('princeBountyBar');
+            if (!bar) return;
+            const q = appState.currentQuestion;
+            const active = q ? getActiveBountyForQuestion(q.id) : null;
+            const u = appState.currentUser;
+            if (active) {
+                const issuer = (appState.teamMembers || []).find(m => m.id === active.issuer_id);
+                const issuerName = issuer ? issuer.name : '亲王';
+                const isIssuer = u && u.id === active.issuer_id;
+                bar.className = 'mb-4 px-3.5 py-3 rounded-2xl border border-violet-200 bg-violet-50 text-violet-900';
+                bar.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="min-w-0">
+                            <div class="text-xs font-bold">⚜️ 亲王悬赏令进行中 · ${escapeStatusText(issuerName)} 发布</div>
+                            <p class="text-[11px] text-violet-800 mt-0.5">首位答对的队友 +20 积分，亲王 +5 积分。${isIssuer ? '你是发布者，自己作答不领取悬赏。' : '抢先答对即可领取！'} ${formatBountyRemaining(active.expires_at)}</p>
+                        </div>
+                    </div>`;
+                bar.classList.remove('hidden');
+            } else if (canIssuePrinceBounty()) {
+                bar.className = 'mb-4 px-3.5 py-3 rounded-2xl border border-violet-200 bg-white';
+                bar.innerHTML = `
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="text-xs text-violet-800">
+                            <span class="font-bold">⚜️ 亲王悬赏令</span>
+                            <span class="text-slate-500"> · 系统出资，不扣你的积分。首位答对队友 +20，你 +5，48 小时有效，每周一次。</span>
+                        </div>
+                        <button type="button" onclick="issuePrinceBounty()" class="shrink-0 px-3 py-1.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold cursor-pointer">发布悬赏令</button>
+                    </div>`;
+                bar.classList.remove('hidden');
+            } else {
+                bar.className = 'hidden mb-4';
+                bar.innerHTML = '';
+            }
+        }
+
+        async function refreshBounties() {
+            if (!sb || !appState.currentRoomId) {
+                appState.bounties = [];
+                renderPrinceBountyBar();
+                return [];
+            }
+            const { data, error } = await sb.from('bounties').select('*').eq('room_id', appState.currentRoomId).order('created_at', { ascending: false });
+            if (error) {
+                console.warn('加载悬赏令失败:', error.message || error);
+                renderPrinceBountyBar();
+                return appState.bounties || [];
+            }
+            appState.bounties = data || [];
+            renderPrinceBountyBar();
+            return appState.bounties;
+        }
+
+        async function issuePrinceBounty() {
+            const u = appState.currentUser;
+            const q = appState.currentQuestion;
+            if (!sb || !u || !q || !appState.currentRoomId) {
+                showToast('请先登录并打开一道题目', 'warning');
+                return null;
+            }
+            if (!canIssuePrinceBounty()) {
+                const title = getMemberNobleTitle(u);
+                if (!title || title.id !== 'prince') {
+                    showToast('仅头衔为「亲王」的成员可发布悬赏令', 'warning');
+                } else if (getActiveBountyForQuestion(q.id)) {
+                    showToast('该题目已有进行中的悬赏令', 'warning');
+                } else {
+                    showToast('每周只能发布一次亲王悬赏令', 'warning');
+                }
+                return null;
+            }
+            const { data, error } = await sb.rpc('issue_prince_bounty', {
+                p_room_id: appState.currentRoomId,
+                p_question_id: String(q.id),
+                p_question_prompt: (q.prompt || '').slice(0, 200)
+            });
+            if (error) {
+                showToast('发布悬赏失败：' + (error.message || error), 'error');
+                return null;
+            }
+            showToast('亲王悬赏令已发布！系统出资，不扣除你的积分。48 小时内首位答对的队友 +20，你 +5。', 'success');
+            postTeamActivity(
+                u.name,
+                u.color,
+                '发布了亲王悬赏令：首位答对当前题目的队友 +20 积分，亲王 +5 积分（48 小时内有效，系统出资）！⚜️',
+                'system'
+            );
+            await refreshBounties();
+            return data;
+        }
+
+        async function tryResolvePrinceBounty(isCorrect) {
+            if (appState.reviewMode) return null;
+            if (!isCorrect || !sb || !appState.currentUser || !appState.currentQuestion) return null;
+            const bounty = getActiveBountyForQuestion(appState.currentQuestion.id);
+            if (!bounty) return null;
+            if (bounty.issuer_id === appState.currentUser.id) return null;
+            const { data, error } = await sb.rpc('claim_prince_bounty', { p_bounty_id: bounty.id });
+            if (error) {
+                const msg = String(error.message || error);
+                if (/已过期|已被领取|不能领取自己/.test(msg)) {
+                    await refreshBounties();
+                    return null;
+                }
+                console.warn('领取悬赏失败:', msg);
+                return null;
+            }
+            const u = appState.currentUser;
+            u.points = (u.points || 0) + 20;
+            const issuerName = (data && data.issuer_name) || '亲王';
+            postTeamActivity(
+                u.name,
+                u.color,
+                `解开了「${issuerName}」的亲王悬赏令，获得 +20 积分！亲王同时获得 +5 积分！⚜️`,
+                'system'
+            );
+            showToast('🎯 你率先解开亲王悬赏令，额外 +20 积分！', 'success');
+            await refreshBounties();
+            return data;
+        }
+
+        const WRONG_BOOK_INTERVALS = [1, 3, 7, 14];
+        const HELP_LS_WRONG = 'teamlingua_v4_help_collapsed_wrongbook';
+        const HELP_LS_SKILLS = 'teamlingua_v4_help_collapsed_skills';
+
+        function isHelpCollapsed(key) {
+            try { return localStorage.getItem(key) === '1'; } catch (_) { return false; }
+        }
+        function setHelpCollapsed(key, collapsed) {
+            try { localStorage.setItem(key, collapsed ? '1' : '0'); } catch (_) {}
+        }
+        function toggleHelpCard(key, bodyId, chevronId) {
+            const body = document.getElementById(bodyId);
+            const chev = document.getElementById(chevronId);
+            if (!body) return;
+            const willHide = !body.classList.contains('hidden');
+            body.classList.toggle('hidden', willHide);
+            if (chev) chev.textContent = willHide ? '▸' : '▾';
+            setHelpCollapsed(key, willHide);
+        }
+        function applyHelpCardState(key, bodyId, chevronId) {
+            const collapsed = isHelpCollapsed(key);
+            const body = document.getElementById(bodyId);
+            const chev = document.getElementById(chevronId);
+            if (body) body.classList.toggle('hidden', collapsed);
+            if (chev) chev.textContent = collapsed ? '▸' : '▾';
+        }
+        window.toggleWrongBookHelp = function() {
+            toggleHelpCard(HELP_LS_WRONG, 'wrongBookHelpBody', 'wrongBookHelpChevron');
+        };
+        window.toggleSkillsHelp = function() {
+            toggleHelpCard(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
+        };
+
+        function endOfLocalToday() {
+            const d = new Date();
+            d.setHours(23, 59, 59, 999);
+            return d;
+        }
+        function addDaysIso(days) {
+            return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+        }
+        function isWrongItemDue(item) {
+            if (!item || item.mastered) return false;
+            if (!item.next_review_at) return true;
+            return new Date(item.next_review_at).getTime() <= endOfLocalToday().getTime();
+        }
+        function dueWrongCount() {
+            return (appState.wrongAnswers || []).filter(isWrongItemDue).length;
+        }
+        function formatReviewDate(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+        function describeWrongItemStatus(item) {
+            if (!item) return '';
+            if (item.mastered) return '已掌握';
+            if (isWrongItemDue(item)) return '今天待复习';
+            return '下次复习 ' + formatReviewDate(item.next_review_at);
+        }
+        function extractCorrectAnswer(q) {
+            if (!q) return '';
+            if (Array.isArray(q.options) && Number.isInteger(q.answerIndex) && q.options[q.answerIndex] != null) {
+                return String(q.options[q.answerIndex]);
+            }
+            return q.sampleAnswer || q.targetSpeech || q.answer || '';
+        }
+        function buildQuestionPayload(q) {
+            if (!q) return null;
+            return {
+                id: q.id,
+                skill: q.skill,
+                level: q.level,
+                category: q.category,
+                prompt: q.prompt,
+                context: q.context,
+                options: q.options,
+                answerIndex: q.answerIndex,
+                explanation: q.explanation,
+                sampleAnswer: q.sampleAnswer,
+                targetSpeech: q.targetSpeech,
+                keywords: q.keywords,
+                minWords: q.minWords,
+                audioText: q.audioText
+            };
+        }
+        function payloadToQuestion(item) {
+            const p = item && item.question_payload ? item.question_payload : {};
+            return {
+                id: (p && p.id) || item.question_id,
+                skill: (p && p.skill) || item.skill || 'reading',
+                level: (p && p.level) || 1,
+                category: (p && p.category) || '错题复习',
+                prompt: (p && p.prompt) || item.question_content || '请复习这道错题',
+                context: p && p.context,
+                options: (p && p.options) || (item.correct_answer ? [item.correct_answer, 'I am not sure.', 'None of the above.', 'Skip this one.'] : ['True', 'False']),
+                answerIndex: (p && Number.isInteger(p.answerIndex)) ? p.answerIndex : 0,
+                explanation: (p && p.explanation) || '',
+                sampleAnswer: p && p.sampleAnswer,
+                targetSpeech: p && p.targetSpeech,
+                keywords: p && p.keywords,
+                minWords: p && p.minWords,
+                audioText: p && p.audioText,
+                _reviewItemId: item.id
+            };
+        }
+
+        async function refreshWrongAnswers() {
+            if (!sb || !appState.currentUser) {
+                appState.wrongAnswers = [];
+                renderWrongBookUI();
+                return [];
+            }
+            const { data, error } = await sb.from('wrong_answers').select('*').eq('user_id', appState.currentUser.id).order('next_review_at', { ascending: true });
+            if (error) {
+                console.warn('加载错题本失败:', error.message || error);
+                renderWrongBookUI();
+                return appState.wrongAnswers || [];
+            }
+            appState.wrongAnswers = data || [];
+            renderWrongBookUI();
+            return appState.wrongAnswers;
+        }
+
+        function renderReviewReminder() {
+            const bar = document.getElementById('reviewReminderBanner');
+            if (!bar) return;
+            const n = dueWrongCount();
+            if (n > 0 && appState.currentUser && !appState.reviewMode) {
+                bar.classList.remove('hidden');
+                const countEl = document.getElementById('reviewReminderCount');
+                if (countEl) countEl.textContent = String(n);
+                const textEl = document.getElementById('reviewReminderText');
+                if (textEl) textEl.textContent = '今天有 ' + n + ' 道题待复习';
+            } else {
+                bar.classList.add('hidden');
+            }
+            const badge = document.getElementById('wrongBookDueBadge');
+            if (badge) {
+                if (n > 0) {
+                    badge.textContent = String(n);
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+        }
+
+        function renderWrongBookList() {
+            const list = document.getElementById('wrongBookList');
+            if (!list) return;
+            const filter = appState.wrongBookFilter || 'due';
+            let items = appState.wrongAnswers || [];
+            if (filter === 'due') items = items.filter(isWrongItemDue);
+            else if (filter === 'mastered') items = items.filter(it => it.mastered);
+            if (!items.length) {
+                const empty = filter === 'due' ? '今天没有待复习的错题。' : (filter === 'mastered' ? '还没有已掌握的题目。' : '错题本还是空的，答错的题目会自动出现在这里。');
+                list.innerHTML = `<div class="text-center text-xs text-slate-400 py-8">${empty}</div>`;
+                return;
+            }
+            list.innerHTML = items.map(it => {
+                const status = describeWrongItemStatus(it);
+                const due = isWrongItemDue(it);
+                const title = escapeStatusText((it.question_content || it.question_id || '错题').slice(0, 120));
+                const skill = escapeStatusText(it.skill || '');
+                return `<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2">
+                    <div class="text-sm font-semibold text-slate-800 leading-snug break-words">${title}</div>
+                    <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-500">
+                        ${skill ? `<span class="px-1.5 py-0.5 rounded-md bg-slate-100">${skill}</span>` : ''}
+                        <span>错 ${it.times_wrong || 1} 次</span>
+                        <span class="${it.mastered ? 'text-emerald-600 font-semibold' : (due ? 'text-amber-700 font-semibold' : '')}">${escapeStatusText(status)}</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        ${due && !it.mastered ? `<button type="button" onclick="startWrongBookReview('${it.id}')" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-[11px] font-semibold cursor-pointer">开始复习</button>` : ''}
+                        <button type="button" onclick="removeWrongAnswer('${it.id}')" class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-semibold cursor-pointer">移除</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderWrongBookUI() {
+            renderReviewReminder();
+            renderWrongBookList();
+            ['due', 'all', 'mastered'].forEach(f => {
+                const btn = document.getElementById('wrongFilter' + f.charAt(0).toUpperCase() + f.slice(1));
+                if (!btn) return;
+                const active = (appState.wrongBookFilter || 'due') === f;
+                btn.className = active
+                    ? 'px-2.5 py-1 rounded-lg bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer'
+                    : 'px-2.5 py-1 rounded-lg text-slate-600 text-xs font-semibold cursor-pointer';
+            });
+            applyHelpCardState(HELP_LS_WRONG, 'wrongBookHelpBody', 'wrongBookHelpChevron');
+        }
+
+        window.setWrongBookFilter = function(filter) {
+            appState.wrongBookFilter = filter || 'due';
+            renderWrongBookList();
+            ['due', 'all', 'mastered'].forEach(f => {
+                const btn = document.getElementById('wrongFilter' + f.charAt(0).toUpperCase() + f.slice(1));
+                if (!btn) return;
+                const active = appState.wrongBookFilter === f;
+                btn.className = active
+                    ? 'px-2.5 py-1 rounded-lg bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer'
+                    : 'px-2.5 py-1 rounded-lg text-slate-600 text-xs font-semibold cursor-pointer';
+            });
+        };
+
+        window.setPracticeTab = function(tab) {
+            appState.practiceTab = tab === 'wrongbook' ? 'wrongbook' : 'practice';
+            const quiz = document.getElementById('quizCard');
+            const book = document.getElementById('wrongBookPanel');
+            const skills = document.getElementById('skillFilterWrap');
+            const goal = document.getElementById('dailyGoalWrap');
+            const tabP = document.getElementById('practiceTabPractice');
+            const tabW = document.getElementById('practiceTabWrongbook');
+            const onBook = appState.practiceTab === 'wrongbook';
+            if (quiz) quiz.classList.toggle('hidden', onBook && !appState.reviewMode);
+            if (book) book.classList.toggle('hidden', !onBook || appState.reviewMode);
+            if (skills) skills.classList.toggle('hidden', onBook && !appState.reviewMode);
+            if (goal) goal.classList.toggle('hidden', onBook && !appState.reviewMode);
+            if (tabP) tabP.className = !onBook
+                ? 'flex-1 py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer'
+                : 'flex-1 py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer';
+            if (tabW) tabW.className = onBook
+                ? 'flex-1 py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer'
+                : 'flex-1 py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer';
+            if (onBook) {
+                applyHelpCardState(HELP_LS_WRONG, 'wrongBookHelpBody', 'wrongBookHelpChevron');
+                renderWrongBookList();
+            }
+        };
+        window.openWrongBook = function() { window.setPracticeTab('wrongbook'); };
+
+        window.removeWrongAnswer = async function(id) {
+            if (!sb || !id) return;
+            const { error } = await sb.from('wrong_answers').delete().eq('id', id);
+            if (error) {
+                showToast('移除失败：' + (error.message || error), 'error');
+                return;
+            }
+            appState.wrongAnswers = (appState.wrongAnswers || []).filter(it => it.id !== id);
+            renderWrongBookUI();
+            showToast('已从错题本移除', 'info');
+        };
+
+        function showReviewChrome() {
+            const bar = document.getElementById('reviewSessionBar');
+            if (!bar) return;
+            const total = (appState.reviewQueue || []).length;
+            const idx = (appState.reviewIndex || 0) + 1;
+            bar.classList.remove('hidden');
+            bar.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="font-bold text-indigo-800">错题复习 ${Math.min(idx, total)}/${total}</span>
+                <button type="button" onclick="exitWrongBookReview()" class="px-2.5 py-1 rounded-lg border border-indigo-200 text-indigo-700 font-semibold cursor-pointer">退出复习</button>
+            </div>`;
+        }
+
+        window.exitWrongBookReview = function() {
+            appState.reviewMode = false;
+            appState.reviewQueue = [];
+            appState.reviewIndex = 0;
+            appState.reviewItemId = null;
+            const bar = document.getElementById('reviewSessionBar');
+            if (bar) { bar.classList.add('hidden'); bar.innerHTML = ''; }
+            window.setPracticeTab('wrongbook');
+            renderWrongBookUI();
+            loadNextAdaptiveQuestion();
+        };
+
+        window.startWrongBookReview = function(itemId) {
+            let queue;
+            if (itemId) {
+                const one = (appState.wrongAnswers || []).find(it => it.id === itemId);
+                queue = one && !one.mastered ? [one] : [];
+            } else {
+                queue = (appState.wrongAnswers || []).filter(isWrongItemDue);
+            }
+            if (!queue.length) {
+                showToast('今天没有待复习的错题', 'info');
+                return;
+            }
+            appState.reviewMode = true;
+            appState.reviewQueue = queue;
+            appState.reviewIndex = 0;
+            appState.practiceTab = 'practice';
+            window.setPracticeTab('practice');
+            const book = document.getElementById('wrongBookPanel');
+            if (book) book.classList.add('hidden');
+            const quiz = document.getElementById('quizCard');
+            if (quiz) quiz.classList.remove('hidden');
+            const reminder = document.getElementById('reviewReminderBanner');
+            if (reminder) reminder.classList.add('hidden');
+            loadReviewQuestionAt(0);
+        };
+
+        function loadReviewQuestionAt(index) {
+            const queue = appState.reviewQueue || [];
+            if (index >= queue.length) {
+                showToast('今天的复习完成了！', 'success');
+                window.exitWrongBookReview();
+                return;
+            }
+            appState.reviewIndex = index;
+            const item = queue[index];
+            appState.reviewItemId = item.id;
+            appState.currentQuestion = payloadToQuestion(item);
+            appState.questionAnswered = false;
+            appState.selectedOptionIndex = null;
+            appState.lastUserAnswer = '';
+            showReviewChrome();
+            renderCurrentQuestion();
+        }
+
+        function advanceReviewAfterAnswer() {
+            if (!appState.reviewMode) return;
+            setTimeout(() => loadReviewQuestionAt((appState.reviewIndex || 0) + 1), 900);
+        }
+
+        async function recordWrongBookOutcome(isCorrect, skipScoring) {
+            if (skipScoring || !sb || !appState.currentUser || !appState.currentQuestion) return;
+            const q = appState.currentQuestion;
+            const uid = appState.currentUser.id;
+            if (appState.reviewMode) {
+                const itemId = appState.reviewItemId || q._reviewItemId;
+                const item = (appState.wrongAnswers || []).find(it => it.id === itemId);
+                if (!item) return;
+                let patch;
+                if (!isCorrect) {
+                    patch = {
+                        times_wrong: (item.times_wrong || 1) + 1,
+                        user_answer: appState.lastUserAnswer || item.user_answer,
+                        review_interval_days: 1,
+                        next_review_at: addDaysIso(1),
+                        mastered: false,
+                        mastered_at: null
+                    };
+                } else {
+                    const interval = item.review_interval_days || 1;
+                    if (interval >= 14) {
+                        patch = { mastered: true, mastered_at: new Date().toISOString(), next_review_at: addDaysIso(0) };
+                    } else {
+                        const next = WRONG_BOOK_INTERVALS.find(d => d > interval) || 14;
+                        patch = { review_interval_days: next, next_review_at: addDaysIso(next), mastered: false };
+                    }
+                }
+                const { data, error } = await sb.from('wrong_answers').update(patch).eq('id', item.id).eq('user_id', uid).select('*').single();
+                if (error) {
+                    console.warn('更新错题复习失败:', error.message || error);
+                } else if (data) {
+                    const idx = appState.wrongAnswers.findIndex(it => it.id === data.id);
+                    if (idx >= 0) appState.wrongAnswers[idx] = data;
+                    if (data.mastered) showToast('这道题已掌握，已移入「已掌握」', 'success');
+                    else if (!isCorrect) showToast('再错一次，复习间隔已重置为 1 天', 'warning');
+                }
+                renderWrongBookUI();
+                advanceReviewAfterAnswer();
+                return;
+            }
+            if (isCorrect) return;
+            const payload = buildQuestionPayload(q);
+            const row = {
+                user_id: uid,
+                room_id: appState.currentRoomId || null,
+                question_id: String(q.id),
+                question_content: (q.prompt || q.context || '').slice(0, 500),
+                question_payload: payload,
+                skill: q.skill || null,
+                user_answer: appState.lastUserAnswer || '',
+                correct_answer: extractCorrectAnswer(q),
+                times_wrong: 1,
+                review_interval_days: 1,
+                next_review_at: addDaysIso(1),
+                mastered: false,
+                mastered_at: null
+            };
+            const existing = (appState.wrongAnswers || []).find(it => it.question_id === String(q.id));
+            let res;
+            if (existing) {
+                res = await sb.from('wrong_answers').update({
+                    times_wrong: (existing.times_wrong || 1) + 1,
+                    user_answer: row.user_answer,
+                    correct_answer: row.correct_answer,
+                    question_payload: payload,
+                    question_content: row.question_content,
+                    review_interval_days: 1,
+                    next_review_at: addDaysIso(1),
+                    mastered: false,
+                    mastered_at: null
+                }).eq('id', existing.id).eq('user_id', uid).select('*').single();
+            } else {
+                res = await sb.from('wrong_answers').insert(row).select('*').single();
+            }
+            if (res.error) {
+                console.warn('写入错题本失败:', res.error.message || res.error);
+                return;
+            }
+            if (res.data) {
+                const idx = (appState.wrongAnswers || []).findIndex(it => it.id === res.data.id);
+                if (idx >= 0) appState.wrongAnswers[idx] = res.data;
+                else appState.wrongAnswers.push(res.data);
+                showToast('已加入错题本，1 天后可复习', 'info');
+            }
+            renderWrongBookUI();
+        }
+
+
         async function refreshRoomData() {
             if (!appState.currentRoomId) return false;
             try {
@@ -842,8 +1554,19 @@
                 if (appState.currentUser && appState.currentUser.id) {
                     const mine = appState.teamMembers.find(m => m.id === appState.currentUser.id);
                     if (mine) {
-                        const localMins = appState.currentUser.todayMinutes || 0;
-                        appState.currentUser = { ...appState.currentUser, ...mine, todayMinutes: Math.max(localMins, mine.todayMinutes || 0) };
+                        const local = appState.currentUser;
+                        const localMins = local.todayMinutes || 0;
+                        const localNewer = (local.updatedAt || 0) > (mine.updatedAt || 0);
+                        const keepProgress = localNewer || (local.points || 0) > (mine.points || 0);
+                        appState.currentUser = {
+                            ...(keepProgress ? mine : local),
+                            ...(keepProgress ? local : mine),
+                            todayMinutes: Math.max(localMins, mine.todayMinutes || 0),
+                            points: Math.max(local.points || 0, mine.points || 0),
+                            streak: Math.max(local.streak || 0, mine.streak || 0),
+                            streakBonusAwarded: Math.max(local.streakBonusAwarded || 0, mine.streakBonusAwarded || 0)
+                        };
+                        upsertMember(appState.currentUser);
                     }
                 }
 
@@ -893,6 +1616,8 @@
                 renderComments();
                 if (appState.currentUser) syncCurrentUserToUI();
                 updateSyncStatusUI(true);
+                await refreshBounties();
+                await refreshWrongAnswers();
                 return true;
             } catch (e) {
                 updateSyncStatusUI(false, '同步团队数据失败');
@@ -975,6 +1700,9 @@
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'room_members', filter: 'room_id=eq.' + roomId }, () => {
                     refreshRoomData();
                 })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'bounties', filter: 'room_id=eq.' + roomId }, () => {
+                    refreshBounties();
+                })
                 .subscribe((status) => {
                     if (status === 'SUBSCRIBED') updateSyncStatusUI(true);
                     else if (status === 'CHANNEL_ERROR') updateSyncStatusUI(false, '实时通道失败');
@@ -1007,12 +1735,13 @@
             }
 
             const member = profileToMember(profile);
-            applyDailyLoginReset(member);
+            const dayRolled = applyDailyLoginReset(member);
             member.todayDate = member.lastActiveDate;
             appState.currentUser = member;
             upsertMember(member);
-            await persistProfile();
-            await refreshRoomData();
+            if (dayRolled) awardStreakMilestones(appState.currentUser);
+            const saved = await persistProfile();
+            if (saved) await refreshRoomData();
             startRealtime();
 
             document.getElementById('loginModal').classList.add('hidden');
@@ -1020,6 +1749,8 @@
             renderLeaderboard();
             renderRegisteredMemberChips();
             loadNextAdaptiveQuestion();
+            await refreshWrongAnswers();
+            applyHelpCardState(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
             showToast(isNewUser ? `欢迎加入，${member.name}！账号已保存到云端` : `欢迎回来，${member.name}！`, 'success');
         }
 
@@ -1040,15 +1771,15 @@
         const SKILL_ORDER = ['listening', 'speaking', 'reading', 'writing'];
 
         const NOBLE_TITLES = [
-            { id: 'king', name: '国王', icon: '👑', minPoints: 10000, desc: '≥10,000 分且全队唯一最高分', badgeClass: 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-2xs' },
-            { id: 'prince', name: '亲王', icon: '⚜️', minPoints: 6000, desc: '6,000 分及以上（或超万分非第一名）', badgeClass: 'bg-purple-100 text-purple-800 border border-purple-200' },
-            { id: 'duke', name: '公爵', icon: '🦁', minPoints: 3500, desc: '3,500 - 5,999 分', badgeClass: 'bg-rose-100 text-rose-800 border border-rose-200' },
-            { id: 'marquess', name: '侯爵', icon: '🦅', minPoints: 2000, desc: '2,000 - 3,499 分', badgeClass: 'bg-indigo-100 text-indigo-800 border border-indigo-200' },
-            { id: 'earl', name: '伯爵', icon: '🛡️', minPoints: 1000, desc: '1,000 - 1,999 分', badgeClass: 'bg-sky-100 text-sky-800 border border-sky-200' },
-            { id: 'viscount', name: '子爵', icon: '⚔️', minPoints: 500, desc: '500 - 999 分', badgeClass: 'bg-teal-100 text-teal-800 border border-teal-200' },
-            { id: 'baron', name: '男爵', icon: '🎖️', minPoints: 200, desc: '200 - 499 分', badgeClass: 'bg-emerald-100 text-emerald-800 border border-emerald-200' },
-            { id: 'royal_knight', name: '皇家骑士', icon: '🐎', minPoints: 80, desc: '80 - 199 分', badgeClass: 'bg-amber-100 text-amber-800 border border-amber-200' },
-            { id: 'knight', name: '见习骑士', icon: '🗡️', minPoints: 20, desc: '20 - 79 分', badgeClass: 'bg-blue-50 text-blue-700 border border-blue-200' },
+            { id: 'king', name: '国王', icon: '👑', minPoints: 4500, desc: '≥4,500 分且全队唯一最高分', badgeClass: 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-2xs' },
+            { id: 'prince', name: '亲王', icon: '⚜️', minPoints: 3000, desc: '3,000 分及以上（或满 4,500 分但非唯一最高分）', badgeClass: 'bg-purple-100 text-purple-800 border border-purple-200' },
+            { id: 'duke', name: '公爵', icon: '🦁', minPoints: 2000, desc: '2,000 - 2,999 分', badgeClass: 'bg-rose-100 text-rose-800 border border-rose-200' },
+            { id: 'marquess', name: '侯爵', icon: '🦅', minPoints: 1300, desc: '1,300 - 1,999 分', badgeClass: 'bg-indigo-100 text-indigo-800 border border-indigo-200' },
+            { id: 'earl', name: '伯爵', icon: '🛡️', minPoints: 750, desc: '750 - 1,299 分', badgeClass: 'bg-sky-100 text-sky-800 border border-sky-200' },
+            { id: 'viscount', name: '子爵', icon: '⚔️', minPoints: 350, desc: '350 - 749 分', badgeClass: 'bg-teal-100 text-teal-800 border border-teal-200' },
+            { id: 'baron', name: '男爵', icon: '🎖️', minPoints: 175, desc: '175 - 349 分', badgeClass: 'bg-emerald-100 text-emerald-800 border border-emerald-200' },
+            { id: 'royal_knight', name: '皇家骑士', icon: '🐎', minPoints: 75, desc: '75 - 174 分', badgeClass: 'bg-amber-100 text-amber-800 border border-amber-200' },
+            { id: 'knight', name: '见习骑士', icon: '🗡️', minPoints: 20, desc: '20 - 74 分', badgeClass: 'bg-blue-50 text-blue-700 border border-blue-200' },
             { id: 'commoner', name: '平民', icon: '🧑‍🌾', minPoints: 0, desc: '0 - 19 分（初始头衔）', badgeClass: 'bg-slate-200 text-slate-700' }
         ];
 
@@ -1140,10 +1871,35 @@
             recognitionInstance: null,
             latestSpeechTranscript: '',
             currentRoomId: null,
-            realtimeChannel: null
+            realtimeChannel: null,
+            bounties: [],
+            wrongAnswers: [],
+            wrongBookFilter: 'due',
+            practiceTab: 'practice',
+            reviewMode: false,
+            reviewQueue: [],
+            reviewIndex: 0,
+            reviewItemId: null,
+            lastUserAnswer: ''
         };
         window.appState = appState;
         window.getCloudStatus = () => ({ state: cloudSyncState, reason: cloudSyncReason, healthy: cloudSyncHealthy });
+        window.getMemberNobleTitle = getMemberNobleTitle;
+        window.getCurrentKingName = getCurrentKingName;
+        window.applyDailyLoginReset = applyDailyLoginReset;
+        window.awardStreakMilestones = awardStreakMilestones;
+        window.getDateStringFromOffset = getDateStringFromOffset;
+        window.getTodayDateString = getTodayDateString;
+        window.persistProfile = persistProfile;
+        window.NOBLE_TITLES = NOBLE_TITLES;
+        window.issuePrinceBounty = issuePrinceBounty;
+        window.canIssuePrinceBounty = canIssuePrinceBounty;
+        window.getActiveBountyForQuestion = getActiveBountyForQuestion;
+        window.refreshBounties = refreshBounties;
+        window.finalizeExerciseResult = finalizeExerciseResult;
+        window.refreshWrongAnswers = refreshWrongAnswers;
+        window.dueWrongCount = dueWrongCount;
+        window.isWrongItemDue = isWrongItemDue;
 
         // -------------------- 2. 分享弹窗与工具函数 --------------------
         window.openShareModal = function() {
@@ -1253,25 +2009,37 @@
         }
 
         // -------------------- 3. 积分与唯一国王头衔计算 --------------------
+        function getKingMinPoints() {
+            const kingTitle = NOBLE_TITLES.find(t => t.id === 'king');
+            return kingTitle ? kingTitle.minPoints : 4500;
+        }
+
         function getCurrentKingName() {
+            const minPts = getKingMinPoints();
             let kingName = null;
-            let topPoints = 9999;
+            let topPoints = -1;
+            let tied = false;
             appState.teamMembers.forEach(m => {
                 const pts = m.points || 0;
-                if (pts >= 10000 && pts > topPoints) {
+                if (pts < minPts || !m.name) return;
+                if (pts > topPoints) {
                     topPoints = pts;
                     kingName = m.name.toLowerCase();
+                    tied = false;
+                } else if (pts === topPoints) {
+                    tied = true;
                 }
             });
-            return kingName;
+            return tied ? null : kingName;
         }
 
         function getMemberNobleTitle(member) {
             const pts = (member && member.points) || 0;
-            if (pts >= 10000) {
+            const minPts = getKingMinPoints();
+            if (pts >= minPts) {
                 const kingName = getCurrentKingName();
                 if (kingName && member.name && member.name.toLowerCase() === kingName) {
-                    return NOBLE_TITLES[0]; // 👑 国王（全队唯一）
+                    return NOBLE_TITLES[0]; // 👑 国王（全队唯一最高分）
                 }
                 return NOBLE_TITLES[1]; // ⚜️ 亲王
             }
@@ -1797,6 +2565,7 @@
                 }
             }
             if (promptEl) promptEl.textContent = q.prompt || '';
+            renderPrinceBountyBar();
 
             if (!area) return;
             const letters = ['A', 'B', 'C', 'D'];
@@ -1940,6 +2709,9 @@
 
             appState.selectedOptionIndex = idx;
             appState.questionAnswered = true;
+            const letters = ['A', 'B', 'C', 'D'];
+            const label = (q.options && q.options[idx] != null) ? String(q.options[idx]) : String(idx);
+            appState.lastUserAnswer = (letters[idx] || '') + '. ' + label;
             const isCorrect = idx === q.answerIndex;
 
             (q.options || []).forEach((_, i) => {
@@ -2025,6 +2797,7 @@
                 return;
             }
             appState.questionAnswered = true;
+            appState.lastUserAnswer = appState.latestSpeechTranscript || '已开口练习';
             finalizeExerciseResult(true, `Great speaking practice! ${q.explanation}`);
         };
 
@@ -2047,6 +2820,7 @@
             const isGood = words.length >= minWords && (matchedKeywords.length >= 1 || !(q.keywords || []).length);
 
             appState.questionAnswered = true;
+            appState.lastUserAnswer = text;
             input.disabled = true;
             const sampleInfo = q.sampleAnswer ? ` Sample response: "${q.sampleAnswer}"` : '';
             finalizeExerciseResult(isGood, `${q.explanation}${sampleInfo}`);
@@ -2097,8 +2871,24 @@
                 }
 
                 syncCurrentUserToUI();
-                syncCurrentUserToCloud();
                 renderLeaderboard();
+                Promise.resolve()
+                    .then(() => persistProfile())
+                    .then(() => tryResolvePrinceBounty(isCorrect))
+                    .then((claimed) => {
+                        if (claimed && feedbackTitle && isCorrect) {
+                            const extra = ' 悬赏 +20 ⚜️';
+                            if (feedbackTitle.textContent && feedbackTitle.textContent.indexOf('悬赏') === -1) {
+                                feedbackTitle.textContent = feedbackTitle.textContent.replace('(+1 Point 🪙)', '(+1 Point 🪙' + extra + ')');
+                                if (feedbackTitle.textContent.indexOf('悬赏') === -1) {
+                                    feedbackTitle.textContent += extra;
+                                }
+                            }
+                        }
+                        return recordWrongBookOutcome(isCorrect, skipScoring);
+                    })
+                    .then(() => refreshRoomData())
+                    .catch((err) => console.warn('同步、悬赏或错题本更新失败:', err && err.message ? err.message : err));
             }
 
             const feedbackBox = document.getElementById('feedbackBox');
@@ -2464,6 +3254,7 @@
 
             try {
                 if (window.lucide) lucide.createIcons();
+                applyHelpCardState(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
                 loadLocalState();
                 initAuthHandlers();
                 initCommentHandlers();
