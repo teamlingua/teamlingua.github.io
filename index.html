@@ -72,6 +72,15 @@
             overflow-x: hidden;
             max-width: 100%;
         }
+        .lt-error {
+            border-bottom: 2px wavy #e11d48;
+            background: rgba(225, 29, 72, 0.08);
+            cursor: help;
+            border-radius: 2px;
+        }
+        #speechPlayback audio, audio#speechPlayback {
+            max-width: 100%;
+        }
     </style>
 <style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.right-3{right:0.75rem}.right-5{right:1.25rem}.top-0{top:0px}.top-1\/2{top:50%}.top-5{top:1.25rem}.z-30{z-index:30}.z-50{z-index:50}.z-\[100\]{z-index:100}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-auto{margin-top:auto;margin-bottom:auto}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.ml-1{margin-left:0.25rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-1\.5{margin-top:0.375rem}.mt-2\.5{margin-top:0.625rem}.mt-3{margin-top:0.75rem}.mt-5{margin-top:1.25rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-1\.5{height:0.375rem}.h-10{height:2.5rem}.h-11{height:2.75rem}.h-16{height:4rem}.h-2\.5{height:0.625rem}.h-3{height:0.75rem}.h-3\.5{height:0.875rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-7{height:1.75rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-\[calc\(100vh-7\.5rem\)\]{height:calc(100vh - 7.5rem)}.h-full{height:100%}.max-h-20{max-height:5rem}.max-h-52{max-height:13rem}.max-h-\[600px\]{max-height:600px}.max-h-\[780px\]{max-height:780px}.min-h-\[18px\]{min-height:18px}.min-h-\[540px\]{min-height:540px}.min-h-screen{min-height:100vh}.w-1\.5{width:0.375rem}.w-10{width:2.5rem}.w-11{width:2.75rem}.w-2\.5{width:0.625rem}.w-3{width:0.75rem}.w-3\.5{width:0.875rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-7{width:1.75rem}.w-8{width:2rem}.w-9{width:2.25rem}.w-\[1px\]{width:1px}.w-full{width:100%}.max-w-\[1440px\]{max-width:1440px}.max-w-\[80px\]{max-width:80px}.max-w-lg{max-width:32rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.-translate-y-1\/2{--tw-translate-y:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;user-select:none}.select-all{-webkit-user-select:all;user-select:all}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-0\.5{gap:0.125rem}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-b-3xl{border-bottom-right-radius:1.5rem;border-bottom-left-radius:1.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-amber-100{--tw-border-opacity:1;border-color:rgb(254 243 199 / var(--tw-border-opacity, 1))}.border-amber-200\/80{border-color:rgb(253 230 138 / 0.8)}.border-amber-200\/90{border-color:rgb(253 230 138 / 0.9)}.border-emerald-200{--tw-border-opacity:1;border-color:rgb(167 243 208 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-200\/70{border-color:rgb(226 232 240 / 0.7)}.border-slate-200\/80{border-color:rgb(226 232 240 / 0.8)}.border-slate-200\/90{border-color:rgb(226 232 240 / 0.9)}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.border-amber-200{--tw-border-opacity:1;border-color:rgb(253 230 138 / var(--tw-border-opacity, 1))}.bg-amber-100{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-amber-50\/80{background-color:rgb(255 251 235 / 0.8)}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-indigo-50{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-100\/90{background-color:rgb(241 245 249 / 0.9)}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-50\/70{background-color:rgb(248 250 252 / 0.7)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-900\/50{background-color:rgb(15 23 42 / 0.5)}.bg-slate-900\/60{background-color:rgb(15 23 42 / 0.6)}.bg-slate-900\/65{background-color:rgb(15 23 42 / 0.65)}.bg-violet-50{--tw-bg-opacity:1;background-color:rgb(245 243 255 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/95{background-color:rgb(255 255 255 / 0.95)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-amber-400{--tw-gradient-from:#fbbf24 var(--tw-gradient-from-position);--tw-gradient-to:rgb(251 191 36 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-amber-500{--tw-gradient-from:#f59e0b var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-500{--tw-gradient-from:#6366f1 var(--tw-gradient-from-position);--tw-gradient-to:rgb(99 102 241 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-600{--tw-gradient-from:#4f46e5 var(--tw-gradient-from-position);--tw-gradient-to:rgb(79 70 229 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-emerald-500{--tw-gradient-to:#10b981 var(--tw-gradient-to-position)}.to-orange-500{--tw-gradient-to:#f97316 var(--tw-gradient-to-position)}.to-violet-600{--tw-gradient-to:#7c3aed var(--tw-gradient-to-position)}.p-1{padding:0.25rem}.p-1\.5{padding:0.375rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-2{padding-bottom:0.5rem}.pl-2{padding-left:0.5rem}.pr-1{padding-right:0.25rem}.pr-2\.5{padding-right:0.625rem}.pt-1{padding-top:0.25rem}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.text-amber-50{--tw-text-opacity:1;color:rgb(255 251 235 / var(--tw-text-opacity, 1))}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-amber-600{--tw-text-opacity:1;color:rgb(217 119 6 / var(--tw-text-opacity, 1))}.text-amber-600\/80{color:rgb(217 119 6 / 0.8)}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-amber-900{--tw-text-opacity:1;color:rgb(120 53 15 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-indigo-700{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-violet-700{--tw-text-opacity:1;color:rgb(109 40 217 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-90{opacity:0.9}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-indigo-200{--tw-shadow-color:#c7d2fe;--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-500{transition-duration:500ms}.selection\:bg-indigo-100 *::selection{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.selection\:text-indigo-700 *::selection{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.selection\:bg-indigo-100::selection{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.selection\:text-indigo-700::selection{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.placeholder\:text-slate-400::placeholder{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.hover\:bg-amber-100:hover{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-600:hover{--tw-bg-opacity:1;background-color:rgb(217 119 6 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-100:hover{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-50:hover{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200\/80:hover{background-color:rgb(226 232 240 / 0.8)}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-800:hover{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.hover\:bg-white:hover{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.hover\:text-amber-700:hover{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.hover\:text-indigo-600:hover{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.hover\:text-rose-600:hover{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.hover\:text-slate-600:hover{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.hover\:text-slate-900:hover{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.hover\:opacity-80:hover{opacity:0.8}.focus\:border-indigo-500:focus{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-amber-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(245 158 11 / var(--tw-ring-opacity, 1))}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}.active\:scale-\[0\.99\]:active{--tw-scale-x:0.99;--tw-scale-y:0.99;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:block{display:block}.sm\:inline{display:inline}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:gap-2\.5{gap:0.625rem}.sm\:p-8{padding:2rem}.sm\:px-0{padding-left:0px;padding-right:0px}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:text-lg{font-size:1.125rem;line-height:1.75rem}.sm\:text-sm{font-size:0.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\:inline{display:inline}.md\:inline-flex{display:inline-flex}}@media (min-width: 1024px){.lg\:col-span-3{grid-column:span 3 / span 3}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:flex{display:flex}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}}@media (min-width: 1280px){.xl\:inline{display:inline}}</style></head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
@@ -402,6 +411,7 @@
                         <div class="flex-1">
                             <h4 id="feedbackTitle" class="font-bold mb-1"></h4>
                             <p id="feedbackExplanation" class="text-xs sm:text-sm leading-relaxed opacity-90"></p>
+                            <div id="grammarFeedbackBox" class="hidden mt-3 p-3 rounded-xl bg-white/80 border border-slate-200/80 text-xs text-slate-700 leading-relaxed min-w-0"></div>
                             <div class="mt-3 flex flex-wrap items-center gap-2">
                                 <button type="button" onclick="loadNextAdaptiveQuestion()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
                                     <span>Next Question</span>
@@ -967,6 +977,7 @@
                 if (m) appState.teamMembers = JSON.parse(m) || [];
                 if (c) appState.comments = JSON.parse(c) || [];
                 if (q) dynamicQuestionBank = JSON.parse(q) || [];
+                loadSeenQuestionIds();
             } catch (_) {}
         }
 
@@ -1924,6 +1935,7 @@
 
             const member = profileToMember(profile);
             appState.currentUser = member;
+            loadSeenQuestionIds();
             upsertMember(member);
             let dayRolled = false;
             try {
@@ -3694,7 +3706,291 @@
             loadNextAdaptiveQuestion();
         };
 
+
+        function seenQuestionsStorageKey() {
+            const uid = (appState.currentUser && appState.currentUser.id) || 'guest';
+            return getLocalStoreKey('seenQuestions_' + uid);
+        }
+        function loadSeenQuestionIds() {
+            try {
+                const raw = localStorage.getItem(seenQuestionsStorageKey());
+                const arr = raw ? JSON.parse(raw) : [];
+                appState.answeredHistoryIds = Array.isArray(arr) ? arr.filter(Boolean) : [];
+            } catch (_) {
+                appState.answeredHistoryIds = appState.answeredHistoryIds || [];
+            }
+        }
+        function saveSeenQuestionIds() {
+            try {
+                localStorage.setItem(seenQuestionsStorageKey(), JSON.stringify(appState.answeredHistoryIds || []));
+            } catch (_) {}
+        }
+        function markQuestionSeen(id) {
+            if (!id) return;
+            if (!appState.answeredHistoryIds) appState.answeredHistoryIds = [];
+            if (!appState.answeredHistoryIds.includes(id)) {
+                appState.answeredHistoryIds.push(id);
+                saveSeenQuestionIds();
+            }
+        }
+        function questionTopicKey(q) {
+            if (!q) return '';
+            const raw = q.prompt || q.context || q.targetSpeech || q.audioText || q.category || q.id || '';
+            return (q.skill || '') + '::' + String(raw).toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, ' ').trim();
+        }
+        function shuffleInPlace(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+            return arr;
+        }
+        function uniqueQuestionsById(list) {
+            const map = new Map();
+            (list || []).forEach(q => {
+                if (q && q.id && !map.has(q.id)) map.set(q.id, q);
+            });
+            return Array.from(map.values());
+        }
+        function collectQuestionBank() {
+            return uniqueQuestionsById([].concat(BUILTIN_QUESTION_BANK || [], dynamicQuestionBank || []));
+        }
+
+        function speakingUAInfo() {
+            const ua = navigator.userAgent || '';
+            return {
+                isWeChat: /MicroMessenger/i.test(ua),
+                isIOS: /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1),
+                isFirefox: /Firefox/i.test(ua) && !/Seamonkey/i.test(ua)
+            };
+        }
+        function getSpeechRecognitionCtor() {
+            return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+        }
+        function pickAudioRecorderMime() {
+            if (!window.MediaRecorder) return '';
+            const ua = speakingUAInfo();
+            const appleFirst = ['audio/mp4', 'audio/aac', 'audio/mpeg', 'audio/wav', 'audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/ogg'];
+            const others = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/aac', 'audio/ogg;codecs=opus', 'audio/ogg', 'audio/mpeg', 'audio/wav'];
+            const list = ua.isIOS ? appleFirst : others;
+            for (let i = 0; i < list.length; i++) {
+                try {
+                    if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(list[i])) return list[i];
+                } catch (_) {}
+            }
+            return '';
+        }
+        function setSpeechStatus(msg, kind) {
+            const el = document.getElementById('speechStatusLine');
+            if (!el) return;
+            el.textContent = msg || '';
+            el.className = 'text-[11px] leading-relaxed ' + (kind === 'error' ? 'text-rose-600' : (kind === 'ok' ? 'text-emerald-700' : 'text-slate-500'));
+        }
+        function setRecordButtonUI(recording) {
+            const btn = document.getElementById('recordSpeechBtn');
+            const label = document.getElementById('recordSpeechBtnLabel');
+            if (btn) {
+                btn.classList.toggle('bg-rose-600', !!recording);
+                btn.classList.toggle('hover:bg-rose-700', !!recording);
+                btn.classList.toggle('bg-sky-600', !recording);
+                btn.classList.toggle('hover:bg-sky-700', !recording);
+            }
+            if (label) label.textContent = recording ? '点击停止' : '开始录音';
+        }
+        function stopMicTracks(stream) {
+            try { (stream || appState.speechMediaStream || { getTracks: () => [] }).getTracks().forEach(tr => tr.stop()); } catch (_) {}
+        }
+        function revokeSpeechPlayback() {
+            if (appState.speechPlaybackUrl) {
+                try { URL.revokeObjectURL(appState.speechPlaybackUrl); } catch (_) {}
+                appState.speechPlaybackUrl = '';
+            }
+        }
+        function stopSpeakingCapture(finalizeRecorder) {
+            const rec = appState.recognitionInstance;
+            appState.recognitionInstance = null;
+            if (rec) {
+                try { rec.onresult = rec.onerror = rec.onend = null; rec.stop(); } catch (_) {}
+            }
+            const recorder = appState.speechRecorder;
+            appState.speechRecorder = null;
+            if (recorder && recorder.state && recorder.state !== 'inactive') {
+                try {
+                    if (finalizeRecorder) {
+                        recorder.addEventListener('stop', function onStop() {
+                            recorder.removeEventListener('stop', onStop);
+                            finishSpeechRecordingBlob();
+                        });
+                    }
+                    recorder.stop();
+                } catch (_) {}
+            } else if (finalizeRecorder) {
+                finishSpeechRecordingBlob();
+            }
+            stopMicTracks(appState.speechMediaStream);
+            appState.speechMediaStream = null;
+            appState.isRecordingSpeech = false;
+            setRecordButtonUI(false);
+        }
+        function finishSpeechRecordingBlob() {
+            const chunks = appState.speechChunks || [];
+            if (!chunks.length) return;
+            const mime = appState.speechMimeType || (chunks[0] && chunks[0].type) || 'audio/mp4';
+            try {
+                const blob = new Blob(chunks, { type: mime || 'audio/mp4' });
+                if (blob.size < 8) return;
+                revokeSpeechPlayback();
+                const url = URL.createObjectURL(blob);
+                appState.speechPlaybackUrl = url;
+                appState.hasRecordedSpeech = true;
+                const audio = document.getElementById('speechPlayback');
+                if (audio) {
+                    audio.src = url;
+                    audio.classList.remove('hidden');
+                }
+                if (!appState.latestSpeechTranscript) {
+                    setSpeechStatus('录音已保存，可以点播放试听。当前环境无法自动识别打分，跟读后可点「Mark as Practiced」记录练习。', 'ok');
+                }
+            } catch (_) {}
+        }
+        async function requestMicStream() {
+            if (!window.isSecureContext) {
+                throw new Error('需要在 HTTPS 安全页面里使用麦克风。请用 https:// 打开本站。');
+            }
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                const ua = speakingUAInfo();
+                if (ua.isWeChat) throw new Error('微信内置浏览器可能无法使用麦克风。请点击右上角「…」，选择在 Safari 或 Chrome 中打开。');
+                throw new Error('当前浏览器不支持麦克风录音。请用 Safari 或 Chrome 打开本页。');
+            }
+            try {
+                return await navigator.mediaDevices.getUserMedia({ audio: true });
+            } catch (e) {
+                const name = (e && (e.name || e.message)) || '';
+                if (name === 'NotAllowedError' || name === 'PermissionDeniedError' || /permission|denied|notallowed/i.test(name)) {
+                    throw new Error('麦克风权限被拒绝。请在浏览器设置里允许本站使用麦克风，然后刷新重试。');
+                }
+                if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+                    throw new Error('没有找到可用的麦克风，请检查设备后重试。');
+                }
+                if (name === 'NotReadableError' || name === 'TrackStartError') {
+                    throw new Error('麦克风被其他应用占用，请关闭后再试。');
+                }
+                if (name === 'SecurityError') {
+                    throw new Error('当前页面无法访问麦克风（需要 HTTPS）。请用 https:// 打开本站。');
+                }
+                throw new Error('无法打开麦克风：' + (name || '未知错误'));
+            }
+        }
+        function speechRecErrorMessage(err) {
+            const code = (err && (err.error || err.name || err.message)) || '';
+            if (code === 'not-allowed' || code === 'service-not-allowed') {
+                return '麦克风或语音识别权限被拒绝。请在浏览器设置中允许后重试。';
+            }
+            if (code === 'audio-capture') return '无法采集麦克风声音，请检查设备是否被占用。';
+            if (code === 'network') return '语音识别服务暂时不可用（可能是网络限制）。你仍可完成本地录音并试听，再点「Mark as Practiced」。若要自动打分，建议使用 Chrome 并确认网络可用。';
+            if (code === 'no-speech') return '没有听到声音，请靠近麦克风后再录一次。';
+            if (code === 'aborted') return '';
+            if (code === 'not-supported') return '当前浏览器不支持语音识别。已改用本地录音，可试听后标记练习；自动打分请用 Chrome 或桌面版 Safari 打开。';
+            return '语音识别遇到问题（' + code + '）。你可以重新录音，或先试听再标记练习。';
+        }
+        function applySpeechTranscript(transcript, isFinal) {
+            const text = String(transcript || '').trim();
+            if (!text) return;
+            if (isFinal) appState.latestSpeechTranscript = text;
+            const q = appState.currentQuestion;
+            const preview = document.getElementById('speechResultPreview');
+            const evalRes = q && q.targetSpeech ? evaluateSpeechSimilarity(q.targetSpeech, text) : { score: 0 };
+            if (preview) {
+                preview.classList.remove('hidden');
+                preview.innerHTML = '<strong>识别结果：</strong> "' + escapeHTML(text) + '" · <strong>匹配度：</strong> <span class="text-indigo-600 font-bold">' + evalRes.score + '%</span>';
+            }
+            setSpeechStatus('已识别到内容。停止录音后可以试听，或直接标记练习。', 'ok');
+        }
+
+        function grammarKindLabel(match) {
+            const issue = String((match && match.rule && match.rule.issueType) || '').toLowerCase();
+            const cat = String((match && match.rule && match.rule.category && match.rule.category.id) || '').toLowerCase();
+            if (issue === 'misspelling' || cat.indexOf('typo') >= 0 || cat.indexOf('spell') >= 0) return '拼写';
+            if (issue === 'typographical' || issue === 'whitespace' || cat.indexOf('punct') >= 0) return '标点';
+            if (issue === 'style' || cat.indexOf('style') >= 0) return '表达';
+            return '语法';
+        }
+        function renderTextWithGrammar(text, matches) {
+            const src = String(text || '');
+            const items = (matches || []).slice().sort((a, b) => (a.offset || 0) - (b.offset || 0));
+            let html = '';
+            let cursor = 0;
+            items.forEach(m => {
+                const start = Math.max(cursor, Math.min(src.length, m.offset || 0));
+                const end = Math.min(src.length, start + (m.length || 0));
+                if (end <= cursor) return;
+                html += escapeHTML(src.slice(cursor, start));
+                const sugg = ((m.replacements || []).slice(0, 3).map(r => r.value).filter(Boolean));
+                const title = grammarKindLabel(m) + '：' + (m.shortMessage || m.message || '') + (sugg.length ? ' → ' + sugg.join(' / ') : '');
+                html += '<span class="lt-error" title="' + escapeHTML(title) + '">' + escapeHTML(src.slice(start, end)) + '</span>';
+                cursor = end;
+            });
+            html += escapeHTML(src.slice(cursor));
+            return html;
+        }
+        function renderGrammarFeedback(targetId, text, result, opts) {
+            const box = document.getElementById(targetId || 'grammarFeedbackBox');
+            if (!box) return;
+            if (!result) {
+                box.classList.add('hidden');
+                box.innerHTML = '';
+                return;
+            }
+            if (result.error) {
+                box.classList.remove('hidden');
+                box.innerHTML = '<p>' + escapeHTML(result.error) + '</p>';
+                return;
+            }
+            const matches = result.matches || [];
+            const marked = renderTextWithGrammar(text, matches);
+            let list = '';
+            if (!matches.length) {
+                list = '<p class="text-emerald-700 font-medium">未发现明显的语法或拼写问题。</p>';
+            } else {
+                list = '<ul class="mt-2 space-y-1.5">' + matches.slice(0, 8).map(m => {
+                    const sugg = ((m.replacements || []).slice(0, 3).map(r => r.value).filter(Boolean));
+                    const piece = String(text || '').slice(m.offset || 0, (m.offset || 0) + (m.length || 0));
+                    return '<li><span class="font-bold text-rose-700">[' + grammarKindLabel(m) + ']</span> 「' + escapeHTML(piece) + '」' +
+                        (sugg.length ? ' 建议改为 <strong>' + escapeHTML(sugg.join(' / ')) + '</strong>' : '（暂无替换建议）') +
+                        '<div class="text-slate-500 mt-0.5">' + escapeHTML(m.message || m.shortMessage || '') + '</div></li>';
+                }).join('') + '</ul>';
+            }
+            const credit = '<p class="mt-2 text-[11px] text-slate-400">语法检查由 <a href="https://languagetool.org" target="_blank" rel="noopener" class="underline text-indigo-600">LanguageTool</a> 提供，仅供参考。</p>';
+            box.classList.remove('hidden');
+            box.innerHTML = '<p class="font-bold text-slate-800 mb-1">' + ((opts && opts.title) || '语法与拼写建议') + '</p><p class="leading-relaxed">' + marked + '</p>' + list + credit;
+        }
+        async function checkEnglishGrammar(text) {
+            const src = String(text || '').trim();
+            if (src.length < 4) return { matches: [], skipped: true };
+            try {
+                const body = 'text=' + encodeURIComponent(src) + '&language=en-US';
+                const res = await fetch('https://api.languagetool.org/v2/check', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body
+                });
+                if (res.status === 429) {
+                    return { error: '语法检查暂时繁忙（免费接口限额已用完），本次先跳过，不影响本题提交。' };
+                }
+                if (!res.ok) {
+                    return { error: '语法检查暂时不可用（服务返回 ' + res.status + '），本次先跳过。' };
+                }
+                const data = await res.json();
+                return { matches: Array.isArray(data.matches) ? data.matches : [] };
+            } catch (e) {
+                return { error: '语法检查暂时不可用（网络限制或接口无法访问），本次先跳过。' };
+            }
+        }
+
         function evaluateSpeechSimilarity(target, spoken) {
+
             const clean = s => String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean);
             const tWords = clean(target);
             const sWords = clean(spoken);
@@ -3706,6 +4002,8 @@
             return { score: Math.min(100, Math.round((hits / tWords.length) * 100)) };
         }
 
+        window.collectQuestionBank = collectQuestionBank;
+        window.questionTopicKey = questionTopicKey;
         window.loadNextAdaptiveQuestion = function() {
             const level = appState.currentUser ? (appState.currentUser.level || 1) : 1;
             let desiredSkill = appState.skillFilter;
@@ -3714,24 +4012,36 @@
                 appState.skillRotationIdx += 1;
             }
 
-            const combinedBank = [...BUILTIN_QUESTION_BANK, ...dynamicQuestionBank];
-            let candidates = combinedBank.filter(q => q.skill === desiredSkill && !appState.answeredHistoryIds.includes(q.id));
-            if (!candidates.length) {
-                candidates = combinedBank.filter(q => q.skill === desiredSkill);
+            const combinedBank = collectQuestionBank();
+            let skillPool = combinedBank.filter(q => q.skill === desiredSkill);
+            if (!skillPool.length) skillPool = combinedBank.slice();
+            const seen = new Set(appState.answeredHistoryIds || []);
+            const seenTopics = new Set(combinedBank.filter(q => seen.has(q.id)).map(questionTopicKey));
+            let unused = skillPool.filter(q => !seen.has(q.id) && !seenTopics.has(questionTopicKey(q)));
+            if (!unused.length) unused = skillPool.filter(q => !seen.has(q.id));
+            if (!unused.length) {
+                const skillIds = new Set(skillPool.map(q => q.id));
+                appState.answeredHistoryIds = (appState.answeredHistoryIds || []).filter(id => !skillIds.has(id));
+                saveSeenQuestionIds();
+                unused = skillPool.slice();
+                if (appState.currentQuestion && unused.length > 1) {
+                    unused = unused.filter(q => q.id !== appState.currentQuestion.id);
+                }
             }
-            if (!candidates.length) {
-                candidates = combinedBank;
-            }
+            shuffleInPlace(unused);
+            unused.sort((a, b) => Math.abs((a.level || 1) - level) - Math.abs((b.level || 1) - level));
+            const chosen = unused[0] || skillPool[0] || combinedBank[0];
+            if (chosen) markQuestionSeen(chosen.id);
 
-            // 优先匹配接近当前等级的题目
-            const exactLevel = candidates.filter(q => (q.level || 1) === level);
-            const pool = exactLevel.length ? exactLevel : candidates;
-            const chosen = pool[Math.floor(Math.random() * pool.length)];
-
+            stopSpeakingCapture(false);
+            revokeSpeechPlayback();
             appState.currentQuestion = chosen;
             appState.selectedOptionIndex = null;
             appState.questionAnswered = false;
             appState.latestSpeechTranscript = '';
+            appState.hasRecordedSpeech = false;
+            appState.speechChunks = [];
+            appState.latestGrammar = null;
             renderCurrentQuestion();
         };
 
@@ -3749,6 +4059,8 @@
             if (catTag) catTag.textContent = q.category || q.skill.toUpperCase();
             if (diffTag) diffTag.textContent = `Difficulty Lv.${q.level || 1}`;
             if (feedbackBox) feedbackBox.classList.add('hidden');
+            const gBox = document.getElementById('grammarFeedbackBox');
+            if (gBox) { gBox.classList.add('hidden'); gBox.innerHTML = ''; }
 
             if (ctxEl) {
                 if (q.context) {
@@ -3815,13 +4127,15 @@
                             <button type="button" id="recordSpeechBtn" onclick="toggleSpeechRecognition()"
                                 class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-xs cursor-pointer">
                                 <i data-lucide="mic" class="w-4 h-4"></i>
-                                <span id="recordSpeechBtnLabel">Start Recording</span>
+                                <span id="recordSpeechBtnLabel">开始录音</span>
                             </button>
                             <button type="button" onclick="completeSpeakingSelfCheck()"
                                 class="px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold transition cursor-pointer">
                                 Mark as Practiced
                             </button>
                         </div>
+                        <p id="speechStatusLine" class="text-[11px] text-slate-500 leading-relaxed">点击「开始录音」，跟读上面的句子，再点「点击停止」。若浏览器不支持语音识别，仍可录音试听后标记练习。</p>
+                        <audio id="speechPlayback" class="hidden w-full" controls=""></audio>
                         <div id="speechResultPreview" class="hidden text-xs bg-white p-3 rounded-xl border border-slate-200/80 text-slate-700"></div>
                     </div>
                 `;
@@ -3926,78 +4240,143 @@
             finalizeExerciseResult(isCorrect, q.explanation || '');
         };
 
-        window.toggleSpeechRecognition = function() {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRec) {
-                showToast('当前浏览器不支持麦克风识别，可直接点击「Mark as Practiced」完成跟读', 'warning');
+        window.toggleSpeechRecognition = async function() {
+            if (appState.questionAnswered) return;
+            if (appState.isRecordingSpeech) {
+                stopSpeakingCapture(true);
+                setSpeechStatus(appState.latestSpeechTranscript ? '已停止录音。可试听或标记练习。' : '已停止录音。可点播放试听，再标记练习。', 'ok');
+                if (appState.latestSpeechTranscript) {
+                    const gram = await checkEnglishGrammar(appState.latestSpeechTranscript);
+                    appState.latestGrammar = gram;
+                    renderGrammarFeedback('speechResultPreview', appState.latestSpeechTranscript, gram, { title: '识别文本的语法建议' });
+                    // keep match score visible: prepend if preview was replaced
+                }
                 return;
             }
-            if (appState.isRecordingSpeech && appState.recognitionInstance) {
-                appState.recognitionInstance.stop();
+
+            const SpeechRec = getSpeechRecognitionCtor();
+            const canRecord = !!(window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+            if (!canRecord && !SpeechRec) {
+                const ua = speakingUAInfo();
+                const msg = ua.isWeChat
+                    ? '当前微信内置浏览器不支持录音或语音识别。请点击右上角「…」，用 Safari 或 Chrome 打开本页。'
+                    : '当前浏览器不支持录音和语音识别。请用 Safari 或 Chrome 打开本页后再试。';
+                setSpeechStatus(msg, 'error');
+                showToast(msg, 'warning');
                 return;
             }
 
-            const rec = new SpeechRec();
-            rec.lang = 'en-US';
-            rec.interimResults = false;
-            rec.maxAlternatives = 1;
-            appState.recognitionInstance = rec;
-            appState.isRecordingSpeech = true;
+            setSpeechStatus('正在申请麦克风权限…', '');
+            setRecordButtonUI(true);
+            try {
+                const stream = await requestMicStream();
+                appState.speechMediaStream = stream;
+                appState.speechChunks = [];
+                appState.isRecordingSpeech = true;
+                appState.hasRecordedSpeech = false;
 
-            const btn = document.getElementById('recordSpeechBtn');
-            const label = document.getElementById('recordSpeechBtnLabel');
-            if (btn) btn.classList.add('bg-rose-600', 'hover:bg-rose-700');
-            if (label) label.textContent = 'Listening... Click to Stop';
-
-            rec.onresult = (event) => {
-                const transcript = event.results[0][0].transcript || '';
-                appState.latestSpeechTranscript = transcript;
-                const q = appState.currentQuestion;
-                const evalRes = evaluateSpeechSimilarity(q.targetSpeech, transcript);
-                const preview = document.getElementById('speechResultPreview');
-                if (preview) {
-                    preview.classList.remove('hidden');
-                    preview.innerHTML = `<strong>Recognized:</strong> "${escapeHTML(transcript)}" · <strong>Match Score:</strong> <span class="text-indigo-600 font-bold">${evalRes.score}%</span>`;
+                if (window.MediaRecorder) {
+                    const mime = pickAudioRecorderMime();
+                    appState.speechMimeType = mime;
+                    const recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+                    appState.speechRecorder = recorder;
+                    recorder.ondataavailable = (ev) => {
+                        if (ev && ev.data && ev.data.size) appState.speechChunks.push(ev.data);
+                    };
+                    recorder.onerror = () => {
+                        setSpeechStatus('录音出现问题，请重试。', 'error');
+                    };
+                    try { recorder.start(250); } catch (_) { recorder.start(); }
                 }
-                if (!appState.questionAnswered) {
-                    appState.questionAnswered = true;
-                    finalizeExerciseResult(evalRes.score >= 55, `Pronunciation match: ${evalRes.score}%. ${q.explanation}`);
+
+                if (SpeechRec) {
+                    try {
+                        const rec = new SpeechRec();
+                        rec.lang = 'en-US';
+                        rec.interimResults = true;
+                        rec.continuous = true;
+                        rec.maxAlternatives = 1;
+                        let finalized = '';
+                        rec.onresult = (event) => {
+                            let interim = '';
+                            for (let i = event.resultIndex; i < event.results.length; i++) {
+                                const piece = event.results[i][0] && event.results[i][0].transcript ? event.results[i][0].transcript : '';
+                                if (event.results[i].isFinal) finalized = (finalized ? finalized + ' ' : '') + piece;
+                                else interim += piece;
+                            }
+                            applySpeechTranscript((finalized + ' ' + interim).trim(), !!finalized);
+                        };
+                        rec.onerror = (ev) => {
+                            if (ev && ev.error === 'aborted') return;
+                            const msg = speechRecErrorMessage(ev);
+                            if (msg) {
+                                setSpeechStatus(msg, ev && ev.error === 'no-speech' ? '' : 'error');
+                                if (ev && ev.error !== 'no-speech' && ev.error !== 'network') showToast(msg, 'warning');
+                            }
+                        };
+                        rec.onend = () => {
+                            // If user is still in a recording session, try to restart recognition.
+                            if (appState.isRecordingSpeech && appState.recognitionInstance === rec) {
+                                try { rec.start(); } catch (_) {}
+                            }
+                        };
+                        appState.recognitionInstance = rec;
+                        rec.start();
+                    } catch (recErr) {
+                        setSpeechStatus('语音识别无法启动，已改为只录音。请跟读后停止，可以试听再标记练习。', 'error');
+                    }
+                } else {
+                    const ua = speakingUAInfo();
+                    const hint = ua.isWeChat
+                        ? '当前环境不支持语音识别（常见于微信内置浏览器）。已改用本地录音，可试听后标记练习；如需自动打分，请用 Safari 或 Chrome 打开。'
+                        : (ua.isIOS || ua.isFirefox)
+                            ? '当前浏览器不支持自动语音识别。已改用本地录音，跟读后可试听并标记练习。自动打分请用 Chrome 打开。'
+                            : '当前浏览器不支持自动语音识别。已改用本地录音，跟读后可试听并标记练习。';
+                    setSpeechStatus(hint, '');
                 }
-            };
-
-            rec.onerror = () => {
-                showToast('未检测到语音输入，请靠近麦克风重试或点击「Mark as Practiced」', 'warning');
-            };
-
-            rec.onend = () => {
+                setSpeechStatus((document.getElementById('speechStatusLine') && /语音识别无法启动|不支持自动|微信/.test(document.getElementById('speechStatusLine').textContent || '')) ? document.getElementById('speechStatusLine').textContent : '正在录音，请跟读句子，完成后点「点击停止」。', '');
+                setRecordButtonUI(true);
+            } catch (e) {
                 appState.isRecordingSpeech = false;
-                if (btn) btn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
-                if (label) label.textContent = 'Start Recording';
-            };
-
-            rec.start();
+                stopMicTracks(appState.speechMediaStream);
+                appState.speechMediaStream = null;
+                setRecordButtonUI(false);
+                const msg = (e && e.message) ? e.message : '无法开始录音，请重试。';
+                setSpeechStatus(msg, 'error');
+                showToast(msg, 'error');
+            }
         };
 
-        window.completeSpeakingSelfCheck = function() {
+        window.completeSpeakingSelfCheck = async function() {
             if (appState.questionAnswered) return;
             const q = appState.currentQuestion;
-            const attempted = !!(appState.latestSpeechTranscript || appState.isRecordingSpeech);
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (appState.isRecordingSpeech) stopSpeakingCapture(true);
+            const attempted = !!(appState.latestSpeechTranscript || appState.hasRecordedSpeech);
+            const canCapture = !!(getSpeechRecognitionCtor() || (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) || window.MediaRecorder);
             if (!attempted) {
-                if (!SpeechRec) {
+                if (!canCapture) {
                     appState.questionAnswered = true;
-                    finalizeExerciseResult(false, `Speech recognition is unavailable in this browser. Marked as practiced without a score. ${q && q.explanation ? q.explanation : ''}`, { skipScoring: true });
+                    finalizeExerciseResult(false, '当前浏览器无法录音或识别。已记录为练习，未评分、未获得积分。请用 Safari 或 Chrome 打开后再练口语。 ' + ((q && q.explanation) || ''), { skipScoring: true });
                     return;
                 }
-                showToast('请先点击 Start Recording 跟读一次后再标记完成；未跟读不会获得积分', 'warning');
+                showToast('请先点击「开始录音」跟读一次后再标记完成；未跟读不会获得积分', 'warning');
                 return;
             }
-            appState.questionAnswered = true;
-            appState.lastUserAnswer = appState.latestSpeechTranscript || '已开口练习';
-            finalizeExerciseResult(true, `Great speaking practice! ${q.explanation}`);
+            appState.lastUserAnswer = appState.latestSpeechTranscript || '已开口练习（本地录音）';
+            if (appState.latestSpeechTranscript) {
+                const gram = appState.latestGrammar || await checkEnglishGrammar(appState.latestSpeechTranscript);
+                appState.latestGrammar = gram;
+                const evalRes = evaluateSpeechSimilarity(q && q.targetSpeech, appState.latestSpeechTranscript);
+                appState.questionAnswered = true;
+                finalizeExerciseResult(evalRes.score >= 55, '跟读匹配度 ' + evalRes.score + '%。' + ((q && q.explanation) || ''));
+                renderGrammarFeedback('grammarFeedbackBox', appState.latestSpeechTranscript, gram, { title: '识别文本的语法与拼写建议' });
+            } else {
+                appState.questionAnswered = true;
+                finalizeExerciseResult(false, '已保存你的跟读录音，但当前环境无法自动识别打分，故未计分。可点播放复习，下次可用 Chrome 获得识别匹配度。 ' + ((q && q.explanation) || ''), { skipScoring: true });
+            }
         };
 
-        window.submitWritingAnswer = function() {
+        window.submitWritingAnswer = async function() {
             if (appState.questionAnswered) return;
             const input = document.getElementById('writingAnswerInput');
             const q = appState.currentQuestion;
@@ -4018,8 +4397,11 @@
             appState.questionAnswered = true;
             appState.lastUserAnswer = text;
             input.disabled = true;
-            const sampleInfo = q.sampleAnswer ? ` Sample response: "${q.sampleAnswer}"` : '';
-            finalizeExerciseResult(isGood, `${q.explanation}${sampleInfo}`);
+            const sampleInfo = q.sampleAnswer ? ' Sample response: "' + q.sampleAnswer + '"' : '';
+            const gram = await checkEnglishGrammar(text);
+            appState.latestGrammar = gram;
+            finalizeExerciseResult(isGood, (q.explanation || '') + sampleInfo);
+            renderGrammarFeedback('grammarFeedbackBox', text, gram, { title: '写作语法与拼写建议' });
         };
 
         function finalizeExerciseResult(isCorrect, explanationText, options) {
