@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <!-- 2. 邀请朋友 / 分享链接弹窗（极简纯净版，双击标题可导出 index.html） -->
+    <!-- 2. 邀请朋友 / 分享链接弹窗 -->
     <div id="shareModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-6 animate-float-up">
             <div class="flex items-center justify-between mb-4">
@@ -160,7 +160,7 @@
                     <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" class="lucide lucide-users w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
                     </div>
-                    <h3 id="shareModalTitle" title="团队分享链接" class="font-bold text-slate-900 select-none cursor-pointer">邀请朋友加入学习</h3>
+                    <h3 id="shareModalTitle" title="团队分享链接" class="font-bold text-slate-900 select-none">邀请朋友加入学习</h3>
                 </div>
                 <button type="button" onclick="closeShareModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
@@ -1181,31 +1181,6 @@
             showToast('分享网址已复制，快发给朋友一起加入吧！', 'success');
         };
 
-        window.exportStandaloneHTML = function() {
-            try {
-                const clone = document.documentElement.cloneNode(true);
-                clone.querySelectorAll('script[data-bard-client-injected], script[ws-interception-config]').forEach(el => el.remove());
-                clone.querySelectorAll('script').forEach(s => {
-                    const t = s.textContent || '';
-                    if (t.includes('__firebase_config') || t.includes('__initial_auth_token') || t.includes('firebaseAuthBridge') || t.includes('data-bard-client-injected')) {
-                        s.remove();
-                    }
-                });
-                const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
-                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'index.html';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showToast('已开始下载最新 index.html，可直接拖入 Netlify 更新！', 'success');
-            } catch (e) {
-                showToast('导出失败，请重试', 'warning');
-            }
-        };
 
         window.manualRefreshCloud = async function() {
             if (!appState.currentUser) {
@@ -2497,13 +2472,6 @@
                 renderComments();
                 startStudyTimers();
 
-                // 双击分享弹窗标题可静默下载最新 index.html
-                const shareTitle = document.getElementById('shareModalTitle');
-                if (shareTitle) {
-                    shareTitle.addEventListener('dblclick', () => {
-                        exportStandaloneHTML();
-                    });
-                }
 
                 setCloudStatus('connecting');
                 const reachable = await probeCloud();
