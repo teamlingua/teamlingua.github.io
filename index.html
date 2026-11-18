@@ -94,6 +94,11 @@
                 </button>
             </div>
 
+            <div class="flex items-center justify-between mb-3 px-0.5">
+                <span class="text-xs text-slate-500">账号保存在云端，可在任意设备登录</span>
+                <span id="cloudSyncLoginBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">⏳ 正在连接云端...</span>
+            </div>
+
             <!-- 登录 / 注册 Tab 切换 -->
             <div class="grid grid-cols-2 p-1 bg-slate-100 rounded-2xl mb-5">
                 <button type="button" id="tabLoginBtn" onclick="switchAuthMode('login')" class="py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-indigo-600 shadow-sm transition">
@@ -510,13 +515,15 @@
 
         const SUPABASE_URL = 'https://abcwiryhsqenehhrvojs.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_2AsdeQ-AiXXTCmBOIm8XMA_7X8THyv8';
+        let sb = null;
         if (!window.supabase || typeof window.supabase.createClient !== 'function') {
             console.error('未能加载 supabase-js');
+        } else {
+            sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+            });
+            window.sb = sb;
         }
-        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
-        });
-        window.sb = sb;
         const SYNTHETIC_EMAIL_DOMAIN = 'teamlingua.local';
 
         async function usernameToEmail(name) {
@@ -632,6 +639,8 @@
         }
 
         let cloudSyncHealthy = false;
+        let cloudSyncState = 'connecting';
+        let cloudSyncReason = '';
         let isSyncingToCloud = false;
         let pendingSyncAfterCurrent = false;
         let dynamicQuestionBank = [];
@@ -661,23 +670,93 @@
             } catch (_) {}
         }
 
-        function updateSyncStatusUI(isOnline) {
-            cloudSyncHealthy = !!isOnline;
+        function escapeStatusText(s) {
+            return String(s || '').replace(/[&<>"']/g, ch => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[ch]);
+        }
+
+        function setCloudStatus(state, reason) {
+            cloudSyncState = state || 'offline';
+            cloudSyncReason = reason || '';
+            cloudSyncHealthy = cloudSyncState === 'online';
+            const palettes = {
+                connecting: {
+                    navClass: 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium',
+                    pillClass: 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200',
+                    navHtml: '<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> 正在连接云端',
+                    text: '⏳ 正在连接云端...'
+                },
+                online: {
+                    navClass: 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium',
+                    pillClass: 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200',
+                    navHtml: '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 云端已连接',
+                    text: '✅ 云端已连接'
+                },
+                offline: {
+                    navClass: 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium',
+                    pillClass: 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 max-w-[16rem] truncate',
+                    navHtml: '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 云端离线' + (cloudSyncReason ? '：' + escapeStatusText(cloudSyncReason) : ''),
+                    text: '⚠️ 云端离线' + (cloudSyncReason ? '：' + cloudSyncReason : '')
+                }
+            };
+            const pal = palettes[cloudSyncState] || palettes.offline;
+            const title = cloudSyncState === 'offline' && cloudSyncReason
+                ? ('云端离线：' + cloudSyncReason)
+                : (pal.text || '');
             const navBadge = document.getElementById('cloudSyncNavBadge');
             const modalBadge = document.getElementById('cloudSyncModalBadge');
+            const loginBadge = document.getElementById('cloudSyncLoginBadge');
             if (navBadge) {
-                navBadge.className = isOnline
-                    ? 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium'
-                    : 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium';
-                navBadge.innerHTML = isOnline
-                    ? '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 云端已连接'
-                    : '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 云端离线';
+                navBadge.className = pal.navClass;
+                navBadge.innerHTML = pal.navHtml;
+                navBadge.title = title;
             }
             if (modalBadge) {
-                modalBadge.className = isOnline
-                    ? 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200';
-                modalBadge.textContent = isOnline ? '✅ 云端已连接' : '⚠️ 云端离线';
+                modalBadge.className = pal.pillClass;
+                modalBadge.textContent = pal.text;
+                modalBadge.title = title;
+            }
+            if (loginBadge) {
+                loginBadge.className = pal.pillClass;
+                loginBadge.textContent = pal.text;
+                loginBadge.title = title;
+            }
+        }
+
+        function updateSyncStatusUI(isOnline, reason) {
+            if (isOnline) setCloudStatus('online');
+            else setCloudStatus('offline', reason || '');
+        }
+
+        async function probeCloud() {
+            if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+                setCloudStatus('offline', '浏览器离线');
+                return false;
+            }
+            if (!sb || !window.supabase) {
+                setCloudStatus('offline', '云端脚本未加载');
+                return false;
+            }
+            if (cloudSyncState !== 'online') setCloudStatus('connecting');
+            try {
+                const ctrl = new AbortController();
+                const timer = setTimeout(() => ctrl.abort(), 8000);
+                const res = await fetch(SUPABASE_URL + '/auth/v1/health', {
+                    headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY },
+                    signal: ctrl.signal
+                });
+                clearTimeout(timer);
+                if (!res.ok) {
+                    setCloudStatus('offline', '云端服务响应异常 ' + res.status);
+                    return false;
+                }
+                setCloudStatus('online');
+                return true;
+            } catch (e) {
+                const reason = (e && e.name === 'AbortError') ? '连接超时' : '无法连接到云端';
+                setCloudStatus('offline', reason);
+                return false;
             }
         }
 
@@ -705,7 +784,7 @@
                 saveLocalState();
                 return true;
             } catch (e) {
-                updateSyncStatusUI(false);
+                updateSyncStatusUI(false, '保存进度失败');
                 showToast('保存进度失败：' + (e.message || e), 'error');
                 return false;
             }
@@ -816,7 +895,7 @@
                 updateSyncStatusUI(true);
                 return true;
             } catch (e) {
-                updateSyncStatusUI(false);
+                updateSyncStatusUI(false, '同步团队数据失败');
                 showToast('同步团队数据失败：' + (e.message || e), 'error');
                 return false;
             }
@@ -898,7 +977,8 @@
                 })
                 .subscribe((status) => {
                     if (status === 'SUBSCRIBED') updateSyncStatusUI(true);
-                    else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') updateSyncStatusUI(false);
+                    else if (status === 'CHANNEL_ERROR') updateSyncStatusUI(false, '实时通道失败');
+                    else if (status === 'TIMED_OUT') updateSyncStatusUI(false, '实时通道超时');
                 });
             appState.realtimeChannel = channel;
         }
@@ -1063,6 +1143,7 @@
             realtimeChannel: null
         };
         window.appState = appState;
+        window.getCloudStatus = () => ({ state: cloudSyncState, reason: cloudSyncReason, healthy: cloudSyncHealthy });
 
         // -------------------- 2. 分享弹窗与工具函数 --------------------
         window.openShareModal = function() {
@@ -1275,39 +1356,74 @@
             if (!input || !badge || !msg) return;
 
             const val = input.value.trim();
+            if (window._usernameCheckTimer) clearTimeout(window._usernameCheckTimer);
             if (!val) {
                 badge.classList.add('hidden');
                 msg.className = 'mt-1.5 text-xs text-slate-500 min-h-[18px]';
                 msg.textContent = '输入你的团队专属用户名。';
                 return;
             }
+            badge.classList.add('hidden');
+            if (!cloudSyncHealthy) {
+                msg.className = 'mt-1.5 text-xs text-amber-600 min-h-[18px]';
+                msg.textContent = cloudSyncState === 'connecting'
+                    ? '正在连接云端，稍后将验证用户名。'
+                    : '云端未连接，暂时无法验证用户名。不会创建仅本机可用的账号。';
+                return;
+            }
+            msg.className = 'mt-1.5 text-xs text-slate-500 min-h-[18px]';
+            msg.textContent = '正在向云端查询该用户名…';
+            window._usernameCheckTimer = setTimeout(() => checkUsernameAgainstCloud(val), 350);
+        }
 
-            const exists = appState.teamMembers.some(m => m.name.toLowerCase() === val.toLowerCase());
-            badge.classList.remove('hidden');
-            if (appState.authMode === 'register') {
-                if (exists) {
-                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-rose-100 text-rose-700';
-                    badge.textContent = '已被占用';
-                    msg.className = 'mt-1.5 text-xs text-rose-600 min-h-[18px]';
-                    msg.textContent = '该用户名已被队友注册，请换一个或切换至「已有账号登录」。';
-                } else {
-                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
-                    badge.textContent = '可注册';
-                    msg.className = 'mt-1.5 text-xs text-emerald-600 min-h-[18px]';
-                    msg.textContent = '用户名可用！注册后将保存到云端，任意设备可登录。';
+        async function checkUsernameAgainstCloud(val) {
+            const input = document.getElementById('authUsernameInput');
+            const badge = document.getElementById('nameStatusBadge');
+            const msg = document.getElementById('nameValidationMsg');
+            if (!input || !badge || !msg) return;
+            if (input.value.trim() !== val) return;
+            if (!sb) return;
+            try {
+                const { data, error } = await sb.rpc('username_taken', { p_username: val });
+                if (input.value.trim() !== val) return;
+                if (error) {
+                    msg.className = 'mt-1.5 text-xs text-slate-500 min-h-[18px]';
+                    msg.textContent = appState.authMode === 'register'
+                        ? '提交后将在云端创建账号（任意设备可登录）。'
+                        : '提交后将向云端验证用户名和密码。';
+                    return;
                 }
-            } else {
-                if (exists) {
-                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
-                    badge.textContent = '已找到账号';
-                    msg.className = 'mt-1.5 text-xs text-emerald-600 min-h-[18px]';
-                    msg.textContent = '请输入密码登录该用户名。';
+                const taken = !!data;
+                badge.classList.remove('hidden');
+                if (appState.authMode === 'register') {
+                    if (taken) {
+                        badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-rose-100 text-rose-700';
+                        badge.textContent = '已被占用';
+                        msg.className = 'mt-1.5 text-xs text-rose-600 min-h-[18px]';
+                        msg.textContent = '该用户名已在云端注册，请换一个或切换至「已有账号登录」。';
+                    } else {
+                        badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+                        badge.textContent = '可注册';
+                        msg.className = 'mt-1.5 text-xs text-emerald-600 min-h-[18px]';
+                        msg.textContent = '用户名可用！注册将保存到云端，任意设备可登录。云端不可用时不会创建仅本机账号。';
+                    }
                 } else {
-                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700';
-                    badge.textContent = '未注册';
-                    msg.className = 'mt-1.5 text-xs text-amber-600 min-h-[18px]';
-                    msg.textContent = '未找到该用户名，可切换到「新用户极简注册」创建。';
+                    if (taken) {
+                        badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+                        badge.textContent = '已找到账号';
+                        msg.className = 'mt-1.5 text-xs text-emerald-600 min-h-[18px]';
+                        msg.textContent = '该用户名已在云端注册，请输入密码登录。';
+                    } else {
+                        badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700';
+                        badge.textContent = '未注册';
+                        msg.className = 'mt-1.5 text-xs text-amber-600 min-h-[18px]';
+                        msg.textContent = '云端未找到该用户名，可切换到「新用户极简注册」创建。';
+                    }
                 }
+            } catch (_) {
+                if (input.value.trim() !== val) return;
+                msg.className = 'mt-1.5 text-xs text-slate-500 min-h-[18px]';
+                msg.textContent = '提交后将向云端验证该用户名。';
             }
         }
 
@@ -1365,7 +1481,7 @@
                         showToast('请输入密码', 'warning');
                         return;
                     }
-                    // 新注册至少 6 位；已有本地账号仍可用原密码登录（可能短于 6 位）
+                    // 新注册至少 6 位
                     if (appState.authMode === 'register' && password.length < 6) {
                         showToast('密码长度至少为 6 位', 'warning');
                         return;
@@ -1382,6 +1498,17 @@
                     if (submitText) submitText.textContent = '正在验证账号...';
 
                     try {
+                        if (!sb) {
+                            setCloudStatus('offline', '云端脚本未加载');
+                            showToast('云端不可用，无法注册或登录。账号不会仅保存在本机，请检查网络后重试。', 'error');
+                            return;
+                        }
+                        const reachable = await probeCloud();
+                        if (!reachable) {
+                            const why = cloudSyncReason ? '（' + cloudSyncReason + '）' : '';
+                            showToast('云端不可用' + why + '，无法注册或登录。账号不会仅保存在本机，请检查网络后重试。', 'error');
+                            return;
+                        }
                         const email = await usernameToEmail(rawName);
                         if (appState.authMode === 'register') {
                             const color = colorForName(rawName);
@@ -1452,7 +1579,7 @@
             document.getElementById('authConfirmPasswordInput').value = '';
             document.getElementById('loginModal').classList.remove('hidden');
             renderRegisteredMemberChips();
-            updateSyncStatusUI(false);
+            await probeCloud();
             showToast('已安全退出当前账号', 'info');
         };
 
@@ -2076,7 +2203,7 @@
                         }).then(({ error }) => {
                             if (error) {
                                 showToast('题目已生成本地，但同步到云端失败：' + error.message, 'warning');
-                                updateSyncStatusUI(false);
+                                updateSyncStatusUI(false, '题目同步失败');
                             }
                         });
                     }
@@ -2181,7 +2308,7 @@
             }).select('id, created_at').single().then(({ data, error }) => {
                 if (error) {
                     showToast('发布动态失败：' + error.message, 'error');
-                    updateSyncStatusUI(false);
+                    updateSyncStatusUI(false, '发布动态失败');
                     return;
                 }
                 const target = appState.comments.find(c => c.id === tempId);
@@ -2270,7 +2397,7 @@
                         target.likedBy = target.likedBy.filter(id => id !== key);
                         target.likes = target.likedBy.length;
                         renderComments();
-                        updateSyncStatusUI(false);
+                        updateSyncStatusUI(false, '点赞失败');
                     }
                     return;
                 }
@@ -2378,16 +2505,22 @@
                     });
                 }
 
-                updateSyncStatusUI(false);
-                const { data: sessionData } = await sb.auth.getSession();
-                if (sessionData && sessionData.session) {
-                    try {
-                        await enterSession(false);
-                    } catch (e) {
-                        console.error('恢复会话失败:', e);
-                        showToast('自动登录失败，请重新登录：' + (e.message || e), 'warning');
-                        document.getElementById('loginModal').classList.remove('hidden');
+                setCloudStatus('connecting');
+                const reachable = await probeCloud();
+                if (reachable && sb) {
+                    const { data: sessionData } = await sb.auth.getSession();
+                    if (sessionData && sessionData.session) {
+                        try {
+                            await enterSession(false);
+                        } catch (e) {
+                            console.error('恢复会话失败:', e);
+                            showToast('自动登录失败，请重新登录：' + (e.message || e), 'warning');
+                            document.getElementById('loginModal').classList.remove('hidden');
+                        }
                     }
+                } else if (!sb) {
+                    setCloudStatus('offline', '云端脚本未加载');
+                    showToast('云端脚本未加载，无法注册或登录。请检查网络后刷新页面。', 'error');
                 }
 
                 document.addEventListener('visibilitychange', () => {
@@ -2397,9 +2530,11 @@
                     }
                 });
                 window.addEventListener('online', () => {
-                    if (appState.currentUser) refreshRoomData();
+                    probeCloud().then((ok) => {
+                        if (ok && appState.currentUser) refreshRoomData();
+                    });
                 });
-                window.addEventListener('offline', () => updateSyncStatusUI(false));
+                window.addEventListener('offline', () => updateSyncStatusUI(false, '浏览器离线'));
             } catch (err) {
                 console.error('应用初始化异常:', err);
             }
