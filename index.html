@@ -63,7 +63,7 @@
         .sound-bar {
             animation: wave 0.9s ease-in-out infinite;
         }
-        #titleSkillsPanel, #titleSkillsList, #titleSkillActionBox, #officialQuestionBar, #teamChallengeBar, #stealPanel, #stealTargetList, #stealInboxModal, #petPanel, #petBody {
+        #titleSkillsPanel, #titleSkillsList, #titleSkillActionBox, #officialQuestionBar, #teamChallengeBar, #stealPanel, #stealTargetList, #stealInboxModal, #petPanel, #petBody, #petNavModal, #petModalHost {
             max-width: 100%;
             overflow-x: hidden;
         }
@@ -198,6 +198,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="graduation-cap" aria-hidden="true" class="lucide lucide-graduation-cap w-5 h-5"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
                 </div>
                 <span class="font-display font-bold text-lg tracking-tight text-slate-900 hidden sm:inline">TeamLingua</span>
+                <button type="button" id="petNavBtn" onclick="openPetFromNav()" class="inline-flex items-center gap-1 px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-900 border border-orange-200/90 text-xs font-semibold transition shadow-2xs cursor-pointer shrink-0" title="打开我的宠物">
+                    <span id="petNavThumb" class="w-5 h-5 flex items-center justify-center shrink-0 text-sm leading-none">🐾</span>
+                    <span id="petNavLabel">宠物</span>
+                </button>
                 <span id="cloudSyncNavBadge" class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 正在连接云端</span>
             </div>
 
@@ -485,6 +489,7 @@
                 <div id="stealTargetList" class="space-y-2 min-w-0"></div>
             </div>
 
+            <div id="petPanelSlot">
             <div id="petPanel" class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-xs min-w-0">
                 <div class="flex items-center justify-between gap-2 mb-2 min-w-0">
                     <div class="min-w-0">
@@ -507,6 +512,7 @@
                     </div>
                 </div>
                 <div id="petBody" class="min-w-0 text-xs text-slate-600">登录后查看你的宠物。</div>
+            </div>
             </div>
         </section>
 
@@ -571,6 +577,17 @@
                 <button type="button" onclick="closeFlagModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer">取消</button>
                 <button type="button" onclick="saveUserFlag()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white shadow-xs cursor-pointer">发布 Flag</button>
             </div>
+        </div>
+    </div>
+
+    <!-- 我的宠物：顶栏快捷入口 -->
+    <div id="petNavModal" class="hidden fixed inset-0 z-[60] bg-slate-900/65 backdrop-blur-sm flex items-start sm:items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-slate-50 sm:bg-white rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-1 sm:p-2 min-w-0 my-3">
+            <div class="flex items-center justify-between gap-2 px-3 pt-3 pb-1">
+                <h3 class="text-sm font-bold text-slate-900">我的宠物</h3>
+                <button type="button" onclick="closePetFromNav()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer text-lg leading-none" title="关闭">×</button>
+            </div>
+            <div id="petModalHost" class="p-1 sm:p-2 min-w-0"></div>
         </div>
     </div>
 
@@ -3046,6 +3063,7 @@
         async function refreshPetPanel() {
             if (!sb || !appState.currentUser) {
                 renderPetPanel(null);
+                updatePetNavButton();
                 return null;
             }
             try {
@@ -3057,6 +3075,7 @@
                     syncCurrentUserToUI();
                 }
                 renderPetPanel(data);
+                updatePetNavButton();
                 await refreshRoomPets();
                 return data;
             } catch (e) {
@@ -3142,10 +3161,43 @@
             }
         };
 
+
+        function updatePetNavButton() {
+            const thumb = document.getElementById('petNavThumb');
+            const label = document.getElementById('petNavLabel');
+            if (!thumb) return;
+            const pet = appState.petStatus && appState.petStatus.pet;
+            if (pet) {
+                thumb.innerHTML = '<img src="' + petImageSrc(pet.species, pet.stage) + '" alt="" class="w-5 h-5 rounded-full object-cover bg-white">';
+                if (label) label.textContent = '宠物';
+            } else {
+                thumb.textContent = '🐾';
+                if (label) label.textContent = '宠物';
+            }
+        }
+
+        window.openPetFromNav = async function() {
+            const modal = document.getElementById('petNavModal');
+            const host = document.getElementById('petModalHost');
+            const panel = document.getElementById('petPanel');
+            if (host && panel) host.appendChild(panel);
+            if (modal) modal.classList.remove('hidden');
+            if (window.refreshPetPanel) await window.refreshPetPanel();
+        };
+
+        window.closePetFromNav = function() {
+            const slot = document.getElementById('petPanelSlot');
+            const panel = document.getElementById('petPanel');
+            const modal = document.getElementById('petNavModal');
+            if (slot && panel) slot.appendChild(panel);
+            if (modal) modal.classList.add('hidden');
+        };
+
         window.refreshPetPanel = refreshPetPanel;
         window.renderPetPanel = renderPetPanel;
         window.refreshRoomPets = refreshRoomPets;
         window.petImageSrc = petImageSrc;
+        window.updatePetNavButton = updatePetNavButton;
 
         function checkAndGrantDailyGoalBonus(user) {
             if (!user) return false;
@@ -3453,6 +3505,8 @@
             try { await persistProfile(); } catch (_) {}
             stopRealtime();
             try { await sb.auth.signOut(); } catch (_) {}
+            if (window.closePetFromNav) window.closePetFromNav();
+            if (window.updatePetNavButton) window.updatePetNavButton();
             appState.currentUser = null;
             appState.currentRoomId = null;
             document.getElementById('authPasswordInput').value = '';
