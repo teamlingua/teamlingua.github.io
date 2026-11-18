@@ -63,7 +63,7 @@
         .sound-bar {
             animation: wave 0.9s ease-in-out infinite;
         }
-        #titleSkillsPanel, #titleSkillsList, #titleSkillActionBox, #officialQuestionBar, #teamChallengeBar {
+        #titleSkillsPanel, #titleSkillsList, #titleSkillActionBox, #officialQuestionBar, #teamChallengeBar, #stealPanel, #stealTargetList, #stealInboxModal {
             max-width: 100%;
             overflow-x: hidden;
         }
@@ -457,6 +457,33 @@
                 <div id="titleSkillsList" class="space-y-2"></div>
                 <div id="titleSkillActionBox" class="hidden mt-3 p-3 rounded-2xl border border-slate-200 bg-slate-50 min-w-0"></div>
             </div>
+
+            <div id="stealPanel" class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-xs min-w-0">
+                <div class="flex items-center justify-between gap-2 mb-2 min-w-0">
+                    <div class="min-w-0">
+                        <h3 class="text-sm font-bold text-slate-900">偷积分 / 守护</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">完成今日 20 分钟目标后，才可以偷；完成目标后当天自动受守护</p>
+                    </div>
+                    <span id="stealProtectBadge" class="shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600">未登录</span>
+                </div>
+                <div id="stealHelpCard" class="mb-3 rounded-2xl border border-rose-200 bg-rose-50/80">
+                    <button type="button" onclick="toggleStealHelp()" class="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left cursor-pointer">
+                        <span class="text-xs font-bold text-rose-900">怎么用？</span>
+                        <span id="stealHelpChevron" class="text-rose-800 text-xs">▾</span>
+                    </button>
+                    <div id="stealHelpBody" class="px-3.5 pb-3 text-xs text-slate-700 leading-relaxed space-y-1">
+                        <p>先完成今日 <strong>20 分钟学习目标</strong>，才可以偷积分。每天最多偷 <strong>2 次</strong>，每次 <strong>3 分</strong>。</p>
+                        <p>只能偷「今天还没完成 20 分钟目标」的队友。对方完成目标后，当天剩下的时间都受守护，不能再被偷。</p>
+                        <p>不能偷：你自己、积分不足 20 的人、注册未满 3 天的人、以及当前排行榜第 1 名。</p>
+                        <p>每人每天最多被偷走 <strong>6 分</strong>（两次）。偷取不会让任何人掉到更低头衔；如果会掉段，这次偷取会被阻止或少偷一点。</p>
+                        <p>每次动手都有 <strong>30%</strong> 的概率被「看门狗」抓住。抓住后偷不到分，但仍占用你今日 1 次机会，并且你会被扣 <strong>2 分</strong>。</p>
+                        <p>偷取结果会显示在本面板，并在团队动态里发消息。你不在时发生的被偷或看门狗抓住小偷的事情，下次登录会弹窗告诉你。</p>
+                    </div>
+                </div>
+                <div id="stealStatusLine" class="text-[11px] text-slate-600 mb-2">登录后查看今日可偷对象和剩余次数。</div>
+                <div id="stealResultBox" class="hidden mb-3 p-3 rounded-2xl border text-xs leading-relaxed min-w-0"></div>
+                <div id="stealTargetList" class="space-y-2 min-w-0"></div>
+            </div>
         </section>
 
         <!-- 右侧栏：轻量团队打卡评论区 & 互助监督墙 (占 3 列) -->
@@ -519,6 +546,23 @@
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeFlagModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer">取消</button>
                 <button type="button" onclick="saveUserFlag()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white shadow-xs cursor-pointer">发布 Flag</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 偷积分：你不在的时候 -->
+    <div id="stealInboxModal" class="hidden fixed inset-0 z-[60] bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-xl w-full max-w-md max-h-[85vh] overflow-y-auto p-5 min-w-0">
+            <div class="flex items-start justify-between gap-2 mb-3">
+                <div class="min-w-0">
+                    <h3 class="text-base font-bold text-slate-900">你不在的时候</h3>
+                    <p class="text-[11px] text-slate-500 mt-0.5">以下是你离开后发生的偷积分或看门狗事件</p>
+                </div>
+                <button type="button" onclick="closeStealInbox()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer text-lg leading-none">×</button>
+            </div>
+            <div id="stealInboxBody" class="space-y-2 text-xs text-slate-700 leading-relaxed"></div>
+            <div class="mt-4 flex justify-end">
+                <button type="button" onclick="closeStealInbox()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold cursor-pointer">我知道了</button>
             </div>
         </div>
     </div>
@@ -621,6 +665,18 @@
                     <li><strong>亲王 · 悬赏令：</strong>每周可发布 1 次，由系统出资、不扣自身积分。绑定当前题目，48 小时内首位答对的队友 +20，发布者 +5；超时过期无积分变动。国王同样可以使用。</li>
                     <li><strong>国王 · 国王令：</strong>每周 1 次，发布全队今日任务（例如「今日答对 N 题」），系统自动检查完成情况。每位完成者 +10 积分，国王按完成人数每人再 +2 积分。</li>
                 </ul>
+            </div>
+
+            <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3.5 mb-4">
+                <div class="flex items-center gap-2 font-bold text-xs sm:text-sm text-rose-900">
+                    <span>🤫 偷积分 / 守护怎么用？</span>
+                </div>
+                <div class="text-xs text-rose-950 mt-1 leading-relaxed space-y-1.5">
+                    <p>先完成今日 <strong>20 分钟学习目标</strong> 才能偷积分。每天最多 <strong>2 次</strong>，每次 <strong>3 分</strong>。日期按新西兰时间（Pacific/Auckland）的自然日计算。</p>
+                    <p>只能偷今天还没完成 20 分钟目标的队友。对方一旦达标，当天剩余时间都受守护。</p>
+                    <p>不能偷自己、积分不足 20 的人、注册未满 3 天的人，以及排行榜第 1 名。每人每天最多被偷走 <strong>6 分</strong>。偷取不会让任何人掉到更低头衔；如果会掉段，这次会被阻止或少偷一点。</p>
+                    <p>每次动手有 <strong>30%</strong> 概率被看门狗抓住：偷不到分，但仍占用 1 次机会，偷的人会被扣 <strong>2 分</strong>。结果会出现在面板和团队动态里。你不在的时候若被偷，或看门狗抓住了偷你积分的人，下次登录会弹窗汇总。</p>
+                </div>
             </div>
 
             <!-- 头衔晋升阶梯表 -->
@@ -1183,6 +1239,7 @@
         const HELP_LS_WRONG = 'teamlingua_v4_help_collapsed_wrongbook';
         const HELP_LS_SKILLS = 'teamlingua_v4_help_collapsed_skills';
         const HELP_LS_TITLE_SKILLS = 'teamlingua_v4_help_collapsed_titleskills';
+        const HELP_LS_STEAL = 'teamlingua_v4_help_collapsed_steal';
 
         function isHelpCollapsed(key) {
             try { return localStorage.getItem(key) === '1'; } catch (_) { return false; }
@@ -1214,6 +1271,9 @@
         };
         window.toggleTitleSkillsHelp = function() {
             toggleHelpCard(HELP_LS_TITLE_SKILLS, 'titleSkillsHelpBody', 'titleSkillsHelpChevron');
+        };
+        window.toggleStealHelp = function() {
+            toggleHelpCard(HELP_LS_STEAL, 'stealHelpBody', 'stealHelpChevron');
         };
 
         function endOfLocalToday() {
@@ -1675,6 +1735,7 @@
                 await refreshBounties();
                 await refreshWrongAnswers();
                 await refreshTitleSkills();
+                await refreshStealPanel();
                 return true;
             } catch (e) {
                 updateSyncStatusUI(false, '同步团队数据失败');
@@ -1766,6 +1827,10 @@
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'skill_uses', filter: 'room_id=eq.' + roomId }, () => {
                     refreshTitleSkills();
                 })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'point_thefts', filter: 'room_id=eq.' + roomId }, () => {
+                    refreshStealPanel();
+                    refreshRoomData();
+                })
                 .subscribe((status) => {
                     if (status === 'SUBSCRIBED') updateSyncStatusUI(true);
                     else if (status === 'CHANNEL_ERROR') updateSyncStatusUI(false, '实时通道失败');
@@ -1775,6 +1840,8 @@
         }
 
         async function enterSession(isNewUser) {
+            window.__stealInboxReady = false;
+            try {
             const { data: userData, error: userErr } = await sb.auth.getUser();
             if (userErr || !userData || !userData.user) throw new Error(userErr ? userErr.message : '未获取到登录会话');
             const authUser = userData.user;
@@ -1835,9 +1902,15 @@
             loadNextAdaptiveQuestion();
             await refreshWrongAnswers();
             await refreshTitleSkills();
+            await refreshStealPanel();
             applyHelpCardState(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
             applyHelpCardState(HELP_LS_TITLE_SKILLS, 'titleSkillsHelpBody', 'titleSkillsHelpChevron');
+            applyHelpCardState(HELP_LS_STEAL, 'stealHelpBody', 'stealHelpChevron');
+            if (!isNewUser) await showStealInboxIfAny();
             showToast(isNewUser ? `欢迎加入，${member.name}！账号已保存到云端` : `欢迎回来，${member.name}！`, 'success');
+            } finally {
+                window.__stealInboxReady = true;
+            }
         }
 
         // -------------------- 1. 全局状态与基础常量 --------------------
@@ -1970,7 +2043,8 @@
             skillUses: [],
             skillEffects: [],
             skillStatus: null,
-            officialQuestion: null
+            officialQuestion: null,
+            stealStatus: null
         };
         window.appState = appState;
         window.getCloudStatus = () => ({ state: cloudSyncState, reason: cloudSyncReason, healthy: cloudSyncHealthy });
@@ -2635,6 +2709,173 @@
         window.joinTeamChallenge = joinTeamChallenge;
         window.notifyDailyGoalSkills = notifyDailyGoalSkills;
 
+        async function refreshStealPanel() {
+            const list = document.getElementById('stealTargetList');
+            const status = document.getElementById('stealStatusLine');
+            const badge = document.getElementById('stealProtectBadge');
+            if (!sb || !appState.currentUser || !appState.currentRoomId) {
+                appState.stealStatus = null;
+                if (badge) {
+                    badge.textContent = '未登录';
+                    badge.className = 'shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600';
+                }
+                if (status) status.textContent = '登录后查看今日可偷对象和剩余次数。';
+                if (list) list.innerHTML = '';
+                return null;
+            }
+            try {
+                const { data, error } = await sb.rpc('list_steal_targets', { p_room_id: appState.currentRoomId });
+                if (error) throw error;
+                appState.stealStatus = data;
+                renderStealPanel();
+                return data;
+            } catch (e) {
+                console.warn('加载偷积分列表失败:', e && e.message ? e.message : e);
+                if (status) status.textContent = '暂时无法加载偷积分信息。';
+                return null;
+            }
+        }
+
+        function renderStealPanel() {
+            const list = document.getElementById('stealTargetList');
+            const status = document.getElementById('stealStatusLine');
+            const badge = document.getElementById('stealProtectBadge');
+            const data = appState.stealStatus;
+            if (!data) return;
+            const protectedToday = !!data.protected_today;
+            if (badge) {
+                badge.textContent = protectedToday ? '今日已守护' : '今日未守护';
+                badge.className = 'shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold ' + (protectedToday ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800');
+            }
+            const left = data.attempts_left == null ? 0 : data.attempts_left;
+            const used = data.attempts_used || 0;
+            if (status) {
+                if (!protectedToday) {
+                    status.textContent = '你还没完成今日 20 分钟目标，不能偷积分。完成目标后当天会自动受守护。剩余次数：' + left + ' / 2。';
+                } else {
+                    status.textContent = '今日已完成 20 分钟目标，处于守护中。还可偷 ' + left + ' 次（已用 ' + used + ' 次）。';
+                }
+            }
+            if (!list) return;
+            const targets = data.targets || [];
+            if (!targets.length) {
+                list.innerHTML = '<div class="text-[11px] text-slate-500 p-3 rounded-2xl border border-slate-100 bg-slate-50">今天没有可偷的队友。</div>';
+                return;
+            }
+            const canSteal = protectedToday && left > 0;
+            list.innerHTML = targets.map(tg => {
+                const maxs = tg.max_stealable || 3;
+                const lost = tg.lost_today || 0;
+                const btn = canSteal
+                    ? `<button type="button" onclick="stealFrom('${tg.id}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-semibold cursor-pointer">偷 3 分</button>`
+                    : `<button type="button" disabled class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-500 text-[11px] font-semibold">不可偷</button>`;
+                return `<div class="p-3 rounded-2xl border border-slate-200 bg-white min-w-0 flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                        <div class="text-xs font-bold text-slate-900 truncate">${escapeHTML(tg.name || '队友')}</div>
+                        <p class="text-[11px] text-slate-500 mt-0.5">当前 ${tg.points || 0} 分 · 今日已被偷 ${lost} / 6 分${maxs < 3 ? ' · 最多再偷 ' + maxs + ' 分（避免掉段）' : ''}</p>
+                    </div>
+                    ${btn}
+                </div>`;
+            }).join('');
+        }
+
+        function showStealResult(res, isError) {
+            const box = document.getElementById('stealResultBox');
+            if (!box) return;
+            box.classList.remove('hidden', 'border-emerald-200', 'bg-emerald-50', 'text-emerald-900', 'border-rose-200', 'bg-rose-50', 'text-rose-900', 'border-amber-200', 'bg-amber-50', 'text-amber-900');
+            if (isError) {
+                box.classList.add('border-rose-200', 'bg-rose-50', 'text-rose-900');
+                box.textContent = res || '偷取失败';
+                return;
+            }
+            if (res && res.caught) {
+                box.classList.add('border-amber-200', 'bg-amber-50', 'text-amber-900');
+                box.textContent = res.feed_text || ('看门狗抓住了你！没有偷到积分，次数已用掉，并被扣 ' + (res.penalty || 2) + ' 分。');
+            } else {
+                box.classList.add('border-emerald-200', 'bg-emerald-50', 'text-emerald-900');
+                box.textContent = res.feed_text || ('成功偷到 ' + ((res && res.points_stolen) || 3) + ' 分。');
+            }
+        }
+
+        async function stealFrom(targetId) {
+            if (!sb || !appState.currentUser || !appState.currentRoomId) {
+                showToast('请先登录', 'warning');
+                return null;
+            }
+            const { data, error } = await sb.rpc('steal_points', {
+                p_room_id: appState.currentRoomId,
+                p_target_user_id: targetId
+            });
+            if (error) {
+                const msg = (error.message || '偷取失败').replace(/^.*error: /i, '');
+                showToast(msg, 'error');
+                showStealResult(msg, true);
+                return null;
+            }
+            if (data && data.caught) {
+                showToast(data.feed_text || '看门狗抓住了你！', 'warning');
+                if (appState.currentUser && data.penalty) {
+                    appState.currentUser.points = Math.max(0, (appState.currentUser.points || 0) - data.penalty);
+                }
+            } else {
+                showToast(data.feed_text || '偷取成功', 'success');
+                if (appState.currentUser && data && data.points_stolen) {
+                    appState.currentUser.points = (appState.currentUser.points || 0) + data.points_stolen;
+                }
+            }
+            showStealResult(data, false);
+            upsertMember(appState.currentUser);
+            syncCurrentUserToUI();
+            await refreshRoomData();
+            await refreshStealPanel();
+            renderLeaderboard();
+            renderComments();
+            return data;
+        }
+
+        window.closeStealInbox = function() {
+            const m = document.getElementById('stealInboxModal');
+            if (m) m.classList.add('hidden');
+        };
+
+        function renderStealInbox(events) {
+            const body = document.getElementById('stealInboxBody');
+            if (!body) return;
+            if (!events || !events.length) {
+                body.innerHTML = '<p>这段时间没有和你相关的偷积分事件。</p>';
+                return;
+            }
+            body.innerHTML = events.map(ev => {
+                if (ev.type === 'caught') {
+                    return `<div class="p-3 rounded-2xl border border-amber-200 bg-amber-50 text-amber-950">🐕 看门狗抓住了「${escapeHTML(ev.stealer_name || '有人')}」，对方没能偷走你的积分，还被扣了 ${ev.penalty || 2} 分。</div>`;
+                }
+                return `<div class="p-3 rounded-2xl border border-rose-200 bg-rose-50 text-rose-950">🤫 「${escapeHTML(ev.stealer_name || '有人')}」趁你不在，偷走了你的 ${ev.points || 0} 积分。</div>`;
+            }).join('');
+        }
+
+        async function showStealInboxIfAny() {
+            if (!sb || !appState.currentUser || !appState.currentRoomId) return null;
+            try {
+                const { data, error } = await sb.rpc('claim_steal_inbox', { p_room_id: appState.currentRoomId });
+                if (error) throw error;
+                if (data && data.has_events && (data.events || []).length) {
+                    renderStealInbox(data.events);
+                    const m = document.getElementById('stealInboxModal');
+                    if (m) m.classList.remove('hidden');
+                }
+                return data;
+            } catch (e) {
+                console.warn('加载「你不在的时候」失败:', e && e.message ? e.message : e);
+                return null;
+            }
+        }
+
+        window.refreshStealPanel = refreshStealPanel;
+        window.renderStealPanel = renderStealPanel;
+        window.stealFrom = stealFrom;
+        window.showStealInboxIfAny = showStealInboxIfAny;
+        window.renderStealInbox = renderStealInbox;
+
         function checkAndGrantDailyGoalBonus(user) {
             if (!user) return false;
             const todayStr = getTodayDateString();
@@ -2672,6 +2913,7 @@
                     if (data.challenge_completed) showToast('组队挑战成功，每人 +15 积分！', 'success');
                 }
                 await refreshTitleSkills();
+                await refreshStealPanel();
                 return data;
             } catch (e) {
                 console.warn('同步每日目标技能失败:', e && e.message ? e.message : e);
@@ -3894,6 +4136,7 @@
                 if (window.lucide) lucide.createIcons();
                 applyHelpCardState(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
                 applyHelpCardState(HELP_LS_TITLE_SKILLS, 'titleSkillsHelpBody', 'titleSkillsHelpChevron');
+                applyHelpCardState(HELP_LS_STEAL, 'stealHelpBody', 'stealHelpChevron');
                 loadLocalState();
                 initAuthHandlers();
                 initCommentHandlers();
