@@ -1,0 +1,2416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamLingua - 团队英文互助监督平台</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+    <!-- 引入 Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.85); opacity: 0.9; }
+            70% { transform: scale(1.4); opacity: 0; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        .pulse-dot::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 9999px;
+            background-color: #10B981;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes float-up {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-float-up {
+            animation: float-up 0.3s ease-out forwards;
+        }
+        @keyframes wave {
+            0%, 100% { height: 6px; }
+            50% { height: 22px; }
+        }
+        .sound-bar {
+            animation: wave 0.9s ease-in-out infinite;
+        }
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.right-3{right:0.75rem}.right-5{right:1.25rem}.top-0{top:0px}.top-1\/2{top:50%}.top-5{top:1.25rem}.z-30{z-index:30}.z-50{z-index:50}.z-\[100\]{z-index:100}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-auto{margin-top:auto;margin-bottom:auto}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.ml-1{margin-left:0.25rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-1\.5{margin-top:0.375rem}.mt-2\.5{margin-top:0.625rem}.mt-3{margin-top:0.75rem}.mt-5{margin-top:1.25rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-1\.5{height:0.375rem}.h-10{height:2.5rem}.h-11{height:2.75rem}.h-16{height:4rem}.h-2\.5{height:0.625rem}.h-3{height:0.75rem}.h-3\.5{height:0.875rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-7{height:1.75rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-\[calc\(100vh-7\.5rem\)\]{height:calc(100vh - 7.5rem)}.h-full{height:100%}.max-h-20{max-height:5rem}.max-h-52{max-height:13rem}.max-h-\[600px\]{max-height:600px}.max-h-\[780px\]{max-height:780px}.min-h-\[18px\]{min-height:18px}.min-h-\[540px\]{min-height:540px}.min-h-screen{min-height:100vh}.w-1\.5{width:0.375rem}.w-10{width:2.5rem}.w-11{width:2.75rem}.w-2\.5{width:0.625rem}.w-3{width:0.75rem}.w-3\.5{width:0.875rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-7{width:1.75rem}.w-8{width:2rem}.w-9{width:2.25rem}.w-\[1px\]{width:1px}.w-full{width:100%}.max-w-\[1440px\]{max-width:1440px}.max-w-\[80px\]{max-width:80px}.max-w-lg{max-width:32rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.-translate-y-1\/2{--tw-translate-y:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;user-select:none}.select-all{-webkit-user-select:all;user-select:all}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-0\.5{gap:0.125rem}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-b-3xl{border-bottom-right-radius:1.5rem;border-bottom-left-radius:1.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-amber-100{--tw-border-opacity:1;border-color:rgb(254 243 199 / var(--tw-border-opacity, 1))}.border-amber-200\/80{border-color:rgb(253 230 138 / 0.8)}.border-amber-200\/90{border-color:rgb(253 230 138 / 0.9)}.border-emerald-200{--tw-border-opacity:1;border-color:rgb(167 243 208 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-200\/70{border-color:rgb(226 232 240 / 0.7)}.border-slate-200\/80{border-color:rgb(226 232 240 / 0.8)}.border-slate-200\/90{border-color:rgb(226 232 240 / 0.9)}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.border-amber-200{--tw-border-opacity:1;border-color:rgb(253 230 138 / var(--tw-border-opacity, 1))}.bg-amber-100{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-amber-50\/80{background-color:rgb(255 251 235 / 0.8)}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-indigo-50{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-100\/90{background-color:rgb(241 245 249 / 0.9)}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-50\/70{background-color:rgb(248 250 252 / 0.7)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-900\/50{background-color:rgb(15 23 42 / 0.5)}.bg-slate-900\/60{background-color:rgb(15 23 42 / 0.6)}.bg-slate-900\/65{background-color:rgb(15 23 42 / 0.65)}.bg-violet-50{--tw-bg-opacity:1;background-color:rgb(245 243 255 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/95{background-color:rgb(255 255 255 / 0.95)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-amber-400{--tw-gradient-from:#fbbf24 var(--tw-gradient-from-position);--tw-gradient-to:rgb(251 191 36 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-amber-500{--tw-gradient-from:#f59e0b var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-500{--tw-gradient-from:#6366f1 var(--tw-gradient-from-position);--tw-gradient-to:rgb(99 102 241 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-600{--tw-gradient-from:#4f46e5 var(--tw-gradient-from-position);--tw-gradient-to:rgb(79 70 229 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-emerald-500{--tw-gradient-to:#10b981 var(--tw-gradient-to-position)}.to-orange-500{--tw-gradient-to:#f97316 var(--tw-gradient-to-position)}.to-violet-600{--tw-gradient-to:#7c3aed var(--tw-gradient-to-position)}.p-1{padding:0.25rem}.p-1\.5{padding:0.375rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-2{padding-bottom:0.5rem}.pl-2{padding-left:0.5rem}.pr-1{padding-right:0.25rem}.pr-2\.5{padding-right:0.625rem}.pt-1{padding-top:0.25rem}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.text-amber-50{--tw-text-opacity:1;color:rgb(255 251 235 / var(--tw-text-opacity, 1))}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-amber-600{--tw-text-opacity:1;color:rgb(217 119 6 / var(--tw-text-opacity, 1))}.text-amber-600\/80{color:rgb(217 119 6 / 0.8)}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-amber-900{--tw-text-opacity:1;color:rgb(120 53 15 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-indigo-700{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-violet-700{--tw-text-opacity:1;color:rgb(109 40 217 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-amber-700{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-90{opacity:0.9}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-indigo-200{--tw-shadow-color:#c7d2fe;--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-500{transition-duration:500ms}.selection\:bg-indigo-100 *::selection{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.selection\:text-indigo-700 *::selection{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.selection\:bg-indigo-100::selection{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.selection\:text-indigo-700::selection{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.placeholder\:text-slate-400::placeholder{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.hover\:bg-amber-100:hover{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.hover\:bg-amber-600:hover{--tw-bg-opacity:1;background-color:rgb(217 119 6 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-100:hover{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-50:hover{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200\/80:hover{background-color:rgb(226 232 240 / 0.8)}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-800:hover{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.hover\:bg-white:hover{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.hover\:text-amber-700:hover{--tw-text-opacity:1;color:rgb(180 83 9 / var(--tw-text-opacity, 1))}.hover\:text-indigo-600:hover{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.hover\:text-rose-600:hover{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.hover\:text-slate-600:hover{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.hover\:text-slate-900:hover{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.hover\:opacity-80:hover{opacity:0.8}.focus\:border-indigo-500:focus{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-amber-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(245 158 11 / var(--tw-ring-opacity, 1))}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}.active\:scale-\[0\.99\]:active{--tw-scale-x:0.99;--tw-scale-y:0.99;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:block{display:block}.sm\:inline{display:inline}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:gap-2\.5{gap:0.625rem}.sm\:p-8{padding:2rem}.sm\:px-0{padding-left:0px;padding-right:0px}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:text-lg{font-size:1.125rem;line-height:1.75rem}.sm\:text-sm{font-size:0.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\:inline{display:inline}.md\:inline-flex{display:inline-flex}}@media (min-width: 1024px){.lg\:col-span-3{grid-column:span 3 / span 3}.lg\:col-span-4{grid-column:span 4 / span 4}.lg\:col-span-5{grid-column:span 5 / span 5}.lg\:flex{display:flex}.lg\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}}@media (min-width: 1280px){.xl\:inline{display:inline}}</style></head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
+
+    <!-- 全局轻量提示框 (替代 alert) -->
+    <div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
+
+    <!-- 1. 极简账号注册 / 登录模态框 -->
+    <div id="loginModal" class="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200/80 max-w-md w-full p-6 sm:p-8 animate-float-up my-auto">
+            <!-- 顶部品牌与切换按钮 -->
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sparkles" aria-hidden="true" class="lucide lucide-sparkles w-5 h-5"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold tracking-tight text-slate-900">TeamLingua</h1>
+                        <p class="text-xs text-slate-500">团队英语听说读写监督空间</p>
+                    </div>
+                </div>
+                <button type="button" onclick="openShareModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="share-2" aria-hidden="true" class="lucide lucide-share-2 w-3.5 h-3.5"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg>
+                    <span>分享网址</span>
+                </button>
+            </div>
+
+            <!-- 登录 / 注册 Tab 切换 -->
+            <div class="grid grid-cols-2 p-1 bg-slate-100 rounded-2xl mb-5">
+                <button type="button" id="tabLoginBtn" onclick="switchAuthMode('login')" class="py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-indigo-600 shadow-sm transition">
+                    已有账号登录
+                </button>
+                <button type="button" id="tabRegisterBtn" onclick="switchAuthMode('register')" class="py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-600 hover:text-slate-900 transition">
+                    新用户极简注册
+                </button>
+            </div>
+
+            <form id="authForm" class="space-y-4">
+                <div>
+                    <label for="authUsernameInput" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                        用户名 <span class="text-xs font-normal text-slate-400" id="usernameHintLabel">(全队唯一标识)</span>
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="authUsernameInput" maxlength="18" autocomplete="username" placeholder="例如：Alex_NZ 或 英语冲刺手" class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-sm" required="">
+                        <div id="nameStatusBadge" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full"></div>
+                    </div>
+                    <p id="nameValidationMsg" class="mt-1.5 text-xs text-slate-500 min-h-[18px]">输入你的团队专属用户名。</p>
+                </div>
+
+                <div>
+                    <label for="authPasswordInput" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                        登录密码 <span class="text-xs font-normal text-slate-400">(6-20位字符)</span>
+                    </label>
+                    <input type="password" id="authPasswordInput" maxlength="20" autocomplete="current-password" placeholder="请输入密码" class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-sm" required="">
+                </div>
+
+                <div id="confirmPasswordWrapper" class="hidden">
+                    <label for="authConfirmPasswordInput" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                        确认密码
+                    </label>
+                    <input type="password" id="authConfirmPasswordInput" maxlength="20" autocomplete="new-password" placeholder="请再次输入密码确认" class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition text-sm">
+                </div>
+
+                <!-- 团队已注册成员快捷填充（仅填充用户名方便输入密码） -->
+                <div id="registeredMembersSection" class="hidden pt-1">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-semibold text-slate-500">团队已注册成员 (<span id="registeredCount">0</span>人)：</span>
+                        <span class="text-[11px] text-slate-400">点击快速填入用户名</span>
+                    </div>
+                    <div id="registeredMembersChips" class="flex flex-wrap gap-1.5 max-h-20 overflow-y-auto custom-scrollbar"></div>
+                </div>
+
+                <button type="submit" id="authSubmitBtn" class="w-full py-3.5 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-semibold shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2 text-sm cursor-pointer">
+                    <span id="authSubmitText">登录我的学习空间</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. 邀请朋友 / 分享链接弹窗（极简纯净版，双击标题可导出 index.html） -->
+    <div id="shareModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-6 animate-float-up">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" class="lucide lucide-users w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                    </div>
+                    <h3 id="shareModalTitle" title="团队分享链接" class="font-bold text-slate-900 select-none cursor-pointer">邀请朋友加入学习</h3>
+                </div>
+                <button type="button" onclick="closeShareModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- 连接状态栏 -->
+            <div class="flex items-center justify-between mb-3 px-1">
+                <span class="text-xs font-semibold text-slate-600">团队专属分享网址</span>
+                <span id="cloudSyncModalBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">⏳ 正在连接云端...</span>
+            </div>
+
+            <!-- 纯净固定网址复制框 -->
+            <div class="flex items-center gap-2">
+                <input type="text" id="shareLinkInput" readonly="" value="" class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono text-slate-800 focus:outline-none select-all">
+                <button type="button" onclick="copyShareLink()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="copy" aria-hidden="true" class="lucide lucide-copy w-3.5 h-3.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                    <span>复制链接</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 顶部监督仪表盘导航栏 -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80">
+        <div class="max-w-[1440px] mx-auto w-full min-w-0 px-2 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-3 overflow-hidden">
+            <!-- 左侧品牌 + 云端状态 -->
+            <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0 min-w-0">
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-sm shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="graduation-cap" aria-hidden="true" class="lucide lucide-graduation-cap w-5 h-5"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg>
+                </div>
+                <span class="font-display font-bold text-lg tracking-tight text-slate-900 hidden sm:inline">TeamLingua</span>
+                <span id="cloudSyncNavBadge" class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 正在连接云端</span>
+            </div>
+
+            <!-- 中间实时计时器 & 番茄钟 -->
+            <div class="flex items-center gap-1 sm:gap-2 bg-slate-100/90 px-1.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl border border-slate-200/70 shrink min-w-0">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="pulse-dot relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <div class="text-xs sm:text-sm font-semibold text-slate-700">
+                        <span class="hidden md:inline text-slate-500 font-normal">今日学习：</span>
+                        <span id="headerStudyTimer" class="font-mono text-indigo-600 font-bold">00:00</span>
+                    </div>
+                </div>
+                <div class="h-4 w-[1px] bg-slate-300 mx-0.5 sm:mx-1 shrink-0"></div>
+                <button id="pomodoroToggleBtn" onclick="togglePomodoro()" class="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 py-1 rounded-xl text-[11px] sm:text-xs font-semibold bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 border border-slate-200/80 shadow-xs transition cursor-pointer shrink-0" title="开启15分钟专注学习冲刺">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="timer" aria-hidden="true" class="lucide lucide-timer w-3.5 h-3.5 text-amber-500"><line x1="10" x2="14" y1="2" y2="2"></line><line x1="12" x2="15" y1="14" y2="11"></line><circle cx="12" cy="14" r="8"></circle></svg>
+                    <span id="pomodoroLabel">15m</span>
+                </button>
+            </div>
+
+            <!-- 右侧操作与用户状态 -->
+            <div class="flex items-center gap-1 sm:gap-2.5 shrink-0">
+                <button type="button" onclick="openPointsRulesModal()" class="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200/90 text-xs font-semibold transition shadow-2xs cursor-pointer shrink-0" title="查看积分获取规则与贵族头衔晋升表">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="crown" aria-hidden="true" class="lucide lucide-crown w-3.5 h-3.5 text-amber-600"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg>
+                    <span id="navPointsBadge" class="font-bold">0 积分</span>
+                    <span class="hidden xl:inline text-amber-600/80">| 规则</span>
+                </button>
+
+                <button type="button" onclick="openShareModal()" class="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition shadow-xs cursor-pointer shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-plus" aria-hidden="true" class="lucide lucide-user-plus w-3.5 h-3.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>
+                    <span class="hidden sm:inline">邀请朋友</span>
+                </button>
+
+                <button type="button" onclick="openFlagModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 lg:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 border border-slate-200/80 text-xs font-semibold transition cursor-pointer shrink-0" title="立今日 Flag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="flag" aria-hidden="true" class="lucide lucide-flag w-3.5 h-3.5 text-amber-600"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"></path></svg>
+                    <span class="hidden lg:inline">立今日 Flag</span>
+                </button>
+
+                <div id="userProfileChip" class="flex items-center gap-1 sm:gap-2 pl-1 sm:pl-2 pr-1 sm:pr-2.5 py-1 rounded-2xl bg-slate-100 border border-slate-200/80 shrink-0">
+                    <div id="navUserAvatar" class="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">?</div>
+                    <div class="hidden sm:block leading-tight">
+                        <div class="flex items-center gap-1">
+                            <span id="navUserName" class="text-xs font-bold text-slate-800 max-w-[80px] truncate">未登录</span>
+                            <span id="navUserTitleBadge" class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-slate-200 text-slate-700">🧑‍🌾 平民</span>
+                        </div>
+                        <div id="navUserLevel" class="text-[10px] font-medium text-indigo-600">Lv.1 入门 · 0分</div>
+                    </div>
+                    <button type="button" onclick="logoutUser()" title="退出当前账号" class="ml-1 p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-white transition cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="log-out" aria-hidden="true" class="lucide lucide-log-out w-3.5 h-3.5"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 4. 主体三栏响应式工作台 -->
+    <main class="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- 左侧栏：团队实时监督排行榜 (占 4 列) -->
+        <section class="lg:col-span-4 bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
+            <div class="p-5 border-b border-slate-100">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trophy" aria-hidden="true" class="lucide lucide-trophy w-4 h-4"><path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"></path><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"></path><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"></path><path d="M4 22h16"></path><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"></path></svg>
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-slate-900 text-base">团队学习监督榜</h2>
+                            <p class="text-xs text-slate-500">每日目标 <span class="font-semibold text-slate-700">20分钟</span> · 达标奖 <span class="font-semibold text-amber-600">+10积分</span></p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="manualRefreshCloud()" title="刷新数据状态" class="p-2 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="refresh-cw" aria-hidden="true" class="lucide lucide-refresh-cw w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+                    </button>
+                </div>
+
+                <!-- 排行榜排序切换 -->
+                <div class="grid grid-cols-4 gap-1 p-1 bg-slate-100 rounded-xl text-xs font-medium">
+                    <button type="button" onclick="setLeaderboardSort('points')" id="sortBtnPoints" class="py-1.5 rounded-lg bg-white text-indigo-600 font-semibold shadow-2xs transition cursor-pointer">积分头衔</button>
+                    <button type="button" onclick="setLeaderboardSort('minutes')" id="sortBtnMinutes" class="py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer">今日时长</button>
+                    <button type="button" onclick="setLeaderboardSort('level')" id="sortBtnLevel" class="py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer">能力等级</button>
+                    <button type="button" onclick="setLeaderboardSort('streak')" id="sortBtnStreak" class="py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer">连签天数</button>
+                </div>
+            </div>
+
+            <!-- 团队成员列表容器 -->
+            <div id="leaderboardList" class="p-4 space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar"><div class="text-center py-8 text-xs text-slate-400">暂无成员数据，快邀请朋友一起加入吧！</div></div>
+        </section>
+
+        <!-- 中间栏：听说读写四维自适应练习引擎 (占 5 列) -->
+        <section class="lg:col-span-5 flex flex-col gap-5">
+            <!-- 个人每日进度与能力等级卡片 -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Adaptive 4-Skills</span>
+                            <span id="myTitlePill" onclick="openPointsRulesModal()" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 cursor-pointer hover:opacity-80 transition" title="点击查看头衔晋升规则">🧑‍🌾 平民 · 0分</span>
+                        </div>
+                        <h2 class="text-lg font-bold text-slate-900 mt-1 flex items-center gap-2">
+                            <span>听说读写自适应训练</span>
+                            <span id="adaptiveLevelPill" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-600 text-white">Lv.1</span>
+                        </h2>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-slate-500">当前适应度</div>
+                        <div id="adaptiveStreakText" class="text-xs font-bold text-emerald-600 mt-0.5">连对 0/3 升阶</div>
+                        <button type="button" onclick="openPointsRulesModal()" class="text-[11px] text-amber-600 hover:text-amber-700 font-semibold mt-0.5 inline-flex items-center gap-0.5 cursor-pointer">
+                            <span>积分说明</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="help-circle" aria-hidden="true" class="lucide lucide-help-circle w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path><path d="M12 17h.01"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 听说读写四维技能筛选胶囊 -->
+                <div class="grid grid-cols-5 gap-1.5 p-1 bg-slate-100 rounded-2xl mb-4 text-xs font-semibold">
+                    <button type="button" onclick="setSkillFilter('all')" id="skillBtnAll" class="py-2 rounded-xl bg-white text-indigo-600 shadow-2xs transition cursor-pointer">综合轮换</button>
+                    <button type="button" onclick="setSkillFilter('listening')" id="skillBtnListening" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">🎧 听力</button>
+                    <button type="button" onclick="setSkillFilter('speaking')" id="skillBtnSpeaking" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">🗣️ 口语</button>
+                    <button type="button" onclick="setSkillFilter('reading')" id="skillBtnReading" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">📖 阅读</button>
+                    <button type="button" onclick="setSkillFilter('writing')" id="skillBtnWriting" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">✍️ 写作</button>
+                </div>
+
+                <!-- 每日 20 分钟打卡目标进度条 -->
+                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
+                    <div class="flex justify-between items-center text-xs mb-1.5">
+                        <span class="font-semibold text-slate-700">今日达标进度 (<span id="myTodayMinutesText">0</span> / 20 分钟 · <span class="text-amber-600">满20m奖+10分</span>)</span>
+                        <span id="myGoalStatusText" class="font-bold text-indigo-600">0%</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                        <div id="myGoalProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="flex items-center justify-between mt-2.5 text-[11px] text-slate-500">
+                        <span>累计积分：<strong id="myTotalPointsText" class="text-amber-600">0</strong> 分</span>
+                        <span>今日已练：<strong id="mySolvedCount" class="text-slate-800">0</strong> 题</span>
+                        <span>正确率：<strong id="myAccuracyRate" class="text-slate-800">--</strong></span>
+                        <span>连签：<strong id="myStreakDays" class="text-amber-600">1 天</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 互动练习卡片 -->
+            <div id="quizCard" class="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs relative overflow-hidden">
+                <div class="flex items-center justify-between gap-2 mb-4">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="questionCategoryTag" class="px-2.5 py-1 rounded-lg bg-violet-50 text-violet-700 text-xs font-semibold">📖 Reading</span>
+                        <span id="questionDiffTag" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium">Difficulty Lv.1</span>
+                    </div>
+                    <button type="button" id="aiGenerateBtn" onclick="generateNewQuestionWithAI(true)" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition cursor-pointer shrink-0" title="Generate a fresh question at your current level">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sparkles" aria-hidden="true" class="lucide lucide-sparkles w-3.5 h-3.5"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+                        <span id="aiGenerateBtnText">AI New Question</span>
+                    </button>
+                </div>
+
+                <!-- 题干与情境文本 -->
+                <div class="mb-5">
+                    <p id="questionContextText" class="hidden text-sm text-slate-700 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/70 mb-3 leading-relaxed"></p>
+                    <h3 id="questionPromptText" class="text-base sm:text-lg font-bold text-slate-900 leading-snug">Loading question...</h3>
+                </div>
+
+                <!-- 专属互动区域：听力播放器 / 口语麦克风跟读 / 选择题选项 / 写作输入框 -->
+                <div id="exerciseInteractiveArea" class="space-y-3"></div>
+
+                <!-- 提交与解析反馈区 -->
+                <div id="feedbackBox" class="hidden mt-5 p-4 rounded-2xl border text-sm animate-float-up">
+                    <div class="flex items-start gap-2.5">
+                        <div id="feedbackIcon" class="mt-0.5 shrink-0"></div>
+                        <div class="flex-1">
+                            <h4 id="feedbackTitle" class="font-bold mb-1"></h4>
+                            <p id="feedbackExplanation" class="text-xs sm:text-sm leading-relaxed opacity-90"></p>
+                            <div class="mt-3 flex flex-wrap items-center gap-2">
+                                <button type="button" onclick="loadNextAdaptiveQuestion()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                                    <span>Next Question</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-3.5 h-3.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                                </button>
+                                <button type="button" onclick="shareQuestionInsight()" class="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-medium transition flex items-center gap-1.5 cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="share-2" aria-hidden="true" class="lucide lucide-share-2 w-3.5 h-3.5 text-indigo-600"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg>
+                                    <span>Share Note to Feed</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧栏：轻量团队打卡评论区 & 互助监督墙 (占 3 列) -->
+        <section class="lg:col-span-3 bg-white rounded-3xl border border-slate-200/90 shadow-xs flex flex-col h-[calc(100vh-7.5rem)] min-h-[540px] max-h-[780px]">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-square-heart" aria-hidden="true" class="lucide lucide-message-square-heart w-4 h-4"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path><path d="M7.5 9.5c0 .687.265 1.383.697 1.844l3.009 3.264a1.14 1.14 0 0 0 .407.314 1 1 0 0 0 .783-.004 1.14 1.14 0 0 0 .398-.31l3.008-3.264A2.77 2.77 0 0 0 16.5 9.5 2.5 2.5 0 0 0 12 8a2.5 2.5 0 0 0-4.5 1.5"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-slate-900 text-sm">团队打卡与监督墙</h2>
+                        <p class="text-[11px] text-slate-500">笔记互评 · 监督提醒 · 实时同步</p>
+                    </div>
+                </div>
+                <span id="commentCountBadge" class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">0</span>
+            </div>
+
+            <!-- 评论动态流 -->
+            <div id="commentFeedList" class="flex-1 p-4 space-y-3 overflow-y-auto custom-scrollbar">
+                    <div class="text-center py-10 px-3">
+                        <p class="text-xs font-semibold text-slate-600">动态墙还是空的</p>
+                        <p class="text-[11px] text-slate-400 mt-1">发送第一条打卡动态，开启团队互相监督！</p>
+                    </div>
+                </div>
+
+            <!-- 快捷打卡短语 + 输入框 -->
+            <div class="p-3.5 border-t border-slate-100 bg-slate-50/70 rounded-b-3xl">
+                <div class="flex gap-1.5 overflow-x-auto pb-2 mb-1.5 custom-scrollbar">
+                    <button type="button" onclick="quickSendComment('打卡完成！听说读写各练了一组 💪')" class="shrink-0 px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-[11px] font-medium text-slate-600 hover:text-indigo-600 border border-slate-200/80 transition cursor-pointer">💪 全能打卡</button>
+                    <button type="button" onclick="quickSendComment('今日听力已达标，求队友互相监督！🎧')" class="shrink-0 px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-[11px] font-medium text-slate-600 hover:text-indigo-600 border border-slate-200/80 transition cursor-pointer">🎧 听力过关</button>
+                    <button type="button" onclick="quickSendComment('今天谁还没开始练？快上线卷起来 🔥')" class="shrink-0 px-2.5 py-1 rounded-lg bg-white hover:bg-indigo-50 text-[11px] font-medium text-slate-600 hover:text-indigo-600 border border-slate-200/80 transition cursor-pointer">🔥 督促全队</button>
+                </div>
+                <form id="commentForm" class="flex items-center gap-2">
+                    <input type="text" id="commentInput" maxlength="160" placeholder="发一条打卡动态或学习笔记..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" required="">
+                    <button type="submit" class="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs transition shrink-0 cursor-pointer" title="发送">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="send" aria-hidden="true" class="lucide lucide-send w-4 h-4"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 5. 每日立 Flag 弹窗 -->
+    <div id="flagModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 max-w-sm w-full p-6 animate-float-up">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="flag" aria-hidden="true" class="lucide lucide-flag w-4 h-4"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"></path></svg>
+                    </span>
+                    <h3 class="font-bold text-slate-900">立下今日学习 Flag</h3>
+                </div>
+                <button type="button" onclick="closeFlagModal()" class="text-slate-400 hover:text-slate-600 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                </button>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">公开展示在你的团队排行榜卡片上，接受全队监督！</p>
+            <input type="text" id="flagInput" maxlength="36" placeholder="例如：今天听说读写各通关2题，不达标不睡" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-500">
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeFlagModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer">取消</button>
+                <button type="button" onclick="saveUserFlag()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white shadow-xs cursor-pointer">发布 Flag</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. 积分与贵族头衔系统说明弹窗 -->
+    <div id="pointsRulesModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 animate-float-up my-auto">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="crown" aria-hidden="true" class="lucide lucide-crown w-5 h-5"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">团队积分与王国头衔体系</h3>
+                        <p class="text-xs text-slate-500">积跬步以至千里 · 争夺全队唯一国王宝座</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closePointsRulesModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- 积分获取规则卡片 -->
+            <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 mb-4 space-y-2">
+                <div class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins w-4 h-4 text-amber-600"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg>
+                    <span>如何获取学习积分？</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                    <div class="bg-white rounded-xl p-3 border border-amber-100">
+                        <div class="text-xs font-bold text-slate-800">✅ 答题正确奖励</div>
+                        <div class="text-lg font-extrabold text-emerald-600 mt-0.5">+1 积分 / 题</div>
+                        <p class="text-[11px] text-slate-500 mt-0.5">听说读写任意练习回答正确即刻到账</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-amber-100">
+                        <div class="text-xs font-bold text-slate-800">🎯 每日任务达标</div>
+                        <div class="text-lg font-extrabold text-amber-600 mt-0.5">+10 积分 / 天</div>
+                        <p class="text-[11px] text-slate-500 mt-0.5">每日累计学习满 20 分钟自动额外奖励</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 唯一国王规则提示 -->
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl p-3.5 mb-4 shadow-sm">
+                <div class="flex items-center gap-2 font-bold text-xs sm:text-sm">
+                    <span>👑 「唯一国王」至高规则：</span>
+                </div>
+                <p class="text-xs text-amber-50 mt-1 leading-relaxed">
+                    积分达到 <strong>10,000 分</strong> 即可获得加冕资格！全队<strong>有且仅有 1 位国王</strong>——在所有突破 10,000 分的成员中，<strong>总积分最高者</strong>加冕为<strong>「👑 国王」</strong>，其余超过 10,000 分的强者暂居<strong>「⚜️ 亲王」</strong>（积分被超越时王位将实时易主！）。
+                </p>
+            </div>
+
+            <!-- 头衔晋升阶梯表 -->
+            <div>
+                <div class="text-xs font-bold text-slate-700 mb-2">头衔晋升阶梯（由低到高）：</div>
+                <div id="titleLadderGrid" class="grid grid-cols-2 gap-2 max-h-52 overflow-y-auto custom-scrollbar pr-1">
+                    <!-- 动态渲染 -->
+                </div>
+            </div>
+
+            <div class="mt-5 flex justify-end">
+                <button type="button" onclick="closePointsRulesModal()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition cursor-pointer">
+                    我知道了，去赚积分！
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // -------------------- 0. 跨设备免配置实时云端同步引擎 --------------------
+        const urlParams = new URLSearchParams(window.location.search);
+        const ROOM_ID = (urlParams.get('room') || 'team-main').trim().replace(/[^a-zA-Z0-9_-]/g, '') || 'team-main';
+
+        const SUPABASE_URL = 'https://abcwiryhsqenehhrvojs.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_2AsdeQ-AiXXTCmBOIm8XMA_7X8THyv8';
+        if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+            console.error('未能加载 supabase-js');
+        }
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        });
+        window.sb = sb;
+        const SYNTHETIC_EMAIL_DOMAIN = 'teamlingua.local';
+
+        async function usernameToEmail(name) {
+            const key = String(name || '').trim().toLowerCase();
+            const enc = new TextEncoder().encode('tl_email_v1_' + key);
+            const buf = await window.crypto.subtle.digest('SHA-256', enc);
+            const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+            return `u${hex}@${SYNTHETIC_EMAIL_DOMAIN}`;
+        }
+
+        function colorForName(name) {
+            const palette = (typeof AVATAR_COLORS !== 'undefined' && AVATAR_COLORS.length)
+                ? AVATAR_COLORS
+                : ['bg-indigo-600', 'bg-violet-600', 'bg-sky-600', 'bg-emerald-600', 'bg-amber-600', 'bg-rose-600'];
+            let h = 0;
+            const s = String(name || '');
+            for (let i = 0; i < s.length; i++) h = ((h << 5) - h) + s.charCodeAt(i);
+            return palette[Math.abs(h) % palette.length];
+        }
+
+        function profileToMember(p) {
+            if (!p) return null;
+            return {
+                id: p.id,
+                name: p.username,
+                color: p.avatar || 'bg-indigo-600',
+                points: p.points || 0,
+                level: p.level || 1,
+                streak: p.streak || 1,
+                lastActiveDate: p.last_active_date,
+                todayMinutes: Number(p.today_minutes) || 0,
+                todayDate: p.today_date,
+                solvedCount: p.questions_done || 0,
+                correctCount: p.correct_count || 0,
+                consecutiveCorrect: p.combo || 0,
+                flag: p.flag || '',
+                flagDate: p.flag_date,
+                dailyBonusAwardedDate: p.daily_bonus_awarded_date,
+                updatedAt: p.updated_at ? new Date(p.updated_at).getTime() : Date.now()
+            };
+        }
+
+        function memberToProfilePatch(u) {
+            return {
+                points: u.points || 0,
+                level: u.level || 1,
+                streak: u.streak || 1,
+                last_active_date: u.lastActiveDate || null,
+                today_minutes: u.todayMinutes || 0,
+                today_date: u.todayDate || u.lastActiveDate || null,
+                questions_done: u.solvedCount || 0,
+                correct_count: u.correctCount || 0,
+                combo: u.consecutiveCorrect || 0,
+                flag: u.flag || null,
+                flag_date: u.flagDate || null,
+                daily_bonus_awarded_date: u.dailyBonusAwardedDate || null,
+                avatar: u.color || 'bg-indigo-600',
+                display_name: u.name || null
+            };
+        }
+
+        function getDateStringFromOffset(daysOffset) {
+            const d = new Date();
+            d.setDate(d.getDate() + daysOffset);
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function applyDailyLoginReset(user) {
+            if (!user) return;
+            const todayStr = getTodayDateString();
+            if (user.lastActiveDate === todayStr) return;
+            const yesterdayStr = getDateStringFromOffset(-1);
+            if (user.lastActiveDate === yesterdayStr) {
+                user.streak = (user.streak || 0) + 1;
+            } else {
+                user.streak = 1;
+            }
+            user.todayMinutes = 0;
+            user.solvedCount = 0;
+            user.correctCount = 0;
+            user.lastActiveDate = todayStr;
+        }
+
+        function getPublicAppUrl() {
+            try {
+                const proto = location.protocol || '';
+                if (proto === 'http:' || proto === 'https:') {
+                    if (location.origin && location.origin !== 'null') {
+                        return location.origin + (location.pathname || '/');
+                    }
+                }
+            } catch (_) {}
+            return '';
+        }
+
+        function getAuthRedirectTo() {
+            // Never hardcode localhost. Use the current origin so confirmation
+            // links work after the page is deployed to any https host (e.g. Netlify).
+            return getPublicAppUrl() || undefined;
+        }
+
+        function getShareUrl() {
+            try {
+                const roomParam = (urlParams && urlParams.get('room')) ? urlParams.get('room').trim() : '';
+                if (location.protocol === 'file:' || !location.origin || location.origin === 'null') {
+                    return location.href || '';
+                }
+                const base = getPublicAppUrl() || (location.origin + (location.pathname || '/'));
+                return roomParam ? `${base}?room=${encodeURIComponent(roomParam)}` : base;
+            } catch (_) {
+                return '';
+            }
+        }
+
+        let cloudSyncHealthy = false;
+        let isSyncingToCloud = false;
+        let pendingSyncAfterCurrent = false;
+        let dynamicQuestionBank = [];
+        let isGeneratingQuestion = false;
+
+        // 本地存储兜底读写工具
+        function getLocalStoreKey(suffix) {
+            return `teamlingua_v4_${ROOM_ID}_${suffix}`;
+        }
+
+        function saveLocalState() {
+            try {
+                localStorage.setItem(getLocalStoreKey('members'), JSON.stringify(appState.teamMembers));
+                localStorage.setItem(getLocalStoreKey('comments'), JSON.stringify(appState.comments));
+                localStorage.setItem(getLocalStoreKey('questions'), JSON.stringify(dynamicQuestionBank));
+            } catch (_) {}
+        }
+
+        function loadLocalState() {
+            try {
+                const m = localStorage.getItem(getLocalStoreKey('members'));
+                const c = localStorage.getItem(getLocalStoreKey('comments'));
+                const q = localStorage.getItem(getLocalStoreKey('questions'));
+                if (m) appState.teamMembers = JSON.parse(m) || [];
+                if (c) appState.comments = JSON.parse(c) || [];
+                if (q) dynamicQuestionBank = JSON.parse(q) || [];
+            } catch (_) {}
+        }
+
+        function updateSyncStatusUI(isOnline) {
+            cloudSyncHealthy = !!isOnline;
+            const navBadge = document.getElementById('cloudSyncNavBadge');
+            const modalBadge = document.getElementById('cloudSyncModalBadge');
+            if (navBadge) {
+                navBadge.className = isOnline
+                    ? 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium'
+                    : 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium';
+                navBadge.innerHTML = isOnline
+                    ? '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 云端已连接'
+                    : '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> 云端离线';
+            }
+            if (modalBadge) {
+                modalBadge.className = isOnline
+                    ? 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200'
+                    : 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200';
+                modalBadge.textContent = isOnline ? '✅ 云端已连接' : '⚠️ 云端离线';
+            }
+        }
+
+        function upsertMember(member) {
+            if (!member || !member.id) return;
+            const idx = appState.teamMembers.findIndex(m => m.id === member.id);
+            if (idx >= 0) appState.teamMembers[idx] = { ...appState.teamMembers[idx], ...member };
+            else appState.teamMembers.push(member);
+            if (appState.currentUser && appState.currentUser.id === member.id) {
+                const keepMins = appState.currentUser.todayMinutes;
+                appState.currentUser = { ...appState.currentUser, ...member };
+                if (typeof keepMins === 'number' && keepMins > (member.todayMinutes || 0)) {
+                    appState.currentUser.todayMinutes = keepMins;
+                }
+            }
+        }
+
+        async function persistProfile() {
+            const u = appState.currentUser;
+            if (!u || !u.id) return false;
+            try {
+                const { error } = await sb.from('profiles').update(memberToProfilePatch(u)).eq('id', u.id);
+                if (error) throw error;
+                updateSyncStatusUI(true);
+                saveLocalState();
+                return true;
+            } catch (e) {
+                updateSyncStatusUI(false);
+                showToast('保存进度失败：' + (e.message || e), 'error');
+                return false;
+            }
+        }
+
+        async function syncCurrentUserToCloud() {
+            return persistProfile();
+        }
+
+        async function ensureRoomAndJoin() {
+            const { data: userData, error: userErr } = await sb.auth.getUser();
+            if (userErr || !userData || !userData.user) throw new Error('未登录');
+            const userId = userData.user.id;
+            let room = null;
+            const found = await sb.from('rooms').select('id, slug, name').eq('slug', ROOM_ID).maybeSingle();
+            if (found.error) throw found.error;
+            room = found.data;
+            if (!room) {
+                const created = await sb.from('rooms').insert({ slug: ROOM_ID, name: ROOM_ID, created_by: userId }).select('id, slug, name').single();
+                if (created.error) {
+                    const again = await sb.from('rooms').select('id, slug, name').eq('slug', ROOM_ID).maybeSingle();
+                    if (again.error || !again.data) throw created.error;
+                    room = again.data;
+                } else {
+                    room = created.data;
+                }
+            }
+            appState.currentRoomId = room.id;
+            const existingMem = await sb.from('room_members').select('user_id').eq('room_id', room.id).eq('user_id', userId).maybeSingle();
+            if (existingMem.error) throw existingMem.error;
+            if (!existingMem.data) {
+                const joined = await sb.from('room_members').insert({ room_id: room.id, user_id: userId });
+                if (joined.error && joined.error.code !== '23505' && !/duplicate|already exists|conflict/i.test(String(joined.error.message || joined.error.code || ''))) {
+                    throw joined.error;
+                }
+            }
+            return room;
+        }
+
+        async function refreshRoomData() {
+            if (!appState.currentRoomId) return false;
+            try {
+                const roomId = appState.currentRoomId;
+                const membersRes = await sb.from('room_members').select('user_id').eq('room_id', roomId);
+                if (membersRes.error) throw membersRes.error;
+                const userIds = (membersRes.data || []).map(r => r.user_id);
+                let profiles = [];
+                if (userIds.length) {
+                    const profRes = await sb.from('profiles').select('*').in('id', userIds);
+                    if (profRes.error) throw profRes.error;
+                    profiles = profRes.data || [];
+                }
+                appState.teamMembers = profiles.map(profileToMember).filter(Boolean);
+
+                if (appState.currentUser && appState.currentUser.id) {
+                    const mine = appState.teamMembers.find(m => m.id === appState.currentUser.id);
+                    if (mine) {
+                        const localMins = appState.currentUser.todayMinutes || 0;
+                        appState.currentUser = { ...appState.currentUser, ...mine, todayMinutes: Math.max(localMins, mine.todayMinutes || 0) };
+                    }
+                }
+
+                const comRes = await sb.from('comments').select('id, room_id, author_id, content, type, created_at').eq('room_id', roomId).order('created_at', { ascending: false }).limit(80);
+                if (comRes.error) throw comRes.error;
+                const comments = comRes.data || [];
+                const commentIds = comments.map(c => c.id);
+                let likes = [];
+                if (commentIds.length) {
+                    const likeRes = await sb.from('comment_likes').select('comment_id, user_id').in('comment_id', commentIds);
+                    if (likeRes.error) throw likeRes.error;
+                    likes = likeRes.data || [];
+                }
+                const likesByComment = new Map();
+                likes.forEach(l => {
+                    if (!likesByComment.has(l.comment_id)) likesByComment.set(l.comment_id, []);
+                    likesByComment.get(l.comment_id).push(l.user_id);
+                });
+                const profileById = new Map(profiles.map(p => [p.id, p]));
+                appState.comments = comments.map(c => {
+                    const author = profileById.get(c.author_id);
+                    const likedBy = likesByComment.get(c.id) || [];
+                    return {
+                        id: c.id,
+                        authorId: c.author_id,
+                        author: author ? author.username : '成员',
+                        color: author ? (author.avatar || 'bg-indigo-600') : 'bg-indigo-600',
+                        content: c.content,
+                        type: c.type || 'chat',
+                        likes: likedBy.length,
+                        likedBy,
+                        createdAt: c.created_at ? new Date(c.created_at).getTime() : Date.now()
+                    };
+                });
+
+                const qRes = await sb.from('questions').select('id, payload, created_at').eq('room_id', roomId).order('created_at', { ascending: false }).limit(60);
+                if (!qRes.error && Array.isArray(qRes.data)) {
+                    const incoming = qRes.data.map(row => row.payload).filter(q => q && q.id);
+                    const qMap = new Map();
+                    [...incoming.reverse(), ...dynamicQuestionBank].forEach(q => { if (q && q.id) qMap.set(q.id, q); });
+                    dynamicQuestionBank = Array.from(qMap.values()).slice(-60);
+                }
+
+                saveLocalState();
+                renderRegisteredMemberChips();
+                renderLeaderboard();
+                renderComments();
+                if (appState.currentUser) syncCurrentUserToUI();
+                updateSyncStatusUI(true);
+                return true;
+            } catch (e) {
+                updateSyncStatusUI(false);
+                showToast('同步团队数据失败：' + (e.message || e), 'error');
+                return false;
+            }
+        }
+
+        async function pullLatestFromCloud() {
+            return refreshRoomData();
+        }
+
+        function stopRealtime() {
+            if (appState.realtimeChannel) {
+                try { sb.removeChannel(appState.realtimeChannel); } catch (_) {}
+                appState.realtimeChannel = null;
+            }
+        }
+
+        function startRealtime() {
+            stopRealtime();
+            const roomId = appState.currentRoomId;
+            if (!roomId) return;
+            const channel = sb.channel('room:' + roomId)
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, (payload) => {
+                    const row = payload.new || payload.old;
+                    if (!row || !row.id) return;
+                    if (payload.eventType === 'DELETE') {
+                        appState.teamMembers = appState.teamMembers.filter(m => m.id !== row.id);
+                    } else if (payload.new) {
+                        upsertMember(profileToMember(payload.new));
+                    }
+                    renderLeaderboard();
+                    renderRegisteredMemberChips();
+                    if (appState.currentUser) syncCurrentUserToUI();
+                })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'comments', filter: 'room_id=eq.' + roomId }, (payload) => {
+                    if (payload.eventType === 'DELETE' && payload.old && payload.old.id) {
+                        appState.comments = appState.comments.filter(c => c.id !== payload.old.id);
+                        renderComments();
+                        return;
+                    }
+                    const row = payload.new;
+                    if (!row) return;
+                    const author = appState.teamMembers.find(m => m.id === row.author_id);
+                    const existing = appState.comments.find(c => c.id === row.id);
+                    const mapped = {
+                        id: row.id,
+                        authorId: row.author_id,
+                        author: author ? author.name : (existing ? existing.author : '成员'),
+                        color: author ? author.color : (existing ? existing.color : 'bg-indigo-600'),
+                        content: row.content,
+                        type: row.type || 'chat',
+                        likes: existing ? existing.likes : 0,
+                        likedBy: existing ? existing.likedBy : [],
+                        createdAt: row.created_at ? new Date(row.created_at).getTime() : Date.now()
+                    };
+                    if (existing) {
+                        Object.assign(existing, mapped);
+                    } else {
+                        appState.comments.unshift(mapped);
+                        appState.comments = appState.comments.slice(0, 80);
+                    }
+                    renderComments();
+                })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'comment_likes' }, (payload) => {
+                    const row = payload.new || payload.old;
+                    if (!row || !row.comment_id) return;
+                    const target = appState.comments.find(c => c.id === row.comment_id);
+                    if (!target) return;
+                    if (!Array.isArray(target.likedBy)) target.likedBy = [];
+                    if (payload.eventType === 'DELETE') {
+                        target.likedBy = target.likedBy.filter(id => id !== row.user_id);
+                    } else if (row.user_id && !target.likedBy.includes(row.user_id)) {
+                        target.likedBy.push(row.user_id);
+                    }
+                    target.likes = target.likedBy.length;
+                    renderComments();
+                })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'room_members', filter: 'room_id=eq.' + roomId }, () => {
+                    refreshRoomData();
+                })
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') updateSyncStatusUI(true);
+                    else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') updateSyncStatusUI(false);
+                });
+            appState.realtimeChannel = channel;
+        }
+
+        async function enterSession(isNewUser) {
+            const { data: userData, error: userErr } = await sb.auth.getUser();
+            if (userErr || !userData || !userData.user) throw new Error(userErr ? userErr.message : '未获取到登录会话');
+            const authUser = userData.user;
+            await ensureRoomAndJoin();
+
+            const profRes = await sb.from('profiles').select('*').eq('id', authUser.id).maybeSingle();
+            if (profRes.error) throw profRes.error;
+            let profile = profRes.data;
+            if (!profile) {
+                const uname = (authUser.user_metadata && authUser.user_metadata.username) || ('user_' + authUser.id.slice(0, 6));
+                const inserted = await sb.from('profiles').insert({
+                    id: authUser.id,
+                    username: uname,
+                    display_name: uname,
+                    avatar: colorForName(uname),
+                    last_active_date: getTodayDateString(),
+                    today_date: getTodayDateString()
+                }).select('*').single();
+                if (inserted.error) throw inserted.error;
+                profile = inserted.data;
+            }
+
+            const member = profileToMember(profile);
+            applyDailyLoginReset(member);
+            member.todayDate = member.lastActiveDate;
+            appState.currentUser = member;
+            upsertMember(member);
+            await persistProfile();
+            await refreshRoomData();
+            startRealtime();
+
+            document.getElementById('loginModal').classList.add('hidden');
+            syncCurrentUserToUI();
+            renderLeaderboard();
+            renderRegisteredMemberChips();
+            loadNextAdaptiveQuestion();
+            showToast(isNewUser ? `欢迎加入，${member.name}！账号已保存到云端` : `欢迎回来，${member.name}！`, 'success');
+        }
+
+        // -------------------- 1. 全局状态与基础常量 --------------------
+        // 分享链接改为当前页面地址（见 getShareUrl），不再写死第三方部署域名。
+        const DAILY_GOAL_MINUTES = 20;
+        const AVATAR_COLORS = [
+            'bg-indigo-600', 'bg-violet-600', 'bg-emerald-600', 'bg-sky-600',
+            'bg-amber-600', 'bg-rose-600', 'bg-teal-600', 'bg-fuchsia-600'
+        ];
+        const LEVEL_LABELS = {
+            1: 'Lv.1 入门',
+            2: 'Lv.2 进阶',
+            3: 'Lv.3 熟练',
+            4: 'Lv.4 高阶',
+            5: 'Lv.5 精通'
+        };
+        const SKILL_ORDER = ['listening', 'speaking', 'reading', 'writing'];
+
+        const NOBLE_TITLES = [
+            { id: 'king', name: '国王', icon: '👑', minPoints: 10000, desc: '≥10,000 分且全队唯一最高分', badgeClass: 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-2xs' },
+            { id: 'prince', name: '亲王', icon: '⚜️', minPoints: 6000, desc: '6,000 分及以上（或超万分非第一名）', badgeClass: 'bg-purple-100 text-purple-800 border border-purple-200' },
+            { id: 'duke', name: '公爵', icon: '🦁', minPoints: 3500, desc: '3,500 - 5,999 分', badgeClass: 'bg-rose-100 text-rose-800 border border-rose-200' },
+            { id: 'marquess', name: '侯爵', icon: '🦅', minPoints: 2000, desc: '2,000 - 3,499 分', badgeClass: 'bg-indigo-100 text-indigo-800 border border-indigo-200' },
+            { id: 'earl', name: '伯爵', icon: '🛡️', minPoints: 1000, desc: '1,000 - 1,999 分', badgeClass: 'bg-sky-100 text-sky-800 border border-sky-200' },
+            { id: 'viscount', name: '子爵', icon: '⚔️', minPoints: 500, desc: '500 - 999 分', badgeClass: 'bg-teal-100 text-teal-800 border border-teal-200' },
+            { id: 'baron', name: '男爵', icon: '🎖️', minPoints: 200, desc: '200 - 499 分', badgeClass: 'bg-emerald-100 text-emerald-800 border border-emerald-200' },
+            { id: 'royal_knight', name: '皇家骑士', icon: '🐎', minPoints: 80, desc: '80 - 199 分', badgeClass: 'bg-amber-100 text-amber-800 border border-amber-200' },
+            { id: 'knight', name: '见习骑士', icon: '🗡️', minPoints: 20, desc: '20 - 79 分', badgeClass: 'bg-blue-50 text-blue-700 border border-blue-200' },
+            { id: 'commoner', name: '平民', icon: '🧑‍🌾', minPoints: 0, desc: '0 - 19 分（初始头衔）', badgeClass: 'bg-slate-200 text-slate-700' }
+        ];
+
+        const BUILTIN_QUESTION_BANK = [
+            {
+                id: 'b_l_1', skill: 'listening', level: 1, category: '🎧 Daily Listening',
+                audioText: 'Excuse me, could you tell me where the nearest subway station is? Go straight down this street and turn left at the traffic lights.',
+                prompt: 'Listen to the conversation and choose the correct direction to the subway station.',
+                options: [
+                    'Go straight and turn left at the traffic lights.',
+                    'Turn right immediately after the bank.',
+                    'Take a bus across the river bridge.',
+                    'Walk back two blocks to the supermarket.'
+                ],
+                answerIndex: 0,
+                explanation: 'The speaker clearly says: "Go straight down this street and turn left at the traffic lights."'
+            },
+            {
+                id: 'b_s_1', skill: 'speaking', level: 1, category: '🗣️ Daily Speaking',
+                targetSpeech: 'Could we reschedule our project meeting to tomorrow afternoon?',
+                prompt: 'Read the following sentence aloud clearly and naturally.',
+                explanation: 'Pay attention to the rising intonation at the end of a polite yes/no request.'
+            },
+            {
+                id: 'b_r_1', skill: 'reading', level: 1, category: '📖 Workplace Reading',
+                context: 'Notice: The office pantry will be closed this Friday from 2:00 PM to 4:00 PM for routine water filter maintenance. Please prepare drinking water in advance.',
+                prompt: 'Why will the office pantry be closed on Friday afternoon?',
+                options: [
+                    'For routine water filter maintenance.',
+                    'For a private team birthday party.',
+                    'Because the building power is shut off.',
+                    'To install new coffee vending machines.'
+                ],
+                answerIndex: 0,
+                explanation: 'The notice states it is closed "for routine water filter maintenance."'
+            },
+            {
+                id: 'b_w_1', skill: 'writing', level: 1, category: '✍️ Practical Writing',
+                prompt: 'Write a short English sentence thanking your teammate for helping you review a report.',
+                minWords: 7,
+                keywords: ['thank', 'report'],
+                sampleAnswer: 'Thank you so much for taking the time to review my report today.',
+                explanation: 'Using "Thank you for + verb-ing" is natural and polite in workplace communication.'
+            },
+            {
+                id: 'b_l_2', skill: 'listening', level: 2, category: '🎧 Business Listening',
+                audioText: 'Although our marketing campaign attracted plenty of new visitors, the conversion rate remained flat because the checkout page loaded too slowly on mobile devices.',
+                prompt: 'What was the main reason for the flat conversion rate?',
+                options: [
+                    'Slow loading speed of the mobile checkout page.',
+                    'Lack of new visitors from the marketing campaign.',
+                    'High shipping fees for international orders.',
+                    'Out-of-stock products during the weekend.'
+                ],
+                answerIndex: 0,
+                explanation: 'The speaker explains that "the checkout page loaded too slowly on mobile devices."'
+            },
+            {
+                id: 'b_r_3', skill: 'reading', level: 3, category: '📖 Analytical Reading',
+                context: 'Remote collaboration thrives not merely on digital tools, but on asynchronous clarity—documenting decisions transparently so teammates across time zones can move forward without waiting for live status calls.',
+                prompt: 'According to the passage, what is essential for effective remote collaboration?',
+                options: [
+                    'Transparently documenting decisions for asynchronous progress.',
+                    'Scheduling daily live status calls for every teammate.',
+                    'Restricting work to a single shared time zone.',
+                    'Replacing all written notes with instant voice messages.'
+                ],
+                answerIndex: 0,
+                explanation: 'The passage highlights "asynchronous clarity—documenting decisions transparently so teammates across time zones can move forward."'
+            }
+        ];
+
+        const appState = {
+            authMode: 'login',
+            currentUser: null,
+            teamMembers: [],
+            comments: [],
+            leaderboardSort: 'points',
+            skillFilter: 'all',
+            skillRotationIdx: 0,
+            currentQuestion: null,
+            selectedOptionIndex: null,
+            questionAnswered: false,
+            answeredHistoryIds: [],
+            sessionSecondsTick: 0,
+            pomodoroActive: false,
+            pomodoroSecondsLeft: 15 * 60,
+            isRecordingSpeech: false,
+            recognitionInstance: null,
+            latestSpeechTranscript: '',
+            currentRoomId: null,
+            realtimeChannel: null
+        };
+        window.appState = appState;
+
+        // -------------------- 2. 分享弹窗与工具函数 --------------------
+        window.openShareModal = function() {
+            const modal = document.getElementById('shareModal');
+            const input = document.getElementById('shareLinkInput');
+            if (input) input.value = getShareUrl();
+            if (modal) modal.classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+            if (location.protocol === 'file:' || !location.origin || location.origin === 'null') {
+                showToast('当前为本地文件，此链接无法直接发给朋友打开；部署到网站后即可分享', 'info');
+            }
+            if (appState.currentUser) refreshRoomData();
+        };
+
+        window.closeShareModal = function() {
+            const modal = document.getElementById('shareModal');
+            if (modal) modal.classList.add('hidden');
+        };
+
+        window.copyShareLink = function() {
+            const input = document.getElementById('shareLinkInput');
+            const url = (input && input.value) ? input.value : getShareUrl();
+            if (input) {
+                input.focus();
+                input.select();
+                input.setSelectionRange(0, 99999);
+            }
+            let copied = false;
+            try {
+                copied = document.execCommand('copy');
+            } catch (_) {}
+            if (!copied && navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).catch(() => {});
+            }
+            showToast('分享网址已复制，快发给朋友一起加入吧！', 'success');
+        };
+
+        window.exportStandaloneHTML = function() {
+            try {
+                const clone = document.documentElement.cloneNode(true);
+                clone.querySelectorAll('script[data-bard-client-injected], script[ws-interception-config]').forEach(el => el.remove());
+                clone.querySelectorAll('script').forEach(s => {
+                    const t = s.textContent || '';
+                    if (t.includes('__firebase_config') || t.includes('__initial_auth_token') || t.includes('firebaseAuthBridge') || t.includes('data-bard-client-injected')) {
+                        s.remove();
+                    }
+                });
+                const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'index.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('已开始下载最新 index.html，可直接拖入 Netlify 更新！', 'success');
+            } catch (e) {
+                showToast('导出失败，请重试', 'warning');
+            }
+        };
+
+        window.manualRefreshCloud = async function() {
+            if (!appState.currentUser) {
+                showToast('请先登录后再刷新团队数据', 'warning');
+                return;
+            }
+            showToast('正在同步云端最新团队数据...', 'info');
+            const ok = await refreshRoomData();
+            showToast(ok ? '已同步到全队最新进度！' : '同步失败，已展示本地缓存', ok ? 'success' : 'warning');
+        };
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const colors = {
+                success: 'bg-emerald-600 text-white border-emerald-500',
+                warning: 'bg-amber-500 text-white border-amber-400',
+                error: 'bg-rose-600 text-white border-rose-500',
+                info: 'bg-slate-900 text-white border-slate-700'
+            };
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-lg border text-xs sm:text-sm font-medium animate-float-up ${colors[type] || colors.info}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.25s ease';
+                setTimeout(() => toast.remove(), 260);
+            }, 3200);
+        }
+
+        function escapeHTML(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getTodayDateString() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function formatRelativeTime(ts) {
+            if (!ts) return '刚刚';
+            const diffSec = Math.max(1, Math.floor((Date.now() - ts) / 1000));
+            if (diffSec < 60) return '刚刚';
+            if (diffSec < 3600) return `${Math.floor(diffSec / 60)}分钟前`;
+            if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}小时前`;
+            return `${Math.floor(diffSec / 86400)}天前`;
+        }
+
+        async function hashPassword(pwd) {
+            const raw = `teamlingua_salt_${pwd}`;
+            if (window.crypto && window.crypto.subtle) {
+                try {
+                    const enc = new TextEncoder().encode(raw);
+                    const buf = await window.crypto.subtle.digest('SHA-256', enc);
+                    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+                } catch (_) {}
+            }
+            let h = 0;
+            for (let i = 0; i < raw.length; i++) {
+                h = ((h << 5) - h) + raw.charCodeAt(i);
+                h |= 0;
+            }
+            return 'h_' + Math.abs(h).toString(16);
+        }
+
+        // -------------------- 3. 积分与唯一国王头衔计算 --------------------
+        function getCurrentKingName() {
+            let kingName = null;
+            let topPoints = 9999;
+            appState.teamMembers.forEach(m => {
+                const pts = m.points || 0;
+                if (pts >= 10000 && pts > topPoints) {
+                    topPoints = pts;
+                    kingName = m.name.toLowerCase();
+                }
+            });
+            return kingName;
+        }
+
+        function getMemberNobleTitle(member) {
+            const pts = (member && member.points) || 0;
+            if (pts >= 10000) {
+                const kingName = getCurrentKingName();
+                if (kingName && member.name && member.name.toLowerCase() === kingName) {
+                    return NOBLE_TITLES[0]; // 👑 国王（全队唯一）
+                }
+                return NOBLE_TITLES[1]; // ⚜️ 亲王
+            }
+            for (let i = 1; i < NOBLE_TITLES.length; i++) {
+                if (pts >= NOBLE_TITLES[i].minPoints) {
+                    return NOBLE_TITLES[i];
+                }
+            }
+            return NOBLE_TITLES[NOBLE_TITLES.length - 1];
+        }
+
+        function checkAndGrantDailyGoalBonus(user) {
+            if (!user) return;
+            const todayStr = getTodayDateString();
+            if ((user.todayMinutes || 0) >= DAILY_GOAL_MINUTES && user.dailyBonusAwardedDate !== todayStr) {
+                user.dailyBonusAwardedDate = todayStr;
+                const prevTitle = getMemberNobleTitle(user);
+                user.points = (user.points || 0) + 10;
+                const newTitle = getMemberNobleTitle(user);
+                showToast('🎉 完成今日 20 分钟学习目标，额外获得 +10 积分！', 'success');
+                postTeamActivity(user.name, user.color, `完成了今日 20 分钟学习目标，斩获 +10 积分达标奖励！🎯🪙`, 'system');
+                if (prevTitle.id !== newTitle.id) {
+                    postTeamActivity(user.name, user.color, `积分突破 ${user.points} 分，晋升为【${newTitle.icon} ${newTitle.name}】！👑`, 'levelup');
+                }
+            }
+        }
+
+        // -------------------- 4. 注册与登录交互逻辑 --------------------
+        window.switchAuthMode = function(mode) {
+            appState.authMode = mode;
+            const tabLogin = document.getElementById('tabLoginBtn');
+            const tabReg = document.getElementById('tabRegisterBtn');
+            const confirmWrap = document.getElementById('confirmPasswordWrapper');
+            const submitText = document.getElementById('authSubmitText');
+            const hintLabel = document.getElementById('usernameHintLabel');
+
+            if (mode === 'register') {
+                tabReg.className = 'py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-indigo-600 shadow-sm transition cursor-pointer';
+                tabLogin.className = 'py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer';
+                confirmWrap.classList.remove('hidden');
+                submitText.textContent = '立即注册并加入团队';
+                if (hintLabel) hintLabel.textContent = '(注册后同步到云端，任意设备可登录)';
+            } else {
+                tabLogin.className = 'py-2 text-xs sm:text-sm font-semibold rounded-xl bg-white text-indigo-600 shadow-sm transition cursor-pointer';
+                tabReg.className = 'py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer';
+                confirmWrap.classList.add('hidden');
+                submitText.textContent = '登录我的学习空间';
+                if (hintLabel) hintLabel.textContent = '(全队唯一标识)';
+            }
+            validateUsernameInput();
+        };
+
+        function validateUsernameInput() {
+            const input = document.getElementById('authUsernameInput');
+            const badge = document.getElementById('nameStatusBadge');
+            const msg = document.getElementById('nameValidationMsg');
+            if (!input || !badge || !msg) return;
+
+            const val = input.value.trim();
+            if (!val) {
+                badge.classList.add('hidden');
+                msg.className = 'mt-1.5 text-xs text-slate-500 min-h-[18px]';
+                msg.textContent = '输入你的团队专属用户名。';
+                return;
+            }
+
+            const exists = appState.teamMembers.some(m => m.name.toLowerCase() === val.toLowerCase());
+            badge.classList.remove('hidden');
+            if (appState.authMode === 'register') {
+                if (exists) {
+                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-rose-100 text-rose-700';
+                    badge.textContent = '已被占用';
+                    msg.className = 'mt-1.5 text-xs text-rose-600 min-h-[18px]';
+                    msg.textContent = '该用户名已被队友注册，请换一个或切换至「已有账号登录」。';
+                } else {
+                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+                    badge.textContent = '可注册';
+                    msg.className = 'mt-1.5 text-xs text-emerald-600 min-h-[18px]';
+                    msg.textContent = '用户名可用！注册后将保存到云端，任意设备可登录。';
+                }
+            } else {
+                if (exists) {
+                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+                    badge.textContent = '已找到账号';
+                    msg.className = 'mt-1.5 text-xs text-emerald-600 min-h-[18px]';
+                    msg.textContent = '请输入密码登录该用户名。';
+                } else {
+                    badge.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700';
+                    badge.textContent = '未注册';
+                    msg.className = 'mt-1.5 text-xs text-amber-600 min-h-[18px]';
+                    msg.textContent = '未找到该用户名，可切换到「新用户极简注册」创建。';
+                }
+            }
+        }
+
+        function renderRegisteredMemberChips() {
+            const sec = document.getElementById('registeredMembersSection');
+            const countEl = document.getElementById('registeredCount');
+            const chipsEl = document.getElementById('registeredMembersChips');
+            if (!sec || !countEl || !chipsEl) return;
+
+            if (!appState.teamMembers.length) {
+                sec.classList.add('hidden');
+                return;
+            }
+            sec.classList.remove('hidden');
+            countEl.textContent = appState.teamMembers.length;
+            chipsEl.innerHTML = appState.teamMembers.map(m => `
+                <button type="button" onclick="quickFillUsername('${escapeHTML(m.name)}')"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 text-xs font-medium border border-slate-200/80 transition cursor-pointer">
+                    <span class="w-4 h-4 rounded-md ${m.color || 'bg-indigo-600'} text-white text-[10px] font-bold flex items-center justify-center">${escapeHTML(m.name[0].toUpperCase())}</span>
+                    <span>${escapeHTML(m.name)}</span>
+                </button>
+            `).join('');
+        }
+
+        window.quickFillUsername = function(name) {
+            const input = document.getElementById('authUsernameInput');
+            const pwdInput = document.getElementById('authPasswordInput');
+            switchAuthMode('login');
+            if (input) {
+                input.value = name;
+                validateUsernameInput();
+            }
+            if (pwdInput) pwdInput.focus();
+        };
+
+        function initAuthHandlers() {
+            const usernameInput = document.getElementById('authUsernameInput');
+            if (usernameInput) {
+                usernameInput.addEventListener('input', validateUsernameInput);
+            }
+
+            const form = document.getElementById('authForm');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const rawName = (document.getElementById('authUsernameInput').value || '').trim();
+                    const password = document.getElementById('authPasswordInput').value || '';
+                    const confirmPwd = document.getElementById('authConfirmPasswordInput').value || '';
+
+                    if (rawName.length < 2) {
+                        showToast('用户名至少需要 2 个字符', 'warning');
+                        return;
+                    }
+                    if (!password) {
+                        showToast('请输入密码', 'warning');
+                        return;
+                    }
+                    // 新注册至少 6 位；已有本地账号仍可用原密码登录（可能短于 6 位）
+                    if (appState.authMode === 'register' && password.length < 6) {
+                        showToast('密码长度至少为 6 位', 'warning');
+                        return;
+                    }
+                    if (appState.authMode === 'register' && password !== confirmPwd) {
+                        showToast('两次输入的密码不一致，请重新确认', 'error');
+                        return;
+                    }
+
+                    const submitBtn = document.getElementById('authSubmitBtn');
+                    const submitText = document.getElementById('authSubmitText');
+                    const originalBtnLabel = submitText ? submitText.textContent : '';
+                    if (submitBtn) submitBtn.disabled = true;
+                    if (submitText) submitText.textContent = '正在验证账号...';
+
+                    try {
+                        const email = await usernameToEmail(rawName);
+                        if (appState.authMode === 'register') {
+                            const color = colorForName(rawName);
+                            const { data, error } = await sb.auth.signUp({
+                                email,
+                                password,
+                                options: {
+                                    data: { username: rawName, display_name: rawName, avatar: color },
+                                    emailRedirectTo: getAuthRedirectTo()
+                                }
+                            });
+                            if (error) {
+                                const msg = error.message || '注册失败';
+                                if (/already registered|already exists|User already/i.test(msg) || error.status === 422) {
+                                    showToast('该用户名可能已被注册，请更换用户名或直接登录', 'error');
+                                } else if (/duplicate|unique/i.test(msg)) {
+                                    showToast('该用户名已被注册，请更换用户名或直接登录', 'error');
+                                } else {
+                                    showToast('注册失败：' + msg, 'error');
+                                }
+                                return;
+                            }
+                            if (!data.session) {
+                                const signed = await sb.auth.signInWithPassword({ email, password });
+                                if (signed.error || !signed.data.session) {
+                                    showToast('注册已创建，但当前项目开启了邮箱确认，登录前请先确认邮箱，或在控制台关闭 Confirm email', 'warning');
+                                    return;
+                                }
+                            }
+                            await enterSession(true);
+                            if (appState.currentUser) {
+                                postTeamActivity(appState.currentUser.name, appState.currentUser.color, '刚刚注册加入了 TeamLingua 英语共学监督队！🎉', 'system');
+                            }
+                        } else {
+                            const { error } = await sb.auth.signInWithPassword({ email, password });
+                            if (error) {
+                                const msg = error.message || '登录失败';
+                                if (/invalid login|invalid credentials|wrong password|email not confirmed/i.test(msg)) {
+                                    if (/email not confirmed/i.test(msg)) {
+                                        showToast('该账号尚未完成邮箱确认，请查收确认信或在控制台关闭 Confirm email', 'error');
+                                    } else {
+                                        showToast('用户名或密码错误，请重试', 'error');
+                                    }
+                                } else {
+                                    showToast('登录失败：' + msg, 'error');
+                                }
+                                return;
+                            }
+                            await enterSession(false);
+                        }
+                    } catch (err) {
+                        showToast('账号操作失败：' + (err.message || err), 'error');
+                    } finally {
+                        if (submitBtn) submitBtn.disabled = false;
+                        if (submitText) submitText.textContent = originalBtnLabel;
+                    }
+                });
+            }
+        }
+
+        window.logoutUser = async function() {
+            try { await persistProfile(); } catch (_) {}
+            stopRealtime();
+            try { await sb.auth.signOut(); } catch (_) {}
+            appState.currentUser = null;
+            appState.currentRoomId = null;
+            document.getElementById('authPasswordInput').value = '';
+            document.getElementById('authConfirmPasswordInput').value = '';
+            document.getElementById('loginModal').classList.remove('hidden');
+            renderRegisteredMemberChips();
+            updateSyncStatusUI(false);
+            showToast('已安全退出当前账号', 'info');
+        };
+
+
+        function syncCurrentUserToUI() {
+            const u = appState.currentUser;
+            if (!u) return;
+
+            const title = getMemberNobleTitle(u);
+            const pts = u.points || 0;
+            const mins = Math.floor(u.todayMinutes || 0);
+            const pct = Math.min(100, Math.round(((u.todayMinutes || 0) / DAILY_GOAL_MINUTES) * 100));
+            const solved = u.solvedCount || 0;
+            const correct = u.correctCount || 0;
+            const acc = solved > 0 ? Math.round((correct / solved) * 100) + '%' : '--';
+
+            const navAvatar = document.getElementById('navUserAvatar');
+            const navName = document.getElementById('navUserName');
+            const navTitle = document.getElementById('navUserTitleBadge');
+            const navLevel = document.getElementById('navUserLevel');
+            const navPts = document.getElementById('navPointsBadge');
+
+            if (navAvatar) {
+                navAvatar.className = `w-7 h-7 rounded-xl ${u.color || 'bg-indigo-600'} text-white font-bold text-xs flex items-center justify-center`;
+                navAvatar.textContent = u.name[0].toUpperCase();
+            }
+            if (navName) navName.textContent = u.name;
+            if (navTitle) {
+                navTitle.className = `px-1.5 py-0.2 rounded text-[10px] font-bold ${title.badgeClass}`;
+                navTitle.textContent = `${title.icon} ${title.name}`;
+            }
+            if (navLevel) navLevel.textContent = `${LEVEL_LABELS[u.level || 1]} · ${pts}分`;
+            if (navPts) navPts.textContent = `${pts} 积分`;
+
+            const myTitlePill = document.getElementById('myTitlePill');
+            if (myTitlePill) {
+                myTitlePill.className = `px-2 py-0.5 rounded-full text-[11px] font-bold cursor-pointer hover:opacity-80 transition ${title.badgeClass}`;
+                myTitlePill.textContent = `${title.icon} ${title.name} · ${pts}分`;
+            }
+
+            const levelPill = document.getElementById('adaptiveLevelPill');
+            const streakText = document.getElementById('adaptiveStreakText');
+            if (levelPill) levelPill.textContent = LEVEL_LABELS[u.level || 1];
+            if (streakText) streakText.textContent = `连对 ${u.consecutiveCorrect || 0}/3 升阶`;
+
+            const minText = document.getElementById('myTodayMinutesText');
+            const goalText = document.getElementById('myGoalStatusText');
+            const bar = document.getElementById('myGoalProgressBar');
+            const ptsText = document.getElementById('myTotalPointsText');
+            const solvedEl = document.getElementById('mySolvedCount');
+            const accEl = document.getElementById('myAccuracyRate');
+            const streakEl = document.getElementById('myStreakDays');
+
+            if (minText) minText.textContent = mins;
+            if (goalText) goalText.textContent = pct >= 100 ? '已达标 🎉' : `${pct}%`;
+            if (bar) bar.style.width = `${pct}%`;
+            if (ptsText) ptsText.textContent = pts;
+            if (solvedEl) solvedEl.textContent = solved;
+            if (accEl) accEl.textContent = acc;
+            if (streakEl) streakEl.textContent = `${u.streak || 1} 天`;
+        }
+
+        // -------------------- 5. 团队排行榜与互相监督 --------------------
+        window.setLeaderboardSort = function(sortType) {
+            appState.leaderboardSort = sortType;
+            const btns = {
+                points: document.getElementById('sortBtnPoints'),
+                minutes: document.getElementById('sortBtnMinutes'),
+                level: document.getElementById('sortBtnLevel'),
+                streak: document.getElementById('sortBtnStreak')
+            };
+            Object.entries(btns).forEach(([k, btn]) => {
+                if (!btn) return;
+                btn.className = k === sortType
+                    ? 'py-1.5 rounded-lg bg-white text-indigo-600 font-semibold shadow-2xs transition cursor-pointer'
+                    : 'py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer';
+            });
+            renderLeaderboard();
+        };
+
+        function renderLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            if (!list) return;
+
+            if (!appState.teamMembers.length) {
+                list.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">暂无成员数据，快邀请朋友一起加入吧！</div>`;
+                return;
+            }
+
+            const sorted = [...appState.teamMembers].sort((a, b) => {
+                if (appState.leaderboardSort === 'minutes') return (b.todayMinutes || 0) - (a.todayMinutes || 0);
+                if (appState.leaderboardSort === 'level') return (b.level || 1) - (a.level || 1) || (b.points || 0) - (a.points || 0);
+                if (appState.leaderboardSort === 'streak') return (b.streak || 1) - (a.streak || 1);
+                return (b.points || 0) - (a.points || 0) || (b.todayMinutes || 0) - (a.todayMinutes || 0);
+            });
+
+            list.innerHTML = sorted.map((m, idx) => {
+                const isMe = appState.currentUser && m.name.toLowerCase() === appState.currentUser.name.toLowerCase();
+                const title = getMemberNobleTitle(m);
+                const mins = Math.floor(m.todayMinutes || 0);
+                const pct = Math.min(100, Math.round(((m.todayMinutes || 0) / DAILY_GOAL_MINUTES) * 100));
+                const isOnline = m.updatedAt && (Date.now() - m.updatedAt) < 120000;
+                const rankBadge = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `#${idx + 1}`));
+
+                return `
+                    <div class="p-3.5 rounded-2xl border ${isMe ? 'border-indigo-300 bg-indigo-50/40' : 'border-slate-200/80 bg-slate-50/50'} transition">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="text-xs font-extrabold text-slate-500 w-5 text-center shrink-0">${rankBadge}</span>
+                                <div class="relative shrink-0">
+                                    <div class="w-9 h-9 rounded-xl ${m.color || 'bg-indigo-600'} text-white font-bold text-sm flex items-center justify-center">
+                                        ${escapeHTML(m.name[0].toUpperCase())}
+                                    </div>
+                                    ${isOnline ? '<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>' : ''}
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-1.5 flex-wrap">
+                                        <span class="text-xs font-bold text-slate-900 truncate">${escapeHTML(m.name)}</span>
+                                        ${isMe ? '<span class="px-1.5 py-0.2 rounded bg-indigo-600 text-white text-[10px] font-semibold">我</span>' : ''}
+                                        <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${title.badgeClass}">${title.icon} ${title.name}</span>
+                                    </div>
+                                    <div class="text-[11px] text-slate-500 mt-0.5">
+                                        <strong class="text-amber-600">${m.points || 0} 分</strong> · ${LEVEL_LABELS[m.level || 1]} · 连签 ${m.streak || 1}天
+                                    </div>
+                                </div>
+                            </div>
+                            ${!isMe ? `
+                                <button type="button" onclick="nudgeMember('${escapeHTML(m.name)}')"
+                                    class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 text-[11px] font-semibold transition shrink-0 cursor-pointer"
+                                    title="拍一拍督促学习">
+                                    👋 督促
+                                </button>
+                            ` : ''}
+                        </div>
+
+                        <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden mb-1.5">
+                            <div class="h-full ${pct >= 100 ? 'bg-emerald-500' : 'bg-indigo-500'} rounded-full transition-all" style="width: ${pct}%"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-slate-500">
+                            <span class="truncate max-w-[70%]">🚩 ${escapeHTML(m.flag || '坚持每日英语打卡')}</span>
+                            <span class="font-semibold ${pct >= 100 ? 'text-emerald-600' : 'text-slate-600'}">${mins}/20m</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.nudgeMember = function(targetName) {
+            if (!appState.currentUser) return;
+            postTeamActivity(
+                appState.currentUser.name,
+                appState.currentUser.color,
+                `拍了拍 @${targetName}：今天的 20 分钟英语打卡进度如何？快一起冲刺吧！👋🔥`,
+                'nudge'
+            );
+            showToast(`已向 ${targetName} 发送学习督促提醒！`, 'success');
+        };
+
+        // -------------------- 6. 听说读写四维出题与渲染引擎 --------------------
+        window.setSkillFilter = function(skill) {
+            appState.skillFilter = skill;
+            const map = {
+                all: document.getElementById('skillBtnAll'),
+                listening: document.getElementById('skillBtnListening'),
+                speaking: document.getElementById('skillBtnSpeaking'),
+                reading: document.getElementById('skillBtnReading'),
+                writing: document.getElementById('skillBtnWriting')
+            };
+            Object.entries(map).forEach(([k, btn]) => {
+                if (!btn) return;
+                btn.className = k === skill
+                    ? 'py-2 rounded-xl bg-white text-indigo-600 shadow-2xs transition cursor-pointer'
+                    : 'py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer';
+            });
+            loadNextAdaptiveQuestion();
+        };
+
+        function evaluateSpeechSimilarity(target, spoken) {
+            const clean = s => String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean);
+            const tWords = clean(target);
+            const sWords = clean(spoken);
+            if (!tWords.length || !sWords.length) return { score: 0 };
+            let hits = 0;
+            tWords.forEach(w => {
+                if (sWords.includes(w)) hits++;
+            });
+            return { score: Math.min(100, Math.round((hits / tWords.length) * 100)) };
+        }
+
+        window.loadNextAdaptiveQuestion = function() {
+            const level = appState.currentUser ? (appState.currentUser.level || 1) : 1;
+            let desiredSkill = appState.skillFilter;
+            if (desiredSkill === 'all') {
+                desiredSkill = SKILL_ORDER[appState.skillRotationIdx % SKILL_ORDER.length];
+                appState.skillRotationIdx += 1;
+            }
+
+            const combinedBank = [...BUILTIN_QUESTION_BANK, ...dynamicQuestionBank];
+            let candidates = combinedBank.filter(q => q.skill === desiredSkill && !appState.answeredHistoryIds.includes(q.id));
+            if (!candidates.length) {
+                candidates = combinedBank.filter(q => q.skill === desiredSkill);
+            }
+            if (!candidates.length) {
+                candidates = combinedBank;
+            }
+
+            // 优先匹配接近当前等级的题目
+            const exactLevel = candidates.filter(q => (q.level || 1) === level);
+            const pool = exactLevel.length ? exactLevel : candidates;
+            const chosen = pool[Math.floor(Math.random() * pool.length)];
+
+            appState.currentQuestion = chosen;
+            appState.selectedOptionIndex = null;
+            appState.questionAnswered = false;
+            appState.latestSpeechTranscript = '';
+            renderCurrentQuestion();
+        };
+
+        function renderCurrentQuestion() {
+            const q = appState.currentQuestion;
+            if (!q) return;
+
+            const catTag = document.getElementById('questionCategoryTag');
+            const diffTag = document.getElementById('questionDiffTag');
+            const ctxEl = document.getElementById('questionContextText');
+            const promptEl = document.getElementById('questionPromptText');
+            const area = document.getElementById('exerciseInteractiveArea');
+            const feedbackBox = document.getElementById('feedbackBox');
+
+            if (catTag) catTag.textContent = q.category || q.skill.toUpperCase();
+            if (diffTag) diffTag.textContent = `Difficulty Lv.${q.level || 1}`;
+            if (feedbackBox) feedbackBox.classList.add('hidden');
+
+            if (ctxEl) {
+                if (q.context) {
+                    ctxEl.textContent = q.context;
+                    ctxEl.classList.remove('hidden');
+                } else {
+                    ctxEl.classList.add('hidden');
+                }
+            }
+            if (promptEl) promptEl.textContent = q.prompt || '';
+
+            if (!area) return;
+            const letters = ['A', 'B', 'C', 'D'];
+
+            if (q.skill === 'listening' || q.skill === 'reading') {
+                const audioBar = q.skill === 'listening' ? `
+                    <div class="p-3.5 rounded-2xl bg-indigo-50/80 border border-indigo-200/80 flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <button type="button" onclick="playCurrentListeningAudio()"
+                            class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition flex items-center gap-2 shadow-xs cursor-pointer">
+                            <i data-lucide="volume-2" class="w-4 h-4"></i>
+                            <span>Play Audio</span>
+                        </button>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[11px] text-slate-500 mr-1">Speed:</span>
+                            <button type="button" id="speedBtn_0_75" onclick="playCurrentListeningAudio(0.75)"
+                                class="${Math.abs(currentAudioRate - 0.75) < 0.01 ? 'px-2.5 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold shadow-2xs transition cursor-pointer' : 'px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 border border-slate-200 text-xs font-semibold transition cursor-pointer'}">
+                                0.75x
+                            </button>
+                            <button type="button" id="speedBtn_1" onclick="playCurrentListeningAudio(1.0)"
+                                class="${Math.abs(currentAudioRate - 1.0) < 0.01 ? 'px-2.5 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold shadow-2xs transition cursor-pointer' : 'px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 border border-slate-200 text-xs font-semibold transition cursor-pointer'}">
+                                1.0x
+                            </button>
+                            <button type="button" id="speedBtn_1_25" onclick="playCurrentListeningAudio(1.25)"
+                                class="${Math.abs(currentAudioRate - 1.25) < 0.01 ? 'px-2.5 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold shadow-2xs transition cursor-pointer' : 'px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 border border-slate-200 text-xs font-semibold transition cursor-pointer'}">
+                                1.25x
+                            </button>
+                        </div>
+                    </div>
+                ` : '';
+
+                const optionsHTML = (q.options || []).map((opt, i) => `
+                    <button type="button" id="optBtn_${i}" onclick="selectAndCheckOption(${i})"
+                        class="w-full text-left p-3.5 rounded-2xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 flex items-center gap-3 text-sm text-slate-800 transition cursor-pointer">
+                        <span class="w-7 h-7 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">${letters[i] || i + 1}</span>
+                        <span class="leading-snug">${escapeHTML(opt)}</span>
+                    </button>
+                `).join('');
+
+                area.innerHTML = audioBar + optionsHTML;
+            } else if (q.skill === 'speaking') {
+                area.innerHTML = `
+                    <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200/80 space-y-3">
+                        <div class="flex items-start justify-between gap-2">
+                            <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">"${escapeHTML(q.targetSpeech)}"</p>
+                            <button type="button" onclick="speakEnglishText(appState.currentQuestion.targetSpeech, 0.95)"
+                                class="p-2 rounded-xl bg-white hover:bg-sky-100 text-sky-700 border border-sky-200 transition shrink-0 cursor-pointer" title="Listen to Demo">
+                                <i data-lucide="volume-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 pt-1">
+                            <button type="button" id="recordSpeechBtn" onclick="toggleSpeechRecognition()"
+                                class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+                                <i data-lucide="mic" class="w-4 h-4"></i>
+                                <span id="recordSpeechBtnLabel">Start Recording</span>
+                            </button>
+                            <button type="button" onclick="completeSpeakingSelfCheck()"
+                                class="px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold transition cursor-pointer">
+                                Mark as Practiced
+                            </button>
+                        </div>
+                        <div id="speechResultPreview" class="hidden text-xs bg-white p-3 rounded-xl border border-slate-200/80 text-slate-700"></div>
+                    </div>
+                `;
+            } else if (q.skill === 'writing') {
+                area.innerHTML = `
+                    <div class="space-y-3">
+                        <textarea id="writingAnswerInput" rows="4"
+                            placeholder="Write your English response here..."
+                            class="w-full p-3.5 rounded-2xl border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-xs text-slate-500">Target length: at least <strong>${q.minWords || 8}</strong> English words</span>
+                            <button type="button" onclick="submitWritingAnswer()"
+                                class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+                                <span>Submit Writing</span>
+                                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        let currentAudioRate = 1.0;
+
+        function speakEnglishText(text, rate = 1.0) {
+            if (!text) return;
+            if (!('speechSynthesis' in window)) {
+                showToast('当前浏览器不支持原生语音合成朗读', 'warning');
+                return;
+            }
+            try {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'en-US';
+                utter.rate = rate;
+                utter.pitch = 1.0;
+
+                const voices = window.speechSynthesis.getVoices();
+                if (voices && voices.length > 0) {
+                    const enVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('en-us'))
+                        || voices.find(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+                    if (enVoice) utter.voice = enVoice;
+                }
+
+                window.speechSynthesis.speak(utter);
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                }
+            } catch (e) {
+                showToast('语音播放启动失败，请重试', 'warning');
+            }
+        }
+
+        function updateSpeedButtonsUI(rate) {
+            currentAudioRate = rate;
+            [0.75, 1.0, 1.25].forEach(r => {
+                const btn = document.getElementById(`speedBtn_${String(r).replace('.', '_')}`);
+                if (!btn) return;
+                if (Math.abs(r - rate) < 0.01) {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold shadow-2xs transition cursor-pointer';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-xl bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 border border-slate-200 text-xs font-semibold transition cursor-pointer';
+                }
+            });
+        }
+
+        window.playCurrentListeningAudio = function(rate) {
+            if (!appState.currentQuestion || !appState.currentQuestion.audioText) return;
+            const targetRate = typeof rate === 'number' ? rate : currentAudioRate;
+            updateSpeedButtonsUI(targetRate);
+            speakEnglishText(appState.currentQuestion.audioText, targetRate);
+            showToast(`正在以 ${targetRate}x 倍速朗读听力音频`, 'info');
+        };
+
+        window.selectAndCheckOption = function(idx) {
+            if (appState.questionAnswered) return;
+            const q = appState.currentQuestion;
+            if (!q) return;
+
+            appState.selectedOptionIndex = idx;
+            appState.questionAnswered = true;
+            const isCorrect = idx === q.answerIndex;
+
+            (q.options || []).forEach((_, i) => {
+                const btn = document.getElementById(`optBtn_${i}`);
+                if (!btn) return;
+                btn.disabled = true;
+                if (i === q.answerIndex) {
+                    btn.className = 'w-full text-left p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 flex items-center gap-3 text-sm font-semibold';
+                } else if (i === idx && !isCorrect) {
+                    btn.className = 'w-full text-left p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-900 flex items-center gap-3 text-sm font-semibold';
+                } else {
+                    btn.className = 'w-full text-left p-3.5 rounded-2xl border border-slate-200 opacity-60 flex items-center gap-3 text-sm text-slate-600';
+                }
+            });
+
+            finalizeExerciseResult(isCorrect, q.explanation || '');
+        };
+
+        window.toggleSpeechRecognition = function() {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRec) {
+                showToast('当前浏览器不支持麦克风识别，可直接点击「Mark as Practiced」完成跟读', 'warning');
+                return;
+            }
+            if (appState.isRecordingSpeech && appState.recognitionInstance) {
+                appState.recognitionInstance.stop();
+                return;
+            }
+
+            const rec = new SpeechRec();
+            rec.lang = 'en-US';
+            rec.interimResults = false;
+            rec.maxAlternatives = 1;
+            appState.recognitionInstance = rec;
+            appState.isRecordingSpeech = true;
+
+            const btn = document.getElementById('recordSpeechBtn');
+            const label = document.getElementById('recordSpeechBtnLabel');
+            if (btn) btn.classList.add('bg-rose-600', 'hover:bg-rose-700');
+            if (label) label.textContent = 'Listening... Click to Stop';
+
+            rec.onresult = (event) => {
+                const transcript = event.results[0][0].transcript || '';
+                appState.latestSpeechTranscript = transcript;
+                const q = appState.currentQuestion;
+                const evalRes = evaluateSpeechSimilarity(q.targetSpeech, transcript);
+                const preview = document.getElementById('speechResultPreview');
+                if (preview) {
+                    preview.classList.remove('hidden');
+                    preview.innerHTML = `<strong>Recognized:</strong> "${escapeHTML(transcript)}" · <strong>Match Score:</strong> <span class="text-indigo-600 font-bold">${evalRes.score}%</span>`;
+                }
+                if (!appState.questionAnswered) {
+                    appState.questionAnswered = true;
+                    finalizeExerciseResult(evalRes.score >= 55, `Pronunciation match: ${evalRes.score}%. ${q.explanation}`);
+                }
+            };
+
+            rec.onerror = () => {
+                showToast('未检测到语音输入，请靠近麦克风重试或点击「Mark as Practiced」', 'warning');
+            };
+
+            rec.onend = () => {
+                appState.isRecordingSpeech = false;
+                if (btn) btn.classList.remove('bg-rose-600', 'hover:bg-rose-700');
+                if (label) label.textContent = 'Start Recording';
+            };
+
+            rec.start();
+        };
+
+        window.completeSpeakingSelfCheck = function() {
+            if (appState.questionAnswered) return;
+            const q = appState.currentQuestion;
+            const attempted = !!(appState.latestSpeechTranscript || appState.isRecordingSpeech);
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!attempted) {
+                if (!SpeechRec) {
+                    appState.questionAnswered = true;
+                    finalizeExerciseResult(false, `Speech recognition is unavailable in this browser. Marked as practiced without a score. ${q && q.explanation ? q.explanation : ''}`, { skipScoring: true });
+                    return;
+                }
+                showToast('请先点击 Start Recording 跟读一次后再标记完成；未跟读不会获得积分', 'warning');
+                return;
+            }
+            appState.questionAnswered = true;
+            finalizeExerciseResult(true, `Great speaking practice! ${q.explanation}`);
+        };
+
+        window.submitWritingAnswer = function() {
+            if (appState.questionAnswered) return;
+            const input = document.getElementById('writingAnswerInput');
+            const q = appState.currentQuestion;
+            if (!input || !q) return;
+
+            const text = input.value.trim();
+            const words = text.split(/\s+/).filter(Boolean);
+            const minWords = q.minWords || 8;
+            if (words.length < minWords) {
+                showToast(`Please write at least ${minWords} English words (currently ${words.length} words).`, 'warning');
+                return;
+            }
+
+            const lower = text.toLowerCase();
+            const matchedKeywords = (q.keywords || []).filter(kw => lower.includes(kw.toLowerCase()));
+            const isGood = words.length >= minWords && (matchedKeywords.length >= 1 || !(q.keywords || []).length);
+
+            appState.questionAnswered = true;
+            input.disabled = true;
+            const sampleInfo = q.sampleAnswer ? ` Sample response: "${q.sampleAnswer}"` : '';
+            finalizeExerciseResult(isGood, `${q.explanation}${sampleInfo}`);
+        };
+
+        function finalizeExerciseResult(isCorrect, explanationText, options) {
+            const skipScoring = !!(options && options.skipScoring);
+            const q = appState.currentQuestion;
+            if (!appState.answeredHistoryIds.includes(q.id)) {
+                appState.answeredHistoryIds.push(q.id);
+            }
+
+            const u = appState.currentUser;
+            let levelChangeNotice = '';
+            let pointsNotice = '';
+
+            if (u && !skipScoring) {
+                u.solvedCount = (u.solvedCount || 0) + 1;
+                if (isCorrect) {
+                    const prevTitle = getMemberNobleTitle(u);
+                    u.points = (u.points || 0) + 1;
+                    pointsNotice = ' (+1 Point 🪙)';
+                    const newTitle = getMemberNobleTitle(u);
+
+                    if (prevTitle.id !== newTitle.id) {
+                        postTeamActivity(
+                            u.name,
+                            u.color,
+                            `累计积分达到 ${u.points} 分，头衔正式晋升为【${newTitle.icon} ${newTitle.name}】！🎉`,
+                            'levelup'
+                        );
+                    }
+
+                    u.correctCount = (u.correctCount || 0) + 1;
+                    u.consecutiveCorrect = (u.consecutiveCorrect || 0) + 1;
+                    if (u.consecutiveCorrect >= 3 && (u.level || 1) < 5) {
+                        u.level = (u.level || 1) + 1;
+                        u.consecutiveCorrect = 0;
+                        levelChangeNotice = ` 🎉 3-streak achieved! Promoted to ${LEVEL_LABELS[u.level]}!`;
+                        postTeamActivity(u.name, u.color, `连对 3 题成功升阶至 ${LEVEL_LABELS[u.level]}！🚀`, 'levelup');
+                    }
+                } else {
+                    u.consecutiveCorrect = 0;
+                    if ((u.level || 1) > 1) {
+                        u.level = (u.level || 1) - 1;
+                        levelChangeNotice = ` 📉 Adjusted down to ${LEVEL_LABELS[u.level]} to solidify fundamentals.`;
+                    }
+                }
+
+                syncCurrentUserToUI();
+                syncCurrentUserToCloud();
+                renderLeaderboard();
+            }
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackExplanation = document.getElementById('feedbackExplanation');
+
+            feedbackBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-200', 'text-emerald-900', 'bg-rose-50', 'border-rose-200', 'text-rose-900');
+            if (skipScoring) {
+                feedbackBox.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-800');
+                feedbackIcon.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-slate-500"></i>`;
+                feedbackTitle.textContent = '已记录练习（未评分，未获得积分）';
+            } else if (isCorrect) {
+                feedbackBox.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-900');
+                feedbackIcon.innerHTML = `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>`;
+                feedbackTitle.textContent = `Well Done!${pointsNotice}${levelChangeNotice}`;
+            } else {
+                feedbackBox.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-900');
+                feedbackIcon.innerHTML = `<i data-lucide="alert-circle" class="w-5 h-5 text-rose-600"></i>`;
+                feedbackTitle.textContent = `Keep Practicing — Review the Explanation${levelChangeNotice}`;
+            }
+            feedbackExplanation.textContent = explanationText;
+            if (window.lucide) lucide.createIcons();
+        }
+
+        window.shareQuestionInsight = function() {
+            if (!appState.currentUser || !appState.currentQuestion) return;
+            const q = appState.currentQuestion;
+            postTeamActivity(
+                appState.currentUser.name,
+                appState.currentUser.color,
+                `完成了一道 [${q.category}] 练习，分享核心解析：${q.explanation}`,
+                'chat'
+            );
+            showToast('学习笔记已同步到右侧团队动态墙！', 'success');
+        };
+
+        window.generateNewQuestionWithAI = async function(manualTrigger = false) {
+            if (isGeneratingQuestion) return;
+            isGeneratingQuestion = true;
+            const btnText = document.getElementById('aiGenerateBtnText');
+            if (btnText) btnText.textContent = 'Generating...';
+
+            try {
+                const level = appState.currentUser ? (appState.currentUser.level || 1) : 1;
+                const skill = appState.skillFilter === 'all'
+                    ? SKILL_ORDER[Math.floor(Math.random() * SKILL_ORDER.length)]
+                    : appState.skillFilter;
+
+                const promptText = `Generate 1 English ${skill} practice question at CEFR difficulty level ${level}/5. Output strictly valid JSON only with keys: {"skill":"${skill}","level":${level},"category":"string","context":"optional passage","audioText":"required if listening","targetSpeech":"required if speaking","prompt":"English question","options":["A","B","C","D"],"answerIndex":0,"minWords":10,"keywords":["word"],"sampleAnswer":"optional","explanation":"English explanation"}.`;
+
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), 20000);
+                let res;
+                try {
+                    res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(promptText)}?json=true`, { signal: controller.signal });
+                } finally {
+                    clearTimeout(timer);
+                }
+                if (!res.ok) throw new Error('AI request failed');
+                const raw = await res.text();
+                const jsonMatch = raw.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) throw new Error('Invalid JSON');
+                const parsed = JSON.parse(jsonMatch[0]);
+
+                if (parsed && parsed.prompt) {
+                    parsed.id = 'ai_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5);
+                    parsed.skill = skill;
+                    parsed.level = level;
+                    dynamicQuestionBank.push(parsed);
+                    saveLocalState();
+                    if (appState.currentRoomId && appState.currentUser) {
+                        sb.from('questions').insert({
+                            room_id: appState.currentRoomId,
+                            created_by: appState.currentUser.id,
+                            payload: parsed
+                        }).then(({ error }) => {
+                            if (error) {
+                                showToast('题目已生成本地，但同步到云端失败：' + error.message, 'warning');
+                                updateSyncStatusUI(false);
+                            }
+                        });
+                    }
+                    appState.currentQuestion = parsed;
+                    appState.selectedOptionIndex = null;
+                    appState.questionAnswered = false;
+                    renderCurrentQuestion();
+                    if (manualTrigger) showToast('Generated a fresh English question!', 'success');
+                }
+            } catch (e) {
+                loadNextAdaptiveQuestion();
+                if (manualTrigger) {
+                    const timedOut = e && (e.name === 'AbortError' || (e.message && String(e.message).toLowerCase().includes('abort')));
+                    showToast(timedOut ? 'AI 出题超时，已从内置题库为你换了一题' : 'AI 出题失败，已从内置题库为你换了一题', 'warning');
+                }
+            } finally {
+                isGeneratingQuestion = false;
+                if (btnText) btnText.textContent = 'AI New Question';
+            }
+        };
+
+        // -------------------- 9. 实时学习计时器与番茄专注钟 --------------------
+        function startStudyTimers() {
+            setInterval(() => {
+                const u = appState.currentUser;
+                if (!u) return;
+
+                appState.sessionSecondsTick += 1;
+                u.todayMinutes = (u.todayMinutes || 0) + (1 / 60);
+
+                const totalSec = Math.floor((u.todayMinutes || 0) * 60);
+                const mm = String(Math.floor(totalSec / 60)).padStart(2, '0');
+                const ss = String(totalSec % 60).padStart(2, '0');
+                const headerTimer = document.getElementById('headerStudyTimer');
+                if (headerTimer) headerTimer.textContent = `${mm}:${ss}`;
+
+                if (appState.sessionSecondsTick % 60 === 0) {
+                    checkAndGrantDailyGoalBonus(u);
+                    syncCurrentUserToUI();
+                    persistProfile();
+                    renderLeaderboard();
+                }
+
+                if (appState.pomodoroActive) {
+                    appState.pomodoroSecondsLeft -= 1;
+                    const pMin = Math.floor(Math.max(0, appState.pomodoroSecondsLeft) / 60);
+                    const pSec = Math.max(0, appState.pomodoroSecondsLeft) % 60;
+                    const pLabel = document.getElementById('pomodoroLabel');
+                    if (pLabel) pLabel.textContent = `${String(pMin).padStart(2, '0')}:${String(pSec).padStart(2, '0')}`;
+
+                    if (appState.pomodoroSecondsLeft <= 0) {
+                        appState.pomodoroActive = false;
+                        appState.pomodoroSecondsLeft = 15 * 60;
+                        if (pLabel) pLabel.textContent = '15m';
+                        postTeamActivity(u.name, u.color, '刚刚完成了 15 分钟深度专注学习冲刺！⏱️🔥', 'pomodoro');
+                        showToast('恭喜完成 15 分钟专注学习冲刺！', 'success');
+                    }
+                }
+            }, 1000);
+        }
+
+        window.togglePomodoro = function() {
+            if (!appState.currentUser) return;
+            appState.pomodoroActive = !appState.pomodoroActive;
+            const btn = document.getElementById('pomodoroToggleBtn');
+            const label = document.getElementById('pomodoroLabel');
+            if (appState.pomodoroActive) {
+                btn.classList.add('bg-amber-50', 'border-amber-300', 'text-amber-700');
+                showToast('已开启 15 分钟专注冲刺模式！', 'info');
+            } else {
+                btn.classList.remove('bg-amber-50', 'border-amber-300', 'text-amber-700');
+                appState.pomodoroSecondsLeft = 15 * 60;
+                label.textContent = '15m';
+                showToast('已暂停专注冲刺计时', 'info');
+            }
+        };
+
+        // -------------------- 10. 轻量团队打卡评论区与立 Flag --------------------
+        function postTeamActivity(author, color, content, type = 'chat') {
+            const tempId = 'local_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+            const newComment = {
+                id: tempId,
+                authorId: appState.currentUser ? appState.currentUser.id : null,
+                author: author || '团队成员',
+                color: color || 'bg-indigo-600',
+                content: content,
+                type: type,
+                likes: 0,
+                likedBy: [],
+                createdAt: Date.now()
+            };
+            appState.comments.unshift(newComment);
+            appState.comments = appState.comments.slice(0, 80);
+            saveLocalState();
+            renderComments();
+            if (!appState.currentUser || !appState.currentRoomId) return;
+            sb.from('comments').insert({
+                room_id: appState.currentRoomId,
+                author_id: appState.currentUser.id,
+                content: content,
+                type: type || 'chat'
+            }).select('id, created_at').single().then(({ data, error }) => {
+                if (error) {
+                    showToast('发布动态失败：' + error.message, 'error');
+                    updateSyncStatusUI(false);
+                    return;
+                }
+                const target = appState.comments.find(c => c.id === tempId);
+                if (target && data) {
+                    target.id = data.id;
+                    target.createdAt = data.created_at ? new Date(data.created_at).getTime() : target.createdAt;
+                    saveLocalState();
+                    renderComments();
+                }
+                updateSyncStatusUI(true);
+            });
+        }
+
+        function renderComments() {
+            const list = document.getElementById('commentFeedList');
+            const badge = document.getElementById('commentCountBadge');
+            if (!list || !badge) return;
+
+            badge.textContent = appState.comments.length;
+
+            if (!appState.comments.length) {
+                list.innerHTML = `
+                    <div class="text-center py-10 px-3">
+                        <p class="text-xs font-semibold text-slate-600">动态墙还是空的</p>
+                        <p class="text-[11px] text-slate-400 mt-1">发送第一条打卡动态，开启团队互相监督！</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = appState.comments.map(c => {
+                const isSpecial = ['nudge', 'levelup', 'pomodoro', 'system'].includes(c.type);
+                const cardStyle = c.type === 'nudge'
+                    ? 'bg-rose-50/70 border-rose-200/80'
+                    : (isSpecial ? 'bg-amber-50/60 border-amber-200/80' : 'bg-slate-50/80 border-slate-200/60');
+
+                return `
+                    <div class="p-3 rounded-2xl border ${cardStyle} animate-float-up">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="w-6 h-6 rounded-lg ${c.color || 'bg-indigo-600'} text-white text-[11px] font-bold flex items-center justify-center shrink-0">
+                                    ${escapeHTML((c.author || '?')[0].toUpperCase())}
+                                </span>
+                                <span class="text-xs font-bold text-slate-800 truncate">${escapeHTML(c.author)}</span>
+                            </div>
+                            <span class="text-[10px] text-slate-400 shrink-0">${formatRelativeTime(c.createdAt)}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed break-words">${escapeHTML(c.content)}</p>
+                        <div class="mt-2 flex items-center justify-end">
+                            <button type="button" onclick="likeComment('${escapeHTML(c.id)}')"
+                                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white hover:bg-indigo-50 text-[11px] font-medium text-slate-500 hover:text-indigo-600 border border-slate-200/70 transition cursor-pointer">
+                                <span>👍</span>
+                                <span>${c.likes || 0}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.likeComment = function(commentId) {
+            if (!appState.currentUser) {
+                showToast('请先登录后再点赞', 'warning');
+                return;
+            }
+            const target = appState.comments.find(c => c.id === commentId);
+            if (!target) return;
+            if (!Array.isArray(target.likedBy)) target.likedBy = [];
+            const key = appState.currentUser.id;
+            if (target.likedBy.includes(key) || target.likedBy.includes(appState.currentUser.name.toLowerCase())) {
+                showToast('你已经赞过这条动态了', 'info');
+                return;
+            }
+            if (String(commentId).startsWith('local_')) {
+                showToast('动态还在同步，请稍后再赞', 'info');
+                return;
+            }
+            target.likedBy.push(key);
+            target.likes = target.likedBy.length;
+            saveLocalState();
+            renderComments();
+            sb.from('comment_likes').insert({ comment_id: commentId, user_id: key }).then(({ error }) => {
+                if (error) {
+                    if (!/duplicate|conflict|23505/i.test(String(error.message || error.code))) {
+                        showToast('点赞失败：' + error.message, 'error');
+                        target.likedBy = target.likedBy.filter(id => id !== key);
+                        target.likes = target.likedBy.length;
+                        renderComments();
+                        updateSyncStatusUI(false);
+                    }
+                    return;
+                }
+                updateSyncStatusUI(true);
+            });
+        };
+
+        window.quickSendComment = function(text) {
+            if (!appState.currentUser) {
+                showToast('请先登录账号后再发送动态', 'warning');
+                return;
+            }
+            postTeamActivity(appState.currentUser.name, appState.currentUser.color, text, 'chat');
+        };
+
+        function initCommentHandlers() {
+            const form = document.getElementById('commentForm');
+            const input = document.getElementById('commentInput');
+            if (form && input) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!appState.currentUser) {
+                        showToast('请先登录账号后再发送动态', 'warning');
+                        return;
+                    }
+                    const text = input.value.trim();
+                    if (!text) return;
+                    postTeamActivity(appState.currentUser.name, appState.currentUser.color, text, 'chat');
+                    input.value = '';
+                });
+            }
+        }
+
+        window.openFlagModal = function() {
+            if (!appState.currentUser) return;
+            document.getElementById('flagInput').value = appState.currentUser.flag || '';
+            document.getElementById('flagModal').classList.remove('hidden');
+        };
+
+        window.closeFlagModal = function() {
+            document.getElementById('flagModal').classList.add('hidden');
+        };
+
+        window.saveUserFlag = function() {
+            if (!appState.currentUser) return;
+            const val = document.getElementById('flagInput').value.trim();
+            if (!val) {
+                showToast('请输入你的今日学习 Flag', 'warning');
+                return;
+            }
+            appState.currentUser.flag = val;
+            syncCurrentUserToCloud();
+            renderLeaderboard();
+            closeFlagModal();
+            postTeamActivity(appState.currentUser.name, appState.currentUser.color, `立下了今日学习 Flag：“${val}” 🚩`, 'system');
+            showToast('今日 Flag 已保存到动态墙', 'success');
+        };
+
+        window.openPointsRulesModal = function() {
+            const grid = document.getElementById('titleLadderGrid');
+            if (grid) {
+                const myTitle = appState.currentUser ? getMemberNobleTitle(appState.currentUser) : null;
+                grid.innerHTML = NOBLE_TITLES.map(t => {
+                    const isCurrent = myTitle && myTitle.id === t.id;
+                    return `
+                        <div class="p-2.5 rounded-xl border ${isCurrent ? 'border-indigo-400 bg-indigo-50/60 ring-1 ring-indigo-300' : 'border-slate-200/80 bg-slate-50/70'} flex flex-col justify-between">
+                            <div class="flex items-center justify-between gap-1">
+                                <span class="px-2 py-0.5 rounded-md text-xs font-bold ${t.badgeClass}">${t.icon} ${t.name}</span>
+                                ${isCurrent ? '<span class="text-[10px] font-bold text-indigo-600">当前</span>' : ''}
+                            </div>
+                            <span class="text-[11px] text-slate-500 mt-1.5">${t.desc}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+            document.getElementById('pointsRulesModal').classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+        };
+
+        window.closePointsRulesModal = function() {
+            document.getElementById('pointsRulesModal').classList.add('hidden');
+        };
+
+        // -------------------- 11. 应用启动入口 --------------------
+        let isAppInitialized = false;
+        async function bootApp() {
+            if (isAppInitialized) return;
+            isAppInitialized = true;
+
+            try {
+                if (window.lucide) lucide.createIcons();
+                loadLocalState();
+                initAuthHandlers();
+                initCommentHandlers();
+                renderRegisteredMemberChips();
+                renderLeaderboard();
+                renderComments();
+                startStudyTimers();
+
+                // 双击分享弹窗标题可静默下载最新 index.html
+                const shareTitle = document.getElementById('shareModalTitle');
+                if (shareTitle) {
+                    shareTitle.addEventListener('dblclick', () => {
+                        exportStandaloneHTML();
+                    });
+                }
+
+                updateSyncStatusUI(false);
+                const { data: sessionData } = await sb.auth.getSession();
+                if (sessionData && sessionData.session) {
+                    try {
+                        await enterSession(false);
+                    } catch (e) {
+                        console.error('恢复会话失败:', e);
+                        showToast('自动登录失败，请重新登录：' + (e.message || e), 'warning');
+                        document.getElementById('loginModal').classList.remove('hidden');
+                    }
+                }
+
+                document.addEventListener('visibilitychange', () => {
+                    if (!appState.currentUser) return;
+                    if (document.hidden) {
+                        persistProfile();
+                    }
+                });
+                window.addEventListener('online', () => {
+                    if (appState.currentUser) refreshRoomData();
+                });
+                window.addEventListener('offline', () => updateSyncStatusUI(false));
+            } catch (err) {
+                console.error('应用初始化异常:', err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootApp);
+        } else {
+            bootApp();
+        }
+        window.addEventListener('load', bootApp);
+    </script>
+
+</body></html>
