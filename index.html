@@ -954,6 +954,7 @@
         let isSyncingToCloud = false;
         let pendingSyncAfterCurrent = false;
         let dynamicQuestionBank = [];
+        let cloudQuestionBank = [];
         let isGeneratingQuestion = false;
 
         // 本地存储兜底读写工具
@@ -977,6 +978,11 @@
                 if (m) appState.teamMembers = JSON.parse(m) || [];
                 if (c) appState.comments = JSON.parse(c) || [];
                 if (q) dynamicQuestionBank = JSON.parse(q) || [];
+                const qb = localStorage.getItem(getLocalStoreKey('questionBankCloud'));
+                if (qb) {
+                    const cached = JSON.parse(qb);
+                    if (Array.isArray(cached) && cached.length) cloudQuestionBank = cached;
+                }
                 loadSeenQuestionIds();
             } catch (_) {}
         }
@@ -3755,8 +3761,37 @@
             return Array.from(map.values());
         }
         function collectQuestionBank() {
-            return uniqueQuestionsById([].concat(BUILTIN_QUESTION_BANK || [], dynamicQuestionBank || []));
+            return uniqueQuestionsById([].concat(BUILTIN_QUESTION_BANK || [], cloudQuestionBank || [], dynamicQuestionBank || []));
         }
+
+        async function loadCloudQuestionBank() {
+            const applyItems = (items) => {
+                const cleaned = (items || []).filter(q => q && q.id && q.skill);
+                if (cleaned.length) {
+                    cloudQuestionBank = cleaned;
+                    try { localStorage.setItem(getLocalStoreKey('questionBankCloud'), JSON.stringify(cleaned)); } catch (_) {}
+                }
+                return cleaned.length;
+            };
+            if (sb) {
+                try {
+                    const { data, error } = await sb.from('question_bank').select('payload').order('id');
+                    if (error) throw error;
+                    const items = (data || []).map(row => row.payload);
+                    const n = applyItems(items);
+                    window.__questionBankReady = true;
+                    window.__questionBankSource = n ? 'cloud' : 'fallback';
+                    return n;
+                } catch (e) {
+                    console.warn('加载云端题库失败，改用本地缓存或内置题库:', e && e.message ? e.message : e);
+                }
+            }
+            window.__questionBankReady = true;
+            window.__questionBankSource = cloudQuestionBank.length ? 'cache' : 'builtin';
+            return cloudQuestionBank.length;
+        }
+        window.loadCloudQuestionBank = loadCloudQuestionBank;
+        window.cloudQuestionBankRef = function() { return cloudQuestionBank; };
 
         function speakingUAInfo() {
             const ua = navigator.userAgent || '';
@@ -4869,6 +4904,7 @@
                 setCloudStatus('connecting');
                 const reachable = await probeCloud();
                 if (reachable && sb) {
+                    await loadCloudQuestionBank();
                     const { data: sessionData } = await sb.auth.getSession();
                     if (sessionData && sessionData.session) {
                         try {
@@ -4882,6 +4918,9 @@
                 } else if (!sb) {
                     setCloudStatus('offline', '云端脚本未加载');
                     showToast('云端脚本未加载，无法注册或登录。请检查网络后刷新页面。', 'error');
+                    await loadCloudQuestionBank();
+                } else {
+                    await loadCloudQuestionBank();
                 }
 
                 document.addEventListener('visibilitychange', () => {
