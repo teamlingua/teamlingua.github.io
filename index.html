@@ -63,6 +63,11 @@
         .sound-bar {
             animation: wave 0.9s ease-in-out infinite;
         }
+        #titleSkillsPanel, #titleSkillsList, #titleSkillActionBox, #officialQuestionBar, #teamChallengeBar {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        #titleSkillsList { min-width: 0; }
         html, body {
             overflow-x: hidden;
             max-width: 100%;
@@ -374,6 +379,8 @@
                 </div>
 
                 <div id="princeBountyBar" class="hidden mb-4"></div>
+                <div id="officialQuestionBar" class="hidden mb-4"></div>
+                <div id="teamChallengeBar" class="hidden mb-4"></div>
 
                 <!-- 题干与情境文本 -->
                 <div class="mb-5">
@@ -426,6 +433,29 @@
                     <button type="button" id="wrongFilterMastered" onclick="setWrongBookFilter('mastered')" class="px-2.5 py-1 rounded-lg text-slate-600 text-xs font-semibold cursor-pointer">已掌握</button>
                 </div>
                 <div id="wrongBookList" class="space-y-2.5 max-h-[28rem] overflow-y-auto custom-scrollbar"></div>
+            </div>
+
+            <div id="titleSkillsPanel" class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-xs min-w-0">
+                <div class="flex items-center justify-between gap-2 mb-2 min-w-0">
+                    <div class="min-w-0">
+                        <h3 class="text-sm font-bold text-slate-900">我的技能</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">高等级头衔会保留所有低级头衔的技能</p>
+                    </div>
+                    <span id="titleSkillsTitleHint" class="shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600">未登录</span>
+                </div>
+                <div id="titleSkillsHelpCard" class="mb-3 rounded-2xl border border-amber-200 bg-amber-50/80">
+                    <button type="button" onclick="toggleTitleSkillsHelp()" class="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 text-left cursor-pointer">
+                        <span class="text-xs font-bold text-amber-900">怎么用？</span>
+                        <span id="titleSkillsHelpChevron" class="text-amber-800 text-xs">▾</span>
+                    </button>
+                    <div id="titleSkillsHelpBody" class="px-3.5 pb-3 text-xs text-slate-700 leading-relaxed space-y-1">
+                        <p>每个头衔都会解锁一项技能，<strong>更高等级会保留所有低级技能</strong>。日期与冷却均按新西兰时间（Pacific/Auckland）的自然日、周一至周日的自然周、自然月计算。</p>
+                        <p>云端会检查头衔和冷却；冷却期内不能再用，同一效果不会重复发奖。使用成功后会在动态里发消息。</p>
+                        <p>护盾无需手动开启：漏签恰好 1 天时，下次登录会自动保留连签并消耗当月护盾。亲王悬赏令在当前题目卡片上发布。</p>
+                    </div>
+                </div>
+                <div id="titleSkillsList" class="space-y-2"></div>
+                <div id="titleSkillActionBox" class="hidden mt-3 p-3 rounded-2xl border border-slate-200 bg-slate-50 min-w-0"></div>
             </div>
         </section>
 
@@ -551,7 +581,7 @@
                     <span>⚜️ 亲王悬赏令：</span>
                 </div>
                 <p class="text-xs text-violet-800 mt-1 leading-relaxed">
-                    头衔为「亲王」的成员<strong>每周可发布 1 次</strong>悬赏，由系统出资，<strong>不扣除亲王自身积分</strong>。悬赏绑定当前题目，<strong>48 小时内</strong>首位答对的队友获得 <strong>+20 积分</strong>，发布的亲王获得 <strong>+5 积分</strong>；超时未解开则自动过期，无积分变动。
+                    头衔为「亲王」或更高（国王保留该技能）的成员<strong>每周可发布 1 次</strong>悬赏，由系统出资，<strong>不扣除自身积分</strong>。悬赏绑定当前题目，<strong>48 小时内</strong>首位答对的队友获得 <strong>+20 积分</strong>，发布的亲王获得 <strong>+5 积分</strong>；超时未解开则自动过期，无积分变动。
                 </p>
             </div>
 
@@ -571,6 +601,26 @@
                 <p class="text-xs text-rose-900 mt-1 leading-relaxed">
                     答错的题目会<strong>自动保存</strong>到错题本。请在 1 天后复习；每次复习答对，间隔依次变为 3 天、7 天、14 天。再次答错会重置为 1 天后复习。在 14 天那一轮复习中答对，题目记为「已掌握」。每天登录时，若有到期题目，会提示「今天有 N 道题待复习」。复习答对计 <strong>+1 积分</strong>（不会重复计分）。也可以随时手动移除。
                 </p>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 mb-4">
+                <div class="flex items-center gap-2 font-bold text-xs sm:text-sm text-amber-900">
+                    <span>⚔️ 头衔技能怎么用？</span>
+                </div>
+                <p class="text-xs text-amber-950 mt-1 leading-relaxed">
+                    每个头衔解锁一项技能，<strong>更高等级保留全部低级技能</strong>。冷却按新西兰时间（Pacific/Auckland）的自然日、周一至周日的自然周或自然月计算。云端会校验头衔和冷却，同一效果不会重复发奖。使用成功后会在团队动态里发消息。
+                </p>
+                <ul class="mt-2 space-y-1.5 text-xs text-amber-950 leading-relaxed list-none pl-0">
+                    <li><strong>见习骑士 · 助威：</strong>每天 1 次，为 1 名队友加油（不能给自己）。对方立即 +2 积分，自己 +1 积分。</li>
+                    <li><strong>皇家骑士 · 护盾：</strong>每月 1 次，无需手动开启。若漏签恰好 1 天，下次登录时自动保留连签并消耗当月护盾。漏签 2 天及以上仍会重置，护盾不消耗。面板显示「本月可用」或「本月已使用」。</li>
+                    <li><strong>男爵 · 出题官：</strong>每天 1 次，向全队发布一道带答案的练习题。每位队友答对得 +1（每题每人一次），出题官按答对人数每人再 +1，单题最多 +10。出题官不能作答自己的题。</li>
+                    <li><strong>子爵 · 双倍时刻：</strong>每周（周一至周日）1 次，开启 1 小时窗口。窗口内自己答对积分翻倍（+2 而不是 +1），同一题不会重复翻倍。</li>
+                    <li><strong>伯爵 · 点名督促：</strong>每天 1 次，督促 1 名队友。若对方在今日结束前完成 20 分钟学习目标，两人各得 +5 积分（只发一次）。</li>
+                    <li><strong>侯爵 · 专属称号色：</strong>头衔名称或徽章在排行榜和动态里显示专属颜色。可随时更换，仅用于外观，没有冷却。</li>
+                    <li><strong>公爵 · 组队挑战：</strong>每周 1 次，发起为期 3 天的挑战，队友选择加入。若所有已加入成员（含公爵）在这 3 天每天都完成 20 分钟学习目标，每人 +15 积分（只发一次）。</li>
+                    <li><strong>亲王 · 悬赏令：</strong>每周可发布 1 次，由系统出资、不扣自身积分。绑定当前题目，48 小时内首位答对的队友 +20，发布者 +5；超时过期无积分变动。国王同样可以使用。</li>
+                    <li><strong>国王 · 国王令：</strong>每周 1 次，发布全队今日任务（例如「今日答对 N 题」），系统自动检查完成情况。每位完成者 +10 积分，国王按完成人数每人再 +2 积分。</li>
+                </ul>
             </div>
 
             <!-- 头衔晋升阶梯表 -->
@@ -644,6 +694,7 @@
                 flagDate: p.flag_date,
                 dailyBonusAwardedDate: p.daily_bonus_awarded_date,
                 streakBonusAwarded: p.streak_bonus_awarded || 0,
+                titleColor: p.title_color || '',
                 updatedAt: p.updated_at ? new Date(p.updated_at).getTime() : Date.now()
             };
         }
@@ -669,9 +720,10 @@
         }
 
         function getDateStringFromOffset(daysOffset) {
-            const d = new Date();
-            d.setDate(d.getDate() + daysOffset);
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            const today = getTodayDateString();
+            const parts = today.split('-').map(Number);
+            const dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2] + (daysOffset || 0)));
+            return dt.toISOString().slice(0, 10);
         }
 
         function applyDailyLoginReset(user) {
@@ -986,7 +1038,7 @@
             const u = appState.currentUser;
             if (!u || !appState.currentRoomId || !sb) return false;
             const title = getMemberNobleTitle(u);
-            if (!title || title.id !== 'prince') return false;
+            if (!title || (title.id !== 'prince' && title.id !== 'king')) return false;
             const q = appState.currentQuestion;
             if (!q || !q.id) return false;
             if (getActiveBountyForQuestion(q.id)) return false;
@@ -1068,8 +1120,8 @@
             }
             if (!canIssuePrinceBounty()) {
                 const title = getMemberNobleTitle(u);
-                if (!title || title.id !== 'prince') {
-                    showToast('仅头衔为「亲王」的成员可发布悬赏令', 'warning');
+                if (!title || (title.id !== 'prince' && title.id !== 'king')) {
+                    showToast('需要「亲王」或更高头衔才能发布悬赏令', 'warning');
                 } else if (getActiveBountyForQuestion(q.id)) {
                     showToast('该题目已有进行中的悬赏令', 'warning');
                 } else {
@@ -1130,6 +1182,7 @@
         const WRONG_BOOK_INTERVALS = [1, 3, 7, 14];
         const HELP_LS_WRONG = 'teamlingua_v4_help_collapsed_wrongbook';
         const HELP_LS_SKILLS = 'teamlingua_v4_help_collapsed_skills';
+        const HELP_LS_TITLE_SKILLS = 'teamlingua_v4_help_collapsed_titleskills';
 
         function isHelpCollapsed(key) {
             try { return localStorage.getItem(key) === '1'; } catch (_) { return false; }
@@ -1158,6 +1211,9 @@
         };
         window.toggleSkillsHelp = function() {
             toggleHelpCard(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
+        };
+        window.toggleTitleSkillsHelp = function() {
+            toggleHelpCard(HELP_LS_TITLE_SKILLS, 'titleSkillsHelpBody', 'titleSkillsHelpChevron');
         };
 
         function endOfLocalToday() {
@@ -1618,6 +1674,7 @@
                 updateSyncStatusUI(true);
                 await refreshBounties();
                 await refreshWrongAnswers();
+                await refreshTitleSkills();
                 return true;
             } catch (e) {
                 updateSyncStatusUI(false, '同步团队数据失败');
@@ -1703,6 +1760,12 @@
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'bounties', filter: 'room_id=eq.' + roomId }, () => {
                     refreshBounties();
                 })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'skill_effects', filter: 'room_id=eq.' + roomId }, () => {
+                    refreshTitleSkills();
+                })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'skill_uses', filter: 'room_id=eq.' + roomId }, () => {
+                    refreshTitleSkills();
+                })
                 .subscribe((status) => {
                     if (status === 'SUBSCRIBED') updateSyncStatusUI(true);
                     else if (status === 'CHANNEL_ERROR') updateSyncStatusUI(false, '实时通道失败');
@@ -1735,22 +1798,45 @@
             }
 
             const member = profileToMember(profile);
-            const dayRolled = applyDailyLoginReset(member);
-            member.todayDate = member.lastActiveDate;
             appState.currentUser = member;
             upsertMember(member);
+            let dayRolled = false;
+            try {
+                const loginRes = await sb.rpc('resolve_daily_login', { p_room_id: appState.currentRoomId });
+                if (loginRes.error) throw loginRes.error;
+                const data = loginRes.data;
+                if (data && data.profile) {
+                    const fresh = profileToMember(data.profile);
+                    appState.currentUser = {
+                        ...member,
+                        ...fresh,
+                        todayMinutes: fresh.todayMinutes || 0
+                    };
+                    upsertMember(appState.currentUser);
+                }
+                dayRolled = !!(data && data.rolled);
+                if (data && data.shield_consumed) {
+                    showToast('漏签了 1 天，皇家骑士护盾已自动生效，连签得以保留！', 'success');
+                }
+            } catch (e) {
+                dayRolled = applyDailyLoginReset(appState.currentUser);
+                appState.currentUser.todayDate = appState.currentUser.lastActiveDate;
+                upsertMember(appState.currentUser);
+            }
             if (dayRolled) awardStreakMilestones(appState.currentUser);
+            const loginModalEl = document.getElementById('loginModal');
+            if (loginModalEl) loginModalEl.classList.add('hidden');
+            syncCurrentUserToUI();
             const saved = await persistProfile();
             if (saved) await refreshRoomData();
             startRealtime();
-
-            document.getElementById('loginModal').classList.add('hidden');
-            syncCurrentUserToUI();
             renderLeaderboard();
             renderRegisteredMemberChips();
             loadNextAdaptiveQuestion();
             await refreshWrongAnswers();
+            await refreshTitleSkills();
             applyHelpCardState(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
+            applyHelpCardState(HELP_LS_TITLE_SKILLS, 'titleSkillsHelpBody', 'titleSkillsHelpChevron');
             showToast(isNewUser ? `欢迎加入，${member.name}！账号已保存到云端` : `欢迎回来，${member.name}！`, 'success');
         }
 
@@ -1880,7 +1966,11 @@
             reviewQueue: [],
             reviewIndex: 0,
             reviewItemId: null,
-            lastUserAnswer: ''
+            lastUserAnswer: '',
+            skillUses: [],
+            skillEffects: [],
+            skillStatus: null,
+            officialQuestion: null
         };
         window.appState = appState;
         window.getCloudStatus = () => ({ state: cloudSyncState, reason: cloudSyncReason, healthy: cloudSyncHealthy });
@@ -1977,9 +2067,9 @@
                 .replace(/'/g, '&#39;');
         }
 
+        const APP_TZ = 'Pacific/Auckland';
         function getTodayDateString() {
-            const d = new Date();
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            return new Intl.DateTimeFormat('en-CA', { timeZone: APP_TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
         }
 
         function formatRelativeTime(ts) {
@@ -2051,11 +2141,507 @@
             return NOBLE_TITLES[NOBLE_TITLES.length - 1];
         }
 
+
+        const TITLE_RANK = { commoner: 0, knight: 1, royal_knight: 2, baron: 3, viscount: 4, earl: 5, marquess: 6, duke: 7, prince: 8, king: 9 };
+        const TITLE_COLOR_PRESETS = {
+            'royal-gold': { bg: 'linear-gradient(135deg,#f59e0b,#b45309)', color: '#fff', label: '皇家金' },
+            'imperial-purple': { bg: 'linear-gradient(135deg,#8b5cf6,#6d28d9)', color: '#fff', label: '皇室紫' },
+            'crimson': { bg: 'linear-gradient(135deg,#f43f5e,#be123c)', color: '#fff', label: '绯红' },
+            'jade': { bg: 'linear-gradient(135deg,#34d399,#047857)', color: '#fff', label: '翠玉' },
+            'midnight': { bg: 'linear-gradient(135deg,#60a5fa,#1e3a8a)', color: '#fff', label: '午夜蓝' },
+            'rose': { bg: 'linear-gradient(135deg,#fb7185,#9f1239)', color: '#fff', label: '玫瑰' }
+        };
+        const TITLE_SKILLS = [
+            { id: 'cheer', titleId: 'knight', titleName: '见习骑士', name: '助威', icon: '📣', cooldownLabel: '每天 1 次', needTarget: true, desc: '为 1 名队友加油（不能给自己）。对方立即 +2 积分，自己 +1 积分。' },
+            { id: 'shield', titleId: 'royal_knight', titleName: '皇家骑士', name: '护盾', icon: '🛡️', cooldownLabel: '每月 1 次', auto: true, desc: '无需手动开启。若漏签恰好 1 天，下次登录自动保留连签并消耗当月护盾。漏签 2 天及以上仍会重置。' },
+            { id: 'set_question', titleId: 'baron', titleName: '男爵', name: '出题官', icon: '📝', cooldownLabel: '每天 1 次', form: 'question', desc: '向全队发布一道带答案的练习题。队友答对 +1（每题每人一次），你按答对人数每人 +1，单题最多 +10。你不能作答自己的题。' },
+            { id: 'double_time', titleId: 'viscount', titleName: '子爵', name: '双倍时刻', icon: '⏱️', cooldownLabel: '每周 1 次', desc: '开启 1 小时窗口，窗口内自己答对积分翻倍（+2）。同一题不会重复翻倍。按周一至周日计算。' },
+            { id: 'roll_call', titleId: 'earl', titleName: '伯爵', name: '点名督促', icon: '📢', cooldownLabel: '每天 1 次', needTarget: true, desc: '督促 1 名队友。若对方在今日结束前完成 20 分钟学习目标，两人各得 +5 积分（只发一次）。' },
+            { id: 'title_color', titleId: 'marquess', titleName: '侯爵', name: '专属称号色', icon: '🎨', cooldownLabel: '随时可换', form: 'color', desc: '排行榜和动态里的名字或徽章显示专属颜色。可随时更换，仅用于外观。' },
+            { id: 'team_challenge', titleId: 'duke', titleName: '公爵', name: '组队挑战', icon: '🤝', cooldownLabel: '每周 1 次', desc: '发起为期 3 天的挑战，队友选择加入。所有已加入成员这 3 天每天都完成 20 分钟学习目标后，每人 +15 积分（只发一次）。' },
+            { id: 'bounty', titleId: 'prince', titleName: '亲王', name: '悬赏令', icon: '⚜️', cooldownLabel: '每周 1 次', existing: true, desc: '每周 1 次，系统出资不扣自身积分。绑定当前题目，48 小时内首位答对的队友 +20，发布者 +5。请在题目卡片上发布。' },
+            { id: 'king_decree', titleId: 'king', titleName: '国王', name: '国王令', icon: '👑', cooldownLabel: '每周 1 次', form: 'decree', desc: '发布全队今日任务（今日答对 N 题）。每位完成者 +10 积分，你按完成人数每人再 +2 积分。' }
+        ];
+
+        function titleColorStyleAttr(member, title) {
+            const t = title || (member ? getMemberNobleTitle(member) : null);
+            const rank = TITLE_RANK[(t && t.id) || ''] || 0;
+            const key = member && member.titleColor;
+            if (rank >= TITLE_RANK.marquess && key && TITLE_COLOR_PRESETS[key]) {
+                const c = TITLE_COLOR_PRESETS[key];
+                return 'background:' + c.bg + ';color:' + c.color + ';border:0;';
+            }
+            return '';
+        }
+        function titleNameStyleAttr(member) {
+            const title = member ? getMemberNobleTitle(member) : null;
+            const rank = TITLE_RANK[(title && title.id) || ''] || 0;
+            const key = member && member.titleColor;
+            if (rank >= TITLE_RANK.marquess && key && TITLE_COLOR_PRESETS[key]) {
+                const c = TITLE_COLOR_PRESETS[key];
+                return 'background:' + c.bg + ';-webkit-background-clip:text;background-clip:text;color:transparent;';
+            }
+            return '';
+        }
+        function commentAuthorStyle(comment) {
+            if (!comment) return '';
+            const m = (appState.teamMembers || []).find(x => (comment.authorId && x.id === comment.authorId) || (comment.author && x.name === comment.author));
+            return m ? titleNameStyleAttr(m) : '';
+        }
+        function skillStatusById(id) {
+            const skills = appState.skillStatus && appState.skillStatus.skills;
+            if (!Array.isArray(skills)) return null;
+            return skills.find(s => s.id === id) || null;
+        }
+        function formatSkillStatus(sk, st) {
+            if (!appState.currentUser) return '登录后查看';
+            const unlocked = st ? !!st.unlocked : false;
+            if (!unlocked) return '未解锁';
+            if (sk.id === 'shield') return (st && st.used_this_period) ? '本月已使用' : '本月可用';
+            if (sk.id === 'title_color') return '可更换';
+            if (st && st.ready) return '可使用';
+            if (st && st.period === 'day') return '今日已用';
+            if (st && st.period === 'week') return '本周已用';
+            if (st && st.period === 'month') return '本月已用';
+            return '冷却中';
+        }
+        function teammateOptionsHtml(includeSelf) {
+            const me = appState.currentUser;
+            const members = (appState.teamMembers || []).filter(m => m && m.id && (includeSelf || !me || m.id !== me.id));
+            if (!members.length) return '<option value="">暂无其他队友</option>';
+            return '<option value="">选择队友</option>' + members.map(m =>
+                `<option value="${escapeHTML(m.id)}">${escapeHTML(m.name)}</option>`
+            ).join('');
+        }
+
+        function renderOfficialQuestionBar() {
+            const bar = document.getElementById('officialQuestionBar');
+            if (!bar) return;
+            const q = appState.officialQuestion;
+            if (!q) {
+                bar.classList.add('hidden');
+                bar.innerHTML = '';
+                return;
+            }
+            const isAuthor = appState.currentUser && q._officerAuthorId === appState.currentUser.id;
+            const already = appState.currentQuestion && appState.currentQuestion.id === q.id;
+            bar.className = 'mb-4 px-3.5 py-3 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-900 min-w-0';
+            const action = isAuthor
+                ? '<span class="text-[11px] font-semibold shrink-0">你是出题官，不能作答</span>'
+                : (already ? '<span class="text-[11px] font-semibold shrink-0">正在作答</span>'
+                    : '<button type="button" onclick="loadOfficialQuestion()" class="shrink-0 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold cursor-pointer">开始作答</button>');
+            bar.innerHTML = `
+                <div class="flex flex-wrap items-center justify-between gap-2 min-w-0">
+                    <div class="min-w-0">
+                        <div class="text-xs font-bold">📝 出题官发布了新题</div>
+                        <p class="text-[11px] text-emerald-800 mt-0.5 break-words">${escapeHTML((q.prompt || '').slice(0, 80))}</p>
+                    </div>
+                    ${action}
+                </div>`;
+            bar.classList.remove('hidden');
+        }
+
+        function renderTeamChallengeBar() {
+            const bar = document.getElementById('teamChallengeBar');
+            if (!bar) return;
+            const effects = appState.skillEffects || [];
+            const ch = effects.find(e => e.skill_id === 'team_challenge' && !e.consumed && e.ends_at && new Date(e.ends_at).getTime() > Date.now() && !(e.payload && (e.payload.rewarded || e.payload.failed)));
+            if (!ch) {
+                bar.classList.add('hidden');
+                bar.innerHTML = '';
+                return;
+            }
+            const p = ch.payload || {};
+            const days = p.days || [];
+            const members = p.members || {};
+            const progress = p.progress || {};
+            const me = appState.currentUser;
+            const joined = !!(me && members[me.id]);
+            const count = Object.keys(members).filter(k => members[k]).length;
+            bar.className = 'mb-4 px-3.5 py-3 rounded-2xl border border-sky-200 bg-sky-50 text-sky-900 min-w-0';
+            bar.innerHTML = `
+                <div class="flex flex-wrap items-center justify-between gap-2 min-w-0">
+                    <div class="min-w-0">
+                        <div class="text-xs font-bold">🤝 3 天组队挑战进行中 · 已加入 ${count} 人</div>
+                        <p class="text-[11px] text-sky-800 mt-0.5">日期：${escapeHTML((days || []).join('、'))}。所有加入成员每天都完成 20 分钟目标后，每人 +15。</p>
+                    </div>
+                    ${joined ? '<span class="text-[11px] font-semibold shrink-0">已加入</span>'
+                        : '<button type="button" onclick="joinTeamChallenge()" class="shrink-0 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold cursor-pointer">加入挑战</button>'}
+                </div>`;
+            bar.classList.remove('hidden');
+        }
+
+        function renderKingDecreeBar() {
+            let bar = document.getElementById('kingDecreeBar');
+            if (!bar) {
+                const anchor = document.getElementById('teamChallengeBar');
+                if (!anchor || !anchor.parentNode) return;
+                bar = document.createElement('div');
+                bar.id = 'kingDecreeBar';
+                bar.className = 'hidden mb-4';
+                anchor.parentNode.insertBefore(bar, anchor.nextSibling);
+            }
+            const effects = appState.skillEffects || [];
+            const d = effects.find(e => e.skill_id === 'king_decree' && !e.consumed && e.ends_at && new Date(e.ends_at).getTime() > Date.now());
+            if (!d) {
+                bar.classList.add('hidden');
+                bar.innerHTML = '';
+                return;
+            }
+            const p = d.payload || {};
+            const n = p.goal || 5;
+            const done = Object.keys(p.completers || {}).length;
+            bar.className = 'mb-4 px-3.5 py-3 rounded-2xl border border-amber-200 bg-amber-50 text-amber-900 min-w-0';
+            bar.innerHTML = `<div class="text-xs font-bold">👑 国王令进行中</div>
+                <p class="text-[11px] text-amber-800 mt-0.5">今日答对 ${n} 题即可完成。完成者 +10，国王按完成人数每人 +2。已完成 ${done} 人。</p>`;
+            bar.classList.remove('hidden');
+        }
+
+        window.loadOfficialQuestion = function() {
+            const q = appState.officialQuestion;
+            if (!q) {
+                showToast('暂时没有出题官发布的题目', 'warning');
+                return;
+            }
+            if (appState.currentUser && q._officerAuthorId === appState.currentUser.id) {
+                showToast('出题官不能作答自己发布的题目', 'warning');
+                return;
+            }
+            appState.currentQuestion = q;
+            appState.selectedOptionIndex = null;
+            appState.questionAnswered = false;
+            appState.latestSpeechTranscript = '';
+            if (typeof setPracticeTab === 'function') setPracticeTab('practice');
+            renderCurrentQuestion();
+            showToast('已加载出题官的题目', 'success');
+        };
+
+        window.joinTeamChallenge = async function() {
+            if (!sb || !appState.currentRoomId) {
+                showToast('请先登录', 'warning');
+                return null;
+            }
+            const { data, error } = await sb.rpc('join_team_challenge', { p_room_id: appState.currentRoomId });
+            if (error) {
+                showToast((error.message || '加入失败').replace(/^.*error: /i, ''), 'error');
+                return null;
+            }
+            showToast((data && data.feed_text) || '已加入组队挑战', 'success');
+            await refreshRoomData();
+            await refreshTitleSkills();
+            return data;
+        };
+
+        function renderTitleSkillsPanel() {
+            const list = document.getElementById('titleSkillsList');
+            const hint = document.getElementById('titleSkillsTitleHint');
+            if (hint) {
+                if (!appState.currentUser) {
+                    hint.textContent = '未登录';
+                    hint.className = 'shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600';
+                    hint.setAttribute('style', '');
+                } else {
+                    const title = getMemberNobleTitle(appState.currentUser);
+                    hint.textContent = title.icon + ' ' + title.name;
+                    hint.className = 'shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold ' + title.badgeClass;
+                    hint.setAttribute('style', titleColorStyleAttr(appState.currentUser, title));
+                }
+            }
+            if (!list) return;
+            list.innerHTML = TITLE_SKILLS.map(sk => {
+                const st = skillStatusById(sk.id);
+                const unlocked = st ? !!st.unlocked : !!(appState.currentUser && (TITLE_RANK[getMemberNobleTitle(appState.currentUser).id] || 0) >= (TITLE_RANK[sk.titleId] || 99));
+                const ready = st ? !!st.ready : unlocked;
+                const badge = formatSkillStatus(sk, st || { unlocked, ready });
+                const badgeCls = !unlocked ? 'bg-slate-100 text-slate-500' : (ready || sk.id === 'title_color' || (sk.id === 'shield' && unlocked && !(st && st.used_this_period)) ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800');
+                let btn = '';
+                if (unlocked && appState.currentUser) {
+                    if (sk.auto) btn = '';
+                    else if (sk.existing) btn = `<button type="button" onclick="issuePrinceBounty()" class="shrink-0 px-2.5 py-1 rounded-lg ${ready ? 'bg-violet-600 text-white' : 'bg-slate-200 text-slate-500'} text-[11px] font-semibold cursor-pointer">${ready ? '去发布' : '本周已用'}</button>`;
+                    else if (sk.id === 'title_color') btn = `<button type="button" onclick="openTitleSkillAction('${sk.id}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-semibold cursor-pointer">更换</button>`;
+                    else btn = `<button type="button" onclick="openTitleSkillAction('${sk.id}')" class="shrink-0 px-2.5 py-1 rounded-lg ${ready ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-500'} text-[11px] font-semibold cursor-pointer">${ready ? '使用' : (st && st.period === 'day' ? '今日已用' : st && st.period === 'week' ? '本周已用' : '冷却中')}</button>`;
+                }
+                return `<div class="p-3 rounded-2xl border ${unlocked ? 'border-slate-200 bg-white' : 'border-slate-100 bg-slate-50'} min-w-0">
+                    <div class="flex items-start justify-between gap-2 min-w-0">
+                        <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="text-xs font-bold text-slate-900">${sk.icon} ${sk.name}</span>
+                                <span class="text-[10px] font-semibold text-slate-500">${sk.titleName}</span>
+                                <span class="px-1.5 py-0.2 rounded ${badgeCls} text-[10px] font-bold">${badge}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed break-words">${sk.desc}</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">${sk.cooldownLabel}</p>
+                        </div>
+                        ${btn}
+                    </div>
+                </div>`;
+            }).join('');
+            renderOfficialQuestionBar();
+            renderTeamChallengeBar();
+            renderKingDecreeBar();
+        }
+
+        window.openTitleSkillAction = function(skillId) {
+            const box = document.getElementById('titleSkillActionBox');
+            const sk = TITLE_SKILLS.find(s => s.id === skillId);
+            if (!box || !sk) return;
+            if (sk.auto) {
+                showToast('护盾会在漏签恰好 1 天时自动生效，无需手动开启', 'info');
+                return;
+            }
+            const st = skillStatusById(skillId);
+            if (sk.id !== 'title_color' && st && !st.ready) {
+                showToast(st.unlocked ? formatSkillStatus(sk, st) : '当前头衔尚未解锁该技能', 'warning');
+                return;
+            }
+            if (sk.existing) {
+                issuePrinceBounty();
+                return;
+            }
+            if (sk.form === 'color') {
+                const opts = Object.keys(TITLE_COLOR_PRESETS).map(k => {
+                    const c = TITLE_COLOR_PRESETS[k];
+                    return `<button type="button" onclick="useTitleSkill('title_color', { color: '${k}' })" class="px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer text-white" style="background:${c.bg}">${c.label}</button>`;
+                }).join('');
+                box.classList.remove('hidden');
+                box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">选择专属称号色（可随时更换）</div>
+                    <div class="flex flex-wrap gap-2">${opts}</div>
+                    <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="mt-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">取消</button>`;
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+            if (sk.form === 'decree') {
+                box.classList.remove('hidden');
+                box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">👑 颁布国王令</div>
+                    <p class="text-[11px] text-slate-600 mb-2">发布全队今日任务：答对 N 题。完成者 +10，你按完成人数每人 +2。</p>
+                    <label class="text-[11px] text-slate-500">今日答对题数
+                        <select id="decreeGoal" class="ml-1 text-xs p-1 rounded-lg border border-slate-200">
+                            <option value="3">3 题</option>
+                            <option value="5" selected>5 题</option>
+                            <option value="8">8 题</option>
+                            <option value="10">10 题</option>
+                        </select>
+                    </label>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <button type="button" onclick="useTitleSkill('king_decree', { goal: parseInt(document.getElementById('decreeGoal').value, 10) })" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">颁布</button>
+                        <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">取消</button>
+                    </div>`;
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+            if (sk.form === 'question') {
+                box.classList.remove('hidden');
+                box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">📝 出题官发布练习题</div>
+                    <label class="block text-[11px] text-slate-500 mb-1">题干</label>
+                    <textarea id="officerPrompt" rows="2" class="w-full text-xs p-2 rounded-xl border border-slate-200 mb-2 min-w-0" placeholder="请输入题干"></textarea>
+                    <label class="block text-[11px] text-slate-500 mb-1">选项（每行一个，2-4 个）与答案</label>
+                    <textarea id="officerOptions" rows="4" class="w-full text-xs p-2 rounded-xl border border-slate-200 mb-2 min-w-0">A\nB\nC\nD</textarea>
+                    <div class="flex flex-wrap gap-2 mb-2">
+                        <label class="text-[11px] text-slate-500">正确答案序号
+                            <select id="officerAnswer" class="ml-1 text-xs p-1 rounded-lg border border-slate-200">
+                                <option value="0">第 1 项</option>
+                                <option value="1">第 2 项</option>
+                                <option value="2">第 3 项</option>
+                                <option value="3">第 4 项</option>
+                            </select>
+                        </label>
+                        <label class="text-[11px] text-slate-500">技能
+                            <select id="officerSkill" class="ml-1 text-xs p-1 rounded-lg border border-slate-200">
+                                <option value="reading">阅读</option>
+                                <option value="listening">听力</option>
+                                <option value="speaking">口语</option>
+                                <option value="writing">写作</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="submitOfficerQuestion()" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">发布</button>
+                        <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">取消</button>
+                    </div>`;
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+            if (!sk.needTarget && !sk.form) {
+                box.classList.remove('hidden');
+                box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">使用「${sk.icon} ${sk.name}」？</div>
+                    <p class="text-[11px] text-slate-600 mb-3">${sk.desc}</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="useTitleSkill('${sk.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">确认使用</button>
+                        <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">取消</button>
+                    </div>`;
+                box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+            box.classList.remove('hidden');
+            box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">使用「${sk.icon} ${sk.name}」</div>
+                <p class="text-[11px] text-slate-600 mb-2">${sk.desc}</p>
+                <label class="block text-[11px] text-slate-500 mb-1">选择队友</label>
+                <select id="titleSkillTarget" class="w-full text-xs p-2 rounded-xl border border-slate-200 mb-3">${teammateOptionsHtml(false)}</select>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" onclick="useTitleSkill('${sk.id}', { fromSelect: true })" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">确认使用</button>
+                    <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">取消</button>
+                </div>`;
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        };
+
+        window.submitOfficerQuestion = function() {
+            const promptEl = document.getElementById('officerPrompt');
+            const optEl = document.getElementById('officerOptions');
+            const ansEl = document.getElementById('officerAnswer');
+            const skEl = document.getElementById('officerSkill');
+            const prompt = promptEl ? promptEl.value.trim() : '';
+            const options = optEl ? optEl.value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 4) : [];
+            const answerIndex = ansEl ? parseInt(ansEl.value, 10) : 0;
+            const skill = skEl ? skEl.value : 'reading';
+            useTitleSkill('set_question', { prompt, options, answerIndex, skill });
+        };
+
+        async function useTitleSkill(skillId, payload) {
+            const u = appState.currentUser;
+            if (!sb || !u || !appState.currentRoomId) {
+                showToast('请先登录', 'warning');
+                return null;
+            }
+            const sk = TITLE_SKILLS.find(s => s.id === skillId);
+            if (!sk) return null;
+            if (skillId === 'bounty') return issuePrinceBounty();
+            const args = { p_skill_id: skillId, p_room_id: appState.currentRoomId };
+            let body = payload && typeof payload === 'object' ? { ...payload } : {};
+            let targetId = body.targetId || body.target_user_id || null;
+            if (body.fromSelect || (sk.needTarget && !targetId)) {
+                const sel = document.getElementById('titleSkillTarget');
+                targetId = targetId || (sel ? sel.value : '') || null;
+            }
+            if (sk.needTarget && !targetId) {
+                showToast('请选择一名队友', 'warning');
+                return null;
+            }
+            if (targetId) args.p_target_user_id = targetId;
+            delete body.fromSelect;
+            delete body.targetId;
+            delete body.target_user_id;
+            if (Object.keys(body).length) args.p_payload = body;
+            const { data, error } = await sb.rpc('use_title_skill', args);
+            if (error) {
+                showToast((error.message || '使用技能失败').replace(/^.*error: /i, ''), 'error');
+                return null;
+            }
+            if (data && data.title_color && appState.currentUser) {
+                appState.currentUser.titleColor = data.title_color;
+            }
+            showToast((data && data.feed_text) || ('已使用「' + sk.name + '」'), 'success');
+            const box = document.getElementById('titleSkillActionBox');
+            if (box) box.classList.add('hidden');
+            await refreshRoomData();
+            await refreshTitleSkills();
+            syncCurrentUserToUI();
+            renderLeaderboard();
+            renderComments();
+            return data;
+        }
+
+        async function applyAnswerSkillEffects(isCorrect) {
+            if (!sb || !appState.currentUser || !appState.currentRoomId || !appState.currentQuestion) return null;
+            const qid = appState.currentQuestion.id;
+            if (!qid) return null;
+            const { data, error } = await sb.rpc('apply_answer_skill_effects', {
+                p_room_id: appState.currentRoomId,
+                p_question_id: String(qid),
+                p_is_correct: !!isCorrect
+            });
+            if (error) {
+                console.warn('结算技能效果失败:', error.message || error);
+                return null;
+            }
+            const extra = (data && (data.extra_points || 0)) || 0;
+            if (extra && appState.currentUser) {
+                appState.currentUser.points = (appState.currentUser.points || 0) + extra;
+                upsertMember(appState.currentUser);
+                syncCurrentUserToUI();
+                renderLeaderboard();
+            }
+            if (data && data.author_bonus) {
+                showToast('有队友答对了你的出题官题目，你 +1 积分', 'success');
+            }
+            return data;
+        }
+
+        async function refreshTitleSkills() {
+            if (!sb || !appState.currentUser || !appState.currentRoomId) {
+                appState.skillStatus = null;
+                appState.skillEffects = [];
+                appState.officialQuestion = null;
+                renderTitleSkillsPanel();
+                return null;
+            }
+            try {
+                const [stRes, efRes] = await Promise.all([
+                    sb.rpc('get_title_skill_status', { p_room_id: appState.currentRoomId }),
+                    sb.from('skill_effects').select('*').eq('room_id', appState.currentRoomId).order('created_at', { ascending: false }).limit(40)
+                ]);
+                if (stRes.error) throw stRes.error;
+                appState.skillStatus = stRes.data;
+                if (appState.skillStatus && appState.skillStatus.title_color && appState.currentUser) {
+                    appState.currentUser.titleColor = appState.skillStatus.title_color;
+                }
+                if (efRes.error) throw efRes.error;
+                appState.skillEffects = efRes.data || [];
+                const officialEff = (appState.skillEffects || []).find(e => e.skill_id === 'set_question' && (!e.ends_at || new Date(e.ends_at).getTime() > Date.now()));
+                if (officialEff && officialEff.payload && officialEff.payload.question_id) {
+                    const qRes = await sb.from('questions').select('*').eq('id', officialEff.payload.question_id).maybeSingle();
+                    if (!qRes.error && qRes.data && qRes.data.payload) {
+                        const p = qRes.data.payload;
+                        appState.officialQuestion = {
+                            id: p.id || ('officer-' + qRes.data.id),
+                            skill: p.skill || 'reading',
+                            level: p.level || 1,
+                            category: p.category || '出题官',
+                            prompt: p.prompt,
+                            options: p.options,
+                            answerIndex: p.answerIndex,
+                            explanation: p.explanation || '',
+                            _officerQuestionRowId: qRes.data.id,
+                            _officerAuthorId: officialEff.source_user_id || qRes.data.created_by
+                        };
+                    } else {
+                        appState.officialQuestion = null;
+                    }
+                } else {
+                    appState.officialQuestion = null;
+                }
+                renderTitleSkillsPanel();
+                if (appState.currentUser) {
+                    syncCurrentUserToUI();
+                    renderLeaderboard();
+                    renderComments();
+                }
+                return appState.skillStatus;
+            } catch (e) {
+                console.warn('加载头衔技能失败:', e && e.message ? e.message : e);
+                renderTitleSkillsPanel();
+                return null;
+            }
+        }
+
+        window.TITLE_SKILLS = TITLE_SKILLS;
+        window.TITLE_COLOR_PRESETS = TITLE_COLOR_PRESETS;
+        window.useTitleSkill = useTitleSkill;
+        window.refreshTitleSkills = refreshTitleSkills;
+        window.renderTitleSkillsPanel = renderTitleSkillsPanel;
+        window.applyAnswerSkillEffects = applyAnswerSkillEffects;
+        window.openTitleSkillAction = openTitleSkillAction;
+        window.titleColorStyleAttr = titleColorStyleAttr;
+        window.titleNameStyleAttr = titleNameStyleAttr;
+        window.joinTeamChallenge = joinTeamChallenge;
+        window.notifyDailyGoalSkills = notifyDailyGoalSkills;
+
         function checkAndGrantDailyGoalBonus(user) {
-            if (!user) return;
+            if (!user) return false;
             const todayStr = getTodayDateString();
+            let newlyHit = false;
             if ((user.todayMinutes || 0) >= DAILY_GOAL_MINUTES && user.dailyBonusAwardedDate !== todayStr) {
                 user.dailyBonusAwardedDate = todayStr;
+                newlyHit = true;
                 const prevTitle = getMemberNobleTitle(user);
                 user.points = (user.points || 0) + 10;
                 const newTitle = getMemberNobleTitle(user);
@@ -2065,7 +2651,34 @@
                     postTeamActivity(user.name, user.color, `积分突破 ${user.points} 分，晋升为【${newTitle.icon} ${newTitle.name}】！👑`, 'levelup');
                 }
             }
+            if ((user.todayMinutes || 0) >= DAILY_GOAL_MINUTES) {
+                Promise.resolve(newlyHit ? persistProfile() : null).then(() => notifyDailyGoalSkills());
+            }
+            return newlyHit;
         }
+
+        async function notifyDailyGoalSkills() {
+            if (!sb || !appState.currentUser || !appState.currentRoomId) return null;
+            try {
+                const { data, error } = await sb.rpc('notify_daily_goal_reached', { p_room_id: appState.currentRoomId });
+                if (error) throw error;
+                const extra = ((data && data.roll_call_bonus) || 0) + ((data && data.challenge_bonus) || 0);
+                if (extra) {
+                    appState.currentUser.points = (appState.currentUser.points || 0) + extra;
+                    upsertMember(appState.currentUser);
+                    syncCurrentUserToUI();
+                    renderLeaderboard();
+                    if (data.roll_call_bonus) showToast('点名督促达成：你和督促你的队友各得 +5 积分！', 'success');
+                    if (data.challenge_completed) showToast('组队挑战成功，每人 +15 积分！', 'success');
+                }
+                await refreshTitleSkills();
+                return data;
+            } catch (e) {
+                console.warn('同步每日目标技能失败:', e && e.message ? e.message : e);
+                return null;
+            }
+        }
+        window.notifyDailyGoalSkills = notifyDailyGoalSkills;
 
         // -------------------- 4. 注册与登录交互逻辑 --------------------
         window.switchAuthMode = function(mode) {
@@ -2353,6 +2966,7 @@
             if (navTitle) {
                 navTitle.className = `px-1.5 py-0.2 rounded text-[10px] font-bold ${title.badgeClass}`;
                 navTitle.textContent = `${title.icon} ${title.name}`;
+                navTitle.setAttribute('style', titleColorStyleAttr(u, title));
             }
             if (navLevel) navLevel.textContent = `${LEVEL_LABELS[u.level || 1]} · ${pts}分`;
             if (navPts) navPts.textContent = `${pts} 积分`;
@@ -2361,6 +2975,7 @@
             if (myTitlePill) {
                 myTitlePill.className = `px-2 py-0.5 rounded-full text-[11px] font-bold cursor-pointer hover:opacity-80 transition ${title.badgeClass}`;
                 myTitlePill.textContent = `${title.icon} ${title.name} · ${pts}分`;
+                myTitlePill.setAttribute('style', titleColorStyleAttr(u, title));
             }
 
             const levelPill = document.getElementById('adaptiveLevelPill');
@@ -2440,9 +3055,9 @@
                                 </div>
                                 <div class="min-w-0">
                                     <div class="flex items-center gap-1.5 flex-wrap">
-                                        <span class="text-xs font-bold text-slate-900 truncate">${escapeHTML(m.name)}</span>
+                                        <span class="text-xs font-bold text-slate-900 truncate" style="${titleNameStyleAttr(m)}">${escapeHTML(m.name)}</span>
                                         ${isMe ? '<span class="px-1.5 py-0.2 rounded bg-indigo-600 text-white text-[10px] font-semibold">我</span>' : ''}
-                                        <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${title.badgeClass}">${title.icon} ${title.name}</span>
+                                        <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${title.badgeClass}" style="${titleColorStyleAttr(m, title)}">${title.icon} ${title.name}</span>
                                     </div>
                                     <div class="text-[11px] text-slate-500 mt-0.5">
                                         <strong class="text-amber-600">${m.points || 0} 分</strong> · ${LEVEL_LABELS[m.level || 1]} · 连签 ${m.streak || 1}天
@@ -2566,6 +3181,8 @@
             }
             if (promptEl) promptEl.textContent = q.prompt || '';
             renderPrinceBountyBar();
+            renderOfficialQuestionBar();
+            renderTeamChallengeBar();
 
             if (!area) return;
             const letters = ['A', 'B', 'C', 'D'];
@@ -2827,8 +3444,12 @@
         };
 
         function finalizeExerciseResult(isCorrect, explanationText, options) {
-            const skipScoring = !!(options && options.skipScoring);
             const q = appState.currentQuestion;
+            let skipScoring = !!(options && options.skipScoring);
+            if (!skipScoring && q && appState.officialQuestion && appState.officialQuestion.id === q.id && appState.currentUser && appState.officialQuestion._officerAuthorId === appState.currentUser.id) {
+                skipScoring = true;
+                showToast('出题官不能作答自己发布的题目', 'warning');
+            }
             if (!appState.answeredHistoryIds.includes(q.id)) {
                 appState.answeredHistoryIds.push(q.id);
             }
@@ -2885,10 +3506,27 @@
                                 }
                             }
                         }
+                        return applyAnswerSkillEffects(isCorrect);
+                    })
+                    .then((fx) => {
+                        if (fx && feedbackTitle) {
+                            let extraBits = '';
+                            if (fx.double_bonus) extraBits += ' 双倍 +1';
+                            if (fx.officer_bonus) extraBits += ' 出题官 +1';
+                            if (fx.decree_complete_bonus) extraBits += ' 国王令 +' + fx.decree_complete_bonus;
+                            if (fx.king_completer_bonus) extraBits += ' 国王 +' + fx.king_completer_bonus;
+                            if (extraBits) {
+                                feedbackTitle.textContent = (feedbackTitle.textContent || '').replace('(+1 Point 🪙)', '(+1 Point 🪙' + extraBits + ')');
+                                if (feedbackTitle.textContent.indexOf('双倍') === -1 && feedbackTitle.textContent.indexOf('出题官') === -1 && feedbackTitle.textContent.indexOf('国王') === -1) {
+                                    feedbackTitle.textContent += extraBits;
+                                }
+                            }
+                        }
                         return recordWrongBookOutcome(isCorrect, skipScoring);
                     })
                     .then(() => refreshRoomData())
-                    .catch((err) => console.warn('同步、悬赏或错题本更新失败:', err && err.message ? err.message : err));
+                    .then(() => refreshTitleSkills())
+                    .catch((err) => console.warn('同步、悬赏、技能或错题本更新失败:', err && err.message ? err.message : err));
             }
 
             const feedbackBox = document.getElementById('feedbackBox');
@@ -3117,7 +3755,7 @@
                                 <span class="w-6 h-6 rounded-lg ${c.color || 'bg-indigo-600'} text-white text-[11px] font-bold flex items-center justify-center shrink-0">
                                     ${escapeHTML((c.author || '?')[0].toUpperCase())}
                                 </span>
-                                <span class="text-xs font-bold text-slate-800 truncate">${escapeHTML(c.author)}</span>
+                                <span class="text-xs font-bold text-slate-800 truncate" style="${commentAuthorStyle(c)}">${escapeHTML(c.author)}</span>
                             </div>
                             <span class="text-[10px] text-slate-400 shrink-0">${formatRelativeTime(c.createdAt)}</span>
                         </div>
@@ -3255,6 +3893,7 @@
             try {
                 if (window.lucide) lucide.createIcons();
                 applyHelpCardState(HELP_LS_SKILLS, 'skillsHelpBody', 'skillsHelpChevron');
+                applyHelpCardState(HELP_LS_TITLE_SKILLS, 'titleSkillsHelpBody', 'titleSkillsHelpChevron');
                 loadLocalState();
                 initAuthHandlers();
                 initCommentHandlers();
