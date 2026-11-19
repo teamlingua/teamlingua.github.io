@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamLingua - 团队英文互助监督平台</title>
-    <meta name="theme-color" content="#4F46E5">
+    <meta name="theme-color" content="#6D28D9">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Noto+Sans+SC:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <!-- 引入 Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
@@ -200,6 +201,678 @@
             }
         }
     </style>
+    <style id="themeBCss">
+/* ===== TeamLingua Option B: game-style appearance only ===== */
+body.theme-b {
+  font-family: "Noto Sans SC", "Fredoka", "PingFang SC", "Inter", sans-serif;
+  color: #2A1240;
+  background: #4C1D95;
+  min-height: 100vh;
+}
+body.theme-b, body.theme-b #appRoot, html:has(body.theme-b) {
+  background: #4C1D95;
+}
+body.theme-b {
+  background:
+    linear-gradient(180deg, #4C1D95 0%, #6D28D9 140px, #FFF3E0 380px, #FFE8CC 100%) fixed;
+}
+body.theme-b h1, body.theme-b h2, body.theme-b h3, body.theme-b .font-display {
+  font-family: "Fredoka", "Noto Sans SC", "Inter", sans-serif;
+}
+
+/* Sticky header sits on the purple band */
+body.theme-b > header {
+  background: linear-gradient(180deg, rgba(76,29,149,0.96), rgba(109,40,217,0.92)) !important;
+  border-bottom: 0 !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 24px rgba(76, 29, 149, 0.25);
+}
+body.theme-b #headerBrand .font-display,
+body.theme-b #headerBrand span {
+  color: #fff !important;
+}
+body.theme-b #headerBrand > div:first-child,
+body.theme-b #headerBrand .w-8,
+body.theme-b #headerBrand .w-8.sm\:w-9,
+body.theme-b #headerBrand div.rounded-xl {
+  background: linear-gradient(135deg, #FBBF24, #F97316) !important;
+  box-shadow: 0 4px 0 #C2410C;
+  color: #fff !important;
+}
+body.theme-b #appHeaderTimer {
+  background: rgba(255,255,255,0.16) !important;
+  border: 2px solid rgba(255,255,255,0.35) !important;
+  color: #fff !important;
+}
+body.theme-b #headerStudyTimer { color: #FDE68A !important; }
+body.theme-b #appHeaderTimer .text-slate-700,
+body.theme-b #pomodoroToggleBtn { color: #fff !important; }
+body.theme-b #pomodoroToggleBtn {
+  background: rgba(255,255,255,0.18) !important;
+  border-color: rgba(255,255,255,0.35) !important;
+  color: #fff !important;
+}
+
+/* Gold points pill */
+body.theme-b #headerPointsBtn {
+  background: linear-gradient(180deg, #FFE566, #F5B400) !important;
+  color: #5B2C06 !important;
+  border: 2px solid #FFF3A0 !important;
+  box-shadow: 0 3px 0 #C2410C !important;
+  font-weight: 800 !important;
+}
+body.theme-b #headerPointsBtn svg { color: #C2410C !important; stroke: #C2410C !important; }
+
+/* Glass action chips */
+body.theme-b #petNavBtn,
+body.theme-b #headerFlagBtn,
+body.theme-b #headerShareBtn {
+  background: rgba(255,255,255,0.16) !important;
+  color: #fff !important;
+  border: 2px solid rgba(255,255,255,0.35) !important;
+  box-shadow: none !important;
+  font-weight: 800 !important;
+}
+body.theme-b #headerShareBtn { background: rgba(255,255,255,0.16) !important; color: #fff !important; }
+
+/* Prominent install CTA — orange/rose 3D pill */
+body.theme-b #installAppBtn.header-action-btn,
+body.theme-b #installAppBtn {
+  background: linear-gradient(180deg, #FF8A3D, #F43F5E) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 4px 0 #9F1239 !important;
+  border-radius: 14px !important;
+  font-weight: 800 !important;
+}
+@media (max-width: 639.98px) {
+  body.theme-b #installAppBtn.header-action-btn {
+    flex: 1.35 1 0 !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 4px 0 #9F1239 !important;
+  }
+}
+body.theme-b #userProfileChip {
+  background: #fff !important;
+  border: 0 !important;
+  color: #2A1240 !important;
+  box-shadow: 0 3px 0 rgba(88, 28, 135, 0.2);
+}
+body.theme-b #navUserName { color: #2A1240 !important; }
+body.theme-b #installHintBanner {
+  background: linear-gradient(90deg, #FDE68A, #FED7AA) !important;
+  border-color: #F59E0B !important;
+}
+body.theme-b #installHintBanner p { color: #7C2D12 !important; }
+body.theme-b #installHintBanner button[onclick="handleInstallAppClick()"] {
+  background: linear-gradient(180deg, #FF8A3D, #F43F5E) !important;
+}
+
+/* Layout board */
+body.theme-b #gameMain {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 12px 16px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+body.theme-b #gameBoard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  body.theme-b #gameMain { padding: 12px 28px 48px; gap: 16px; }
+  body.theme-b #gameBoard {
+    grid-template-columns: 1.05fr 1.45fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  body.theme-b #colRight { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+}
+@media (max-width: 1023.98px) {
+  body.theme-b #gameBoard { display: contents; }
+  body.theme-b #playerHero { order: 1; }
+  body.theme-b #colPractice { order: 2; }
+  body.theme-b #petPanelSlot, body.theme-b #petPanel { order: 3; }
+  body.theme-b #colLeaderboard { order: 4; }
+  body.theme-b #colActivity { order: 5; }
+  body.theme-b #colRight { display: contents; }
+}
+
+/* Hero */
+body.theme-b #playerHero {
+  background: linear-gradient(160deg, #7C3AED 0%, #DB2777 55%, #FB923C 140%);
+  border-radius: 24px;
+  padding: 16px 18px;
+  color: #fff;
+  box-shadow: 0 10px 0 rgba(88, 28, 135, 0.28);
+  position: relative;
+  overflow: hidden;
+  border: 0;
+}
+body.theme-b #playerHero::after {
+  content: "";
+  position: absolute; right: -20px; top: -20px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  pointer-events: none;
+}
+body.theme-b #playerHero > * { position: relative; z-index: 1; }
+body.theme-b #heroGreeting { font-size: 12px; opacity: 0.9; font-weight: 500; }
+body.theme-b #myTitlePill {
+  display: inline-block;
+  background: transparent !important;
+  color: #fff !important;
+  font-family: "Fredoka", "Noto Sans SC", sans-serif;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  padding: 0 !important;
+  margin: 2px 0 6px;
+  border-radius: 0 !important;
+}
+body.theme-b #adaptiveLevelPill,
+body.theme-b #adaptiveStreakText {
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 0 !important;
+  opacity: 0.95;
+}
+body.theme-b #heroRankBadge {
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 14px;
+  padding: 8px 10px;
+  text-align: center;
+  min-width: 72px;
+  color: #fff;
+}
+body.theme-b #heroRankBadge b {
+  display: block;
+  font-family: "Fredoka", sans-serif;
+  font-size: 22px;
+  line-height: 1;
+}
+body.theme-b #heroRankBadge small { font-size: 10px; opacity: 0.85; }
+body.theme-b #dailyGoalWrap {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 10px 0 0 !important;
+  color: #fff;
+}
+body.theme-b #dailyGoalWrap .text-slate-700,
+body.theme-b #dailyGoalWrap .text-amber-600,
+body.theme-b #dailyGoalWrap .text-indigo-600,
+body.theme-b #dailyGoalWrap .text-slate-500,
+body.theme-b #dailyGoalWrap .text-slate-800,
+body.theme-b #myGoalStatusText,
+body.theme-b #myTotalPointsText,
+body.theme-b #mySolvedCount,
+body.theme-b #myAccuracyRate,
+body.theme-b #myStreakDays { color: #fff !important; }
+body.theme-b #dailyGoalWrap .w-full.h-2\.5,
+body.theme-b #dailyGoalWrap .bg-slate-200 {
+  background: rgba(0,0,0,0.28) !important;
+  border: 2px solid rgba(255,255,255,0.2);
+  height: 12px !important;
+  border-radius: 99px !important;
+  overflow: hidden;
+}
+body.theme-b #myGoalProgressBar {
+  background: linear-gradient(90deg, #FDE047, #F59E0B) !important;
+  box-shadow: 0 0 8px #FDE047;
+}
+body.theme-b .hero-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+body.theme-b .hero-stat {
+  background: rgba(0,0,0,0.2);
+  border-radius: 14px;
+  padding: 8px 6px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+body.theme-b .hero-stat b { display: block; font-family: "Fredoka", sans-serif; font-size: 18px; }
+body.theme-b .hero-stat span { font-size: 10px; opacity: 0.85; font-weight: 600; }
+body.theme-b #playerHero .hero-practice-label,
+body.theme-b #playerHero .hero-hide-on-banner { display: none; }
+
+/* Hide the old "Adaptive 4-Skills / 积分说明" chrome in the hero; practice chrome lives in colPractice */
+body.theme-b #playerHero #skillsHelpCard { display: none; }
+body.theme-b #playerHero #skillFilterWrap,
+body.theme-b #playerHero #practiceTabPractice,
+body.theme-b #playerHero .grid.grid-cols-2 { }
+/* tabs + filters stay in hero? Mockup puts them in practice card. We'll move them in HTML. */
+
+/* Cards */
+body.theme-b #colLeaderboard,
+body.theme-b #colActivity,
+body.theme-b #petPanel,
+body.theme-b #practiceChrome,
+body.theme-b #quizCard,
+body.theme-b #wrongBookPanel,
+body.theme-b #titleSkillsPanel,
+body.theme-b #stealPanel {
+  background: #fff !important;
+  border: 2px solid #FDE68A !important;
+  border-radius: 22px !important;
+  box-shadow: 0 6px 0 rgba(124, 45, 18, 0.08) !important;
+  color: #2A1240;
+}
+body.theme-b #colLeaderboard > div:first-child,
+body.theme-b #colActivity > div:first-child {
+  border-bottom-color: #FDE68A !important;
+  background: transparent !important;
+}
+body.theme-b #colLeaderboard h2,
+body.theme-b #colPractice h2,
+body.theme-b #colActivity h2,
+body.theme-b #petPanel h3,
+body.theme-b #titleSkillsPanel h3,
+body.theme-b #stealPanel h3,
+body.theme-b #wrongBookPanel h3 {
+  color: #2A1240 !important;
+  font-weight: 800 !important;
+}
+body.theme-b #colActivity {
+  height: auto !important;
+  min-height: 320px;
+  max-height: none !important;
+}
+
+/* Skill filters — colorful 3D tiles */
+body.theme-b #skillFilterWrap {
+  background: transparent !important;
+  padding: 0 !important;
+  gap: 7px !important;
+}
+body.theme-b #skillBtnAll,
+body.theme-b #skillBtnListening,
+body.theme-b #skillBtnSpeaking,
+body.theme-b #skillBtnReading,
+body.theme-b #skillBtnWriting {
+  color: #fff !important;
+  font-weight: 800 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.18) !important;
+  padding-top: 10px !important;
+  padding-bottom: 8px !important;
+}
+body.theme-b #skillBtnAll { background: linear-gradient(180deg, #A78BFA, #6D28D9) !important; }
+body.theme-b #skillBtnListening { background: linear-gradient(180deg, #38BDF8, #0284C7) !important; }
+body.theme-b #skillBtnSpeaking { background: linear-gradient(180deg, #FB7185, #E11D48) !important; }
+body.theme-b #skillBtnReading { background: linear-gradient(180deg, #34D399, #059669) !important; }
+body.theme-b #skillBtnWriting { background: linear-gradient(180deg, #FBBF24, #D97706) !important; }
+body.theme-b #skillFilterWrap button.bg-white {
+  outline: 3px solid #FDE047 !important;
+  outline-offset: 1px;
+  transform: translateY(-2px);
+}
+
+/* Practice tabs */
+body.theme-b #practiceTabPractice,
+body.theme-b #practiceTabWrongbook {
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  background: #F3E8FF !important;
+  color: #6B21A8 !important;
+  box-shadow: none !important;
+}
+body.theme-b #practiceTabPractice.bg-white,
+body.theme-b #practiceTabWrongbook.bg-white,
+body.theme-b #practiceTabPractice.text-indigo-600,
+body.theme-b #practiceTabWrongbook.text-indigo-600 {
+  background: #6D28D9 !important;
+  color: #fff !important;
+}
+
+/* Review reminder */
+body.theme-b #reviewReminderBanner {
+  background: #FFF7ED !important;
+  border: 2px dashed #FB923C !important;
+  color: #9A3412 !important;
+}
+body.theme-b #reviewReminderBanner button {
+  background: #EA580C !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+}
+
+/* Next question / primary CTAs */
+body.theme-b button[onclick="loadNextAdaptiveQuestion()"] {
+  width: 100%;
+  justify-content: center;
+  height: 48px;
+  border-radius: 16px !important;
+  background: linear-gradient(180deg, #22C55E, #16A34A) !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 5px 0 #166534 !important;
+}
+body.theme-b #quizCard { padding: 18px !important; }
+body.theme-b #questionPromptText { color: #2A1240 !important; }
+body.theme-b #feedbackBox.bg-emerald-50 { background: #ECFDF5 !important; border-color: #6EE7B7 !important; }
+body.theme-b #feedbackBox.bg-rose-50 { background: #FFF1F2 !important; border-color: #FECDD3 !important; }
+body.theme-b #feedbackBox.bg-amber-50 { background: #FFFBEB !important; border-color: #FDE68A !important; }
+
+/* Leaderboard sorts + podium */
+body.theme-b #colLeaderboard .grid.grid-cols-4 {
+  background: transparent !important;
+  gap: 4px !important;
+}
+body.theme-b #sortBtnPoints,
+body.theme-b #sortBtnMinutes,
+body.theme-b #sortBtnLevel,
+body.theme-b #sortBtnStreak {
+  background: #F3E8FF !important;
+  color: #6B21A8 !important;
+  border-radius: 10px !important;
+  font-weight: 800 !important;
+  box-shadow: none !important;
+}
+body.theme-b #sortBtnPoints.bg-white,
+body.theme-b #sortBtnMinutes.bg-white,
+body.theme-b #sortBtnLevel.bg-white,
+body.theme-b #sortBtnStreak.bg-white,
+body.theme-b #sortBtnPoints.text-indigo-600,
+body.theme-b #sortBtnMinutes.text-indigo-600,
+body.theme-b #sortBtnLevel.text-indigo-600,
+body.theme-b #sortBtnStreak.text-indigo-600 {
+  background: #F59E0B !important;
+  color: #1C0A00 !important;
+}
+body.theme-b #leaderboardList { padding-top: 8px !important; }
+@media (min-width: 1024px) {
+  body.theme-b #leaderboardList {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 8px;
+    max-height: none !important;
+  }
+  body.theme-b #leaderboardList > div:only-child { grid-column: 1 / -1; }
+  body.theme-b #leaderboardList > div:nth-child(1):not(:only-child) {
+    grid-column: 2;
+    background: linear-gradient(180deg, #FEF3C7, #FDE68A) !important;
+    border-color: #F59E0B !important;
+    transform: translateY(-6px);
+  }
+  body.theme-b #leaderboardList > div:nth-child(2) {
+    grid-column: 1;
+    background: #FDF4FF !important;
+    border-color: #E9D5FF !important;
+  }
+  body.theme-b #leaderboardList > div:nth-child(3) {
+    grid-column: 3;
+    background: #FDF4FF !important;
+    border-color: #E9D5FF !important;
+  }
+  body.theme-b #leaderboardList > div:nth-child(n+4) {
+    grid-column: 1 / -1;
+    border-radius: 14px !important;
+  }
+}
+body.theme-b #leaderboardList > div {
+  border-radius: 16px !important;
+  border-width: 2px !important;
+}
+body.theme-b #leaderboardList > div.border-indigo-300,
+body.theme-b #leaderboardList > div.bg-indigo-50\/40 {
+  box-shadow: 0 0 0 2px #FDE047;
+}
+
+/* Steal + skills duo */
+body.theme-b #gameDuo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 640px) {
+  body.theme-b #gameDuo { grid-template-columns: 1fr 1fr; }
+}
+body.theme-b #stealPanel {
+  background: linear-gradient(180deg, #FFF7ED, #FFE4E6) !important;
+  border-color: #FECDD3 !important;
+}
+body.theme-b #titleSkillsPanel {
+  background: linear-gradient(180deg, #ECFDF5, #D1FAE5) !important;
+  border-color: #6EE7B7 !important;
+}
+
+/* Comments / feed */
+body.theme-b #commentCountBadge {
+  background: #FEF3C7 !important;
+  color: #92400E !important;
+  font-weight: 800 !important;
+}
+body.theme-b #commentInput {
+  border-color: #FDE68A !important;
+  border-radius: 14px !important;
+}
+body.theme-b #commentForm button[type="submit"] {
+  background: linear-gradient(180deg, #7C3AED, #6D28D9) !important;
+  box-shadow: 0 3px 0 #4C1D95;
+}
+body.theme-b #commentFeedList { background: transparent !important; }
+
+/* Help cards */
+body.theme-b [id$="HelpCard"] {
+  border-color: #FDE68A !important;
+  background: #FFFBEB !important;
+}
+
+/* Wrong book filters */
+body.theme-b #wrongBookFilters { background: #F3E8FF !important; }
+body.theme-b #wrongBookFilters button.bg-white { background: #6D28D9 !important; color: #fff !important; }
+
+/* Modals */
+body.theme-b #loginModal,
+body.theme-b #shareModal,
+body.theme-b #flagModal,
+body.theme-b #pointsRulesModal,
+body.theme-b #installGuideModal,
+body.theme-b #petNavModal,
+body.theme-b #stealInboxModal {
+  background: rgba(42, 18, 80, 0.62) !important;
+}
+body.theme-b #loginModal > div,
+body.theme-b #shareModal > div,
+body.theme-b #flagModal > div,
+body.theme-b #pointsRulesModal > div,
+body.theme-b #installGuideModal > div,
+body.theme-b #petNavModal > div,
+body.theme-b #stealInboxModal > div {
+  border: 2px solid #FDE68A !important;
+  border-radius: 24px !important;
+  box-shadow: 0 12px 0 rgba(88, 28, 135, 0.2) !important;
+  background: #fff !important;
+  color: #2A1240 !important;
+}
+body.theme-b #loginModal h1,
+body.theme-b #installGuideTitle { font-family: "Fredoka", "Noto Sans SC", sans-serif; }
+body.theme-b #loginModal .from-indigo-600,
+body.theme-b #loginModal .bg-gradient-to-br {
+  background: linear-gradient(135deg, #FBBF24, #F97316) !important;
+  box-shadow: 0 4px 0 #C2410C !important;
+}
+body.theme-b #authSubmitBtn,
+body.theme-b #loginModal button[type="submit"],
+body.theme-b button.bg-indigo-600 {
+  /* don't globally restyle ALL indigo buttons — too broad if used in exercise */
+}
+body.theme-b #loginModal button[type="submit"] {
+  background: linear-gradient(180deg, #7C3AED, #6D28D9) !important;
+  box-shadow: 0 4px 0 #4C1D95 !important;
+  border-radius: 14px !important;
+  font-weight: 800 !important;
+}
+body.theme-b .install-guide-tab[aria-selected="true"] {
+  background: #6D28D9 !important;
+  border-color: #6D28D9 !important;
+}
+
+/* Toast */
+body.theme-b #toastContainer [class*="rounded"] { border-radius: 14px; }
+
+/* Do not raise .hidden to !important — it would hide #headerRowBreak and break the two-row mobile header. */
+
+/* Desktop 3-column is defined above; keep columns from overflowing. */
+body.theme-b #colLeaderboard,
+body.theme-b #colPractice,
+body.theme-b #colRight,
+body.theme-b #colActivity,
+body.theme-b #petPanelSlot,
+body.theme-b #petPanel,
+body.theme-b #practiceChrome,
+body.theme-b #quizCard,
+body.theme-b #commentForm,
+body.theme-b #commentInput,
+body.theme-b #commentFeedList {
+  max-width: 100%;
+  min-width: 0;
+}
+body.theme-b #playerHero {
+  overflow: hidden;
+}
+body.theme-b #playerHero::after {
+  pointer-events: none;
+  max-width: 140px;
+}
+body.theme-b #colActivity {
+  overflow-x: hidden;
+}
+body.theme-b #commentForm {
+  min-width: 0;
+}
+body.theme-b #commentForm input {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+body.theme-b #colActivity .flex.flex-wrap,
+body.theme-b #colActivity [class*="flex-wrap"] {
+  max-width: 100%;
+}
+
+/* Re-assert two-row mobile header after theme rules */
+@media (max-width: 639.98px) {
+  body.theme-b #headerRowBreak {
+    display: block !important;
+    order: 4 !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    visibility: hidden !important;
+  }
+  body.theme-b #appHeaderInner {
+    flex-wrap: wrap !important;
+  }
+  /* Keep full "TeamLingua" visible; truncate long usernames instead. */
+  body.theme-b #headerBrand {
+    flex: 0 0 auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+  }
+  body.theme-b #headerBrand .font-display {
+    font-size: 13px !important;
+    overflow: visible !important;
+  }
+  body.theme-b #appHeaderTimer {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+    border-width: 1.5px !important;
+  }
+  body.theme-b #userProfileChip {
+    max-width: 118px;
+    min-width: 0;
+    overflow: hidden;
+  }
+  body.theme-b #navUserName {
+    max-width: 4.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+}
+
+
+/* Cloud badge on purple header */
+body.theme-b #cloudSyncNavBadge {
+  background: rgba(255,255,255,0.16) !important;
+  color: #FDE68A !important;
+  border-color: rgba(255,255,255,0.35) !important;
+}
+
+/* Official / bounty / challenge bars */
+body.theme-b #princeBountyBar,
+body.theme-b #officialQuestionBar,
+body.theme-b #teamChallengeBar,
+body.theme-b #reviewSessionBar {
+  border-radius: 16px !important;
+}
+
+/* Practice section heading area */
+body.theme-b #practiceChrome h2 { font-size: 16px; font-weight: 800; }
+body.theme-b #practiceChrome .sub { font-size: 11px; color: #9A3412; font-weight: 600; }
+
+/* Option buttons default look */
+body.theme-b #exerciseInteractiveArea button {
+  border-radius: 16px !important;
+}
+
+body.theme-b #colPractice,
+body.theme-b #colLeaderboard,
+body.theme-b #colRight,
+body.theme-b #colActivity,
+body.theme-b #playerHero,
+body.theme-b #gameMain,
+body.theme-b header,
+body.theme-b #appHeaderInner { min-width: 0; }
+body.theme-b { overflow-x: hidden; }
+body.theme-b #practiceChrome h2 { color: #2A1240 !important; }
+body.theme-b #heroStats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+@media (max-width: 399.98px) {
+  body.theme-b #heroStats { grid-template-columns: 1fr 1fr; }
+}
+body.theme-b #heroStats .hero-stat {
+  background: rgba(0,0,0,0.2);
+  border-radius: 14px;
+  padding: 8px 6px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+body.theme-b #heroStats .hero-stat b {
+  display: block;
+  font-family: "Fredoka", "Noto Sans SC", sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #fff;
+}
+body.theme-b #heroStats .hero-stat span {
+  font-size: 10px;
+  opacity: 0.85;
+  font-weight: 600;
+  color: #fff;
+}
+
+    </style>
     <script>
         (function () {
             window.__tlDeferredInstall = null;
@@ -225,7 +898,7 @@
         })();
     </script>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
+<body class="theme-b min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
 
     <!-- 全局轻量提示框 (替代 alert) -->
     <div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
@@ -501,10 +1174,47 @@
     </div>
 
     <!-- 4. 主体三栏响应式工作台 -->
-    <main class="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <main id="gameMain" class="flex-1">
 
-        <!-- 左侧栏：团队实时监督排行榜 (占 4 列) -->
-        <section class="lg:col-span-4 bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
+        <!-- 玩家主卡：真实数据（问候 / 头衔 / 等级 / 达标 / 积分） -->
+        <section id="playerHero">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <div id="heroGreeting">你好，同学</div>
+                    <div>
+                        <span id="myTitlePill" onclick="openPointsRulesModal()" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 cursor-pointer hover:opacity-80 transition" title="点击查看头衔晋升规则">🧑‍🌾 平民 · 0分</span>
+                    </div>
+                    <div class="mt-1">
+                        <span id="adaptiveLevelPill" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-600 text-white">Lv.1 · 已做 0/15 · 正确率 --</span>
+                    </div>
+                    <div id="adaptiveStreakText" class="text-xs font-bold text-emerald-600 mt-0.5">已做 0/15 · 正确率 --</div>
+                    <button type="button" onclick="openPointsRulesModal()" class="text-[11px] text-white/90 hover:text-white font-semibold mt-1 inline-flex items-center gap-0.5 cursor-pointer">
+                        <span>积分说明</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="help-circle" aria-hidden="true" class="lucide lucide-help-circle w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path><path d="M12 17h.01"></path></svg>
+                    </button>
+                </div>
+                <div id="heroRankBadge"><b id="heroRank">#-</b><small>全队排名</small></div>
+            </div>
+            <div id="dailyGoalWrap" class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
+                <div class="flex justify-between items-center text-xs mb-1.5">
+                    <span class="font-semibold text-slate-700">今日达标进度 (<span id="myTodayMinutesText">0</span> / 20 分钟 · <span class="text-amber-600">满20m奖+10分</span>)</span>
+                    <span id="myGoalStatusText" class="font-bold text-indigo-600">0%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                    <div id="myGoalProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div id="heroStats">
+                    <div class="hero-stat"><b id="myStreakDays">1 天</b><span>连签</span></div>
+                    <div class="hero-stat"><b id="myTotalPointsText">0</b><span>累计积分</span></div>
+                    <div class="hero-stat"><b id="mySolvedCount">0</b><span>今日已练</span></div>
+                    <div class="hero-stat"><b id="myAccuracyRate">--</b><span>正确率</span></div>
+                </div>
+            </div>
+        </section>
+
+        <div id="gameBoard">
+        <!-- 左侧栏：团队实时监督排行榜 -->
+        <section id="colLeaderboard" class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
             <div class="p-5 border-b border-slate-100">
                 <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-2">
@@ -534,29 +1244,18 @@
             <div id="leaderboardList" class="p-4 space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar"><div class="text-center py-8 text-xs text-slate-400">暂无成员数据，快邀请朋友一起加入吧！</div></div>
         </section>
 
-        <!-- 中间栏：听说读写四维自适应练习引擎 (占 5 列) -->
-        <section class="lg:col-span-5 flex flex-col gap-5">
-            <!-- 个人每日进度与能力等级卡片 -->
-            <div class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
+        <!-- 中间栏：听说读写四维自适应练习引擎 -->
+        <section id="colPractice" class="flex flex-col gap-4 min-w-0">
+            <div id="practiceChrome" class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
                 <div class="flex items-center justify-between gap-2 mb-3">
                     <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Adaptive 4-Skills</span>
-                            <span id="myTitlePill" onclick="openPointsRulesModal()" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 cursor-pointer hover:opacity-80 transition" title="点击查看头衔晋升规则">🧑‍🌾 平民 · 0分</span>
-                        </div>
-                        <h2 class="text-lg font-bold text-slate-900 mt-1 flex items-center gap-2">
-                            <span>听说读写自适应训练</span>
-                            <span id="adaptiveLevelPill" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-600 text-white">Lv.1 · 已做 0/15 · 正确率 --</span>
-                        </h2>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600">Adaptive 4-Skills</span>
+                        <h2 class="text-lg font-bold text-slate-900 mt-1">听说读写自适应训练</h2>
                     </div>
-                    <div class="text-right">
-                        <div class="text-xs text-slate-500">当前适应度</div>
-                        <div id="adaptiveStreakText" class="text-xs font-bold text-emerald-600 mt-0.5">已做 0/15 · 正确率 --</div>
-                        <button type="button" onclick="openPointsRulesModal()" class="text-[11px] text-amber-600 hover:text-amber-700 font-semibold mt-0.5 inline-flex items-center gap-0.5 cursor-pointer">
-                            <span>积分说明</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="help-circle" aria-hidden="true" class="lucide lucide-help-circle w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path><path d="M12 17h.01"></path></svg>
-                        </button>
-                    </div>
+                    <button type="button" onclick="openPointsRulesModal()" class="text-[11px] text-amber-600 hover:text-amber-700 font-semibold inline-flex items-center gap-0.5 cursor-pointer">
+                        <span>积分说明</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="help-circle" aria-hidden="true" class="lucide lucide-help-circle w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="M9 9.5a3 2.5 0 016 0c0 2-2 2-3 3.5"></path><path d="M12 17h.01"></path></svg>
+                    </button>
                 </div>
 
                 <div id="skillsHelpCard" class="mb-3 rounded-2xl border border-sky-200 bg-sky-50/80">
@@ -592,22 +1291,6 @@
                     <button type="button" onclick="setSkillFilter('writing')" id="skillBtnWriting" class="py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">✍️ 写作</button>
                 </div>
 
-                <!-- 每日 20 分钟打卡目标进度条 -->
-                <div id="dailyGoalWrap" class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100">
-                    <div class="flex justify-between items-center text-xs mb-1.5">
-                        <span class="font-semibold text-slate-700">今日达标进度 (<span id="myTodayMinutesText">0</span> / 20 分钟 · <span class="text-amber-600">满20m奖+10分</span>)</span>
-                        <span id="myGoalStatusText" class="font-bold text-indigo-600">0%</span>
-                    </div>
-                    <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
-                        <div id="myGoalProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                    <div class="flex items-center justify-between mt-2.5 text-[11px] text-slate-500">
-                        <span>累计积分：<strong id="myTotalPointsText" class="text-amber-600">0</strong> 分</span>
-                        <span>今日已练：<strong id="mySolvedCount" class="text-slate-800">0</strong> 题</span>
-                        <span>正确率：<strong id="myAccuracyRate" class="text-slate-800">--</strong></span>
-                        <span>连签：<strong id="myStreakDays" class="text-amber-600">1 天</strong></span>
-                    </div>
-                </div>
             </div>
 
             <!-- 互动练习卡片 -->
@@ -682,6 +1365,7 @@
                 <div id="wrongBookList" class="space-y-2.5 max-h-[28rem] overflow-y-auto custom-scrollbar"></div>
             </div>
 
+            <div id="gameDuo">
             <div id="titleSkillsPanel" class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-xs min-w-0">
                 <div class="flex items-center justify-between gap-2 mb-2 min-w-0">
                     <div class="min-w-0">
@@ -731,8 +1415,13 @@
                 <div id="stealResultBox" class="hidden mb-3 p-3 rounded-2xl border text-xs leading-relaxed min-w-0"></div>
                 <div id="stealTargetList" class="space-y-2 min-w-0"></div>
             </div>
+            </div><!-- /gameDuo -->
 
-            <div id="petPanelSlot">
+                    </section>
+
+        <!-- 右侧栏：宠物 + 团队动态 -->
+        <div id="colRight">
+        <div id="petPanelSlot">
             <div id="petPanel" class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-xs min-w-0">
                 <div class="flex items-center justify-between gap-2 mb-2 min-w-0">
                     <div class="min-w-0">
@@ -757,10 +1446,8 @@
                 <div id="petBody" class="min-w-0 text-xs text-slate-600">登录后查看你的宠物。</div>
             </div>
             </div>
-        </section>
-
-        <!-- 右侧栏：轻量团队打卡评论区 & 互助监督墙 (占 3 列) -->
-        <section class="lg:col-span-3 bg-white rounded-3xl border border-slate-200/90 shadow-xs flex flex-col h-[calc(100vh-7.5rem)] min-h-[540px] max-h-[780px]">
+        
+        <section id="colActivity" class="bg-white rounded-3xl border border-slate-200/90 shadow-xs flex flex-col min-h-[420px]">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -797,6 +1484,8 @@
                 </form>
             </div>
         </section>
+        </div><!-- /colRight -->
+        </div><!-- /gameBoard -->
 
     </main>
 
@@ -3910,6 +4599,12 @@
             if (solvedEl) solvedEl.textContent = solved;
             if (accEl) accEl.textContent = acc;
             if (streakEl) streakEl.textContent = `${u.streak || 1} 天`;
+
+            const heroGreeting = document.getElementById('heroGreeting');
+            if (heroGreeting) {
+                const raw = (u.name || '').trim();
+                heroGreeting.textContent = raw ? ('你好，' + raw) : '你好，同学';
+            }
         }
 
         // -------------------- 5. 团队排行榜与互相监督 --------------------
@@ -3936,6 +4631,8 @@
 
             if (!appState.teamMembers.length) {
                 list.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">暂无成员数据，快邀请朋友一起加入吧！</div>`;
+                const emptyRank = document.getElementById('heroRank');
+                if (emptyRank) emptyRank.textContent = '#-';
                 return;
             }
 
@@ -3945,6 +4642,17 @@
                 if (appState.leaderboardSort === 'streak') return (b.streak || 1) - (a.streak || 1);
                 return (b.points || 0) - (a.points || 0) || (b.todayMinutes || 0) - (a.todayMinutes || 0);
             });
+
+            const heroRank = document.getElementById('heroRank');
+            if (heroRank) {
+                const me = appState.currentUser;
+                if (!me) {
+                    heroRank.textContent = '#-';
+                } else {
+                    const ridx = sorted.findIndex((m) => m.name && me.name && m.name.toLowerCase() === me.name.toLowerCase());
+                    heroRank.textContent = ridx >= 0 ? ('#' + (ridx + 1)) : '#-';
+                }
+            }
 
             list.innerHTML = sorted.map((m, idx) => {
                 const isMe = appState.currentUser && m.name.toLowerCase() === appState.currentUser.name.toLowerCase();
