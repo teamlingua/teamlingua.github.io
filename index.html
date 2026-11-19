@@ -4957,7 +4957,8 @@ body.theme-b #heroStats .hero-stat span {
         function applySpeechTranscript(transcript, isFinal) {
             const text = String(transcript || '').trim();
             if (!text) return;
-            if (isFinal) appState.latestSpeechTranscript = text;
+            // keep the latest recognized text even if the browser (e.g. iOS) never marks a result final
+            appState.latestSpeechTranscript = text;
             const q = appState.currentQuestion;
             const preview = document.getElementById('speechResultPreview');
             const evalRes = q && q.targetSpeech ? evaluateSpeechSimilarity(q.targetSpeech, text) : { score: 0 };
