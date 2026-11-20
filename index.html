@@ -909,11 +909,144 @@ body.theme-b #heroStats .hero-stat span {
             }
         })();
     </script>
+    <style id="r16InviteCss">
+      /* r16-invite: header +50 pill, daily-goal invite toast, leaderboard banner */
+      #headerShareBtn .invite-plus50 {
+        display: inline-block;
+        margin-left: 2px;
+        padding: 0 5px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #FFE566, #F5B400);
+        color: #5B2C06;
+        font-weight: 800;
+        font-style: normal;
+        font-size: 10px;
+        line-height: 16px;
+        border: 1px solid #FFF3A0;
+        box-shadow: 0 1px 0 #C2410C;
+        vertical-align: 1px;
+        letter-spacing: -0.02em;
+      }
+      body.theme-b #headerShareBtn {
+        background: rgba(255,255,255,0.18) !important;
+        color: #fff !important;
+        border: 2px solid rgba(255, 229, 102, 0.75) !important;
+      }
+      @media (max-width: 639.98px) {
+        body.theme-b #headerShareBtn.header-action-btn {
+          background: rgba(255,255,255,0.18) !important;
+          color: #fff !important;
+          border: 2px solid rgba(255, 229, 102, 0.75) !important;
+        }
+        #headerShareBtn .header-share-label-sm {
+          display: inline-flex;
+          align-items: center;
+          gap: 0;
+          white-space: nowrap;
+        }
+        #headerShareBtn .invite-plus50 {
+          font-size: 8px;
+          line-height: 12px;
+          padding: 0 3px;
+          margin-left: 1px;
+        }
+      }
+
+      #goalReachedToast {
+        position: fixed;
+        z-index: 40;
+        left: auto;
+        right: 16px;
+        top: 80px;
+        width: min(340px, calc(100vw - 24px));
+        pointer-events: none;
+      }
+      @media (max-width: 639.98px) {
+        #goalReachedToast {
+          left: 10px;
+          right: 10px;
+          width: auto;
+          top: 118px;
+        }
+      }
+      #goalReachedToast.hidden { display: none !important; }
+      .goal-toast-card {
+        pointer-events: auto;
+        background: linear-gradient(180deg, #ECFDF5, #D1FAE5);
+        color: #065F46;
+        border: 2px solid #6EE7B7;
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(6, 78, 59, 0.22);
+        padding: 12px 14px;
+      }
+      .goal-toast-title {
+        font-size: 13px;
+        font-weight: 800;
+        line-height: 1.35;
+        color: #064E3B;
+      }
+      .goal-toast-sub {
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 2px;
+        color: #047857;
+      }
+      .goal-toast-invite {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #FFE566, #F5B400);
+        color: #5B2C06;
+        border: 2px solid #FFF3A0;
+        box-shadow: 0 3px 0 #C2410C;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        line-height: 1.25;
+        text-align: center;
+      }
+      .goal-toast-invite:hover { filter: brightness(1.05); }
+
+      #inviteLeaderboardBanner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        margin: 0 16px 16px;
+        padding: 10px 14px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #FFE566, #F5B400);
+        color: #5B2C06;
+        border: 2px solid #FFF3A0;
+        box-shadow: 0 3px 0 #C2410C;
+        font-weight: 800;
+        font-size: 13px;
+        cursor: pointer;
+        width: calc(100% - 32px);
+        text-align: center;
+        line-height: 1.3;
+      }
+      #inviteLeaderboardBanner:hover { filter: brightness(1.05); }
+      #inviteLeaderboardBanner.hidden { display: none !important; }
+    </style>
 </head>
 <body class="theme-b min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
 
     <!-- 全局轻量提示框 (替代 alert) -->
     <div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none max-w-sm w-full px-4 sm:px-0"></div>
+
+    <!-- r16-invite: daily goal reached toast with invite CTA (shown only when +10 bonus is awarded) -->
+    <div id="goalReachedToast" class="hidden">
+        <div class="goal-toast-card">
+            <div class="goal-toast-title">🎉 完成今日 20 分钟学习目标</div>
+            <div class="goal-toast-sub">额外获得 <strong>+10 积分</strong>！</div>
+            <button type="button" class="goal-toast-invite" onclick="openShareModal()">邀请朋友一起学，每人再得 +50</button>
+        </div>
+    </div>
 
     <!-- 1. 极简账号注册 / 登录模态框 -->
     <div id="loginModal" class="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
@@ -1103,10 +1236,10 @@ body.theme-b #heroStats .hero-stat span {
                     <span class="hidden xl:inline text-amber-600/80">| 规则</span>
                 </button>
 
-                <button type="button" id="headerShareBtn" onclick="openShareModal()" class="header-action-btn flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition shadow-xs cursor-pointer shrink-0">
+                <button type="button" id="headerShareBtn" onclick="openShareModal()" title="邀请朋友完成首日打卡，你得 +50 积分" class="header-action-btn flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition shadow-xs cursor-pointer shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-plus" aria-hidden="true" class="lucide lucide-user-plus w-3.5 h-3.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>
-                    <span class="header-share-label-sm sm:hidden">邀请</span>
-                    <span class="header-share-label-md hidden sm:inline">邀请朋友</span>
+                    <span class="header-share-label-sm sm:hidden">邀请 <span class="invite-plus50">+50</span></span>
+                    <span class="header-share-label-md hidden sm:inline">邀请 <span class="invite-plus50">+50</span></span>
                 </button>
 
                 <button type="button" id="headerFlagBtn" onclick="openFlagModal()" class="header-action-btn inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 lg:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 border border-slate-200/80 text-xs font-semibold transition cursor-pointer shrink-0" title="立今日 Flag">
@@ -1280,6 +1413,7 @@ body.theme-b #heroStats .hero-stat span {
 
             <!-- 团队成员列表容器 -->
             <div id="leaderboardList" class="p-4 space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar"><div class="text-center py-8 text-xs text-slate-400">暂无成员数据，快邀请朋友一起加入吧！</div></div>
+            <button type="button" id="inviteLeaderboardBanner" class="hidden" onclick="openShareModal()">🎁 邀请朋友 · 每人 +50 积分</button>
         </section>
 
         <!-- 中间栏：听说读写四维自适应练习引擎 -->
@@ -3241,6 +3375,28 @@ body.theme-b #heroStats .hero-stat span {
             showToast(ok ? '已同步到全队最新进度！' : '同步失败，已展示本地缓存', ok ? 'success' : 'warning');
         };
 
+        function showGoalReachedInviteToast() {
+            const el = document.getElementById('goalReachedToast');
+            if (!el) {
+                showToast('🎉 完成今日 20 分钟学习目标，额外获得 +10 积分！', 'success');
+                return;
+            }
+            el.classList.remove('hidden');
+            clearTimeout(window._goalToastTimer);
+            window._goalToastTimer = setTimeout(() => {
+                el.classList.add('hidden');
+            }, 10000);
+        }
+        window.showGoalReachedInviteToast = showGoalReachedInviteToast;
+
+        function updateInviteLeaderboardBanner() {
+            const el = document.getElementById('inviteLeaderboardBanner');
+            if (!el) return;
+            if (appState.currentUser) el.classList.remove('hidden');
+            else el.classList.add('hidden');
+        }
+        window.updateInviteLeaderboardBanner = updateInviteLeaderboardBanner;
+
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             if (!container) return;
@@ -4276,7 +4432,7 @@ body.theme-b #heroStats .hero-stat span {
                 const prevTitle = getMemberNobleTitle(user);
                 user.points = (user.points || 0) + 10;
                 const newTitle = getMemberNobleTitle(user);
-                showToast('🎉 完成今日 20 分钟学习目标，额外获得 +10 积分！', 'success');
+                showGoalReachedInviteToast();
                 postTeamActivity(user.name, user.color, `完成了今日 20 分钟学习目标，斩获 +10 积分达标奖励！🎯🪙`, 'system');
                 if (prevTitle.id !== newTitle.id) {
                     postTeamActivity(user.name, user.color, `积分突破 ${user.points} 分，晋升为【${newTitle.icon} ${newTitle.name}】！👑`, 'levelup');
@@ -4781,6 +4937,7 @@ body.theme-b #heroStats .hero-stat span {
             appState.currentUser = null;
             appState.currentRoomId = null;
             appState.inviteInfo = null;
+            updateInviteLeaderboardBanner();
             switchAuthMode('login');
             document.getElementById('authPasswordInput').value = '';
             document.getElementById('authConfirmPasswordInput').value = '';
@@ -4792,6 +4949,7 @@ body.theme-b #heroStats .hero-stat span {
 
 
         function syncCurrentUserToUI() {
+            updateInviteLeaderboardBanner();
             const u = appState.currentUser;
             if (!u) return;
 
