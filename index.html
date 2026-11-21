@@ -576,6 +576,17 @@ body.theme-b #practiceTabWrongbook.text-indigo-600 {
   background: #6D28D9 !important;
   color: #fff !important;
 }
+body.theme-b #practiceTabZero {
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  background: #DCFCE7 !important;
+  color: #166534 !important;
+  box-shadow: none !important;
+}
+body.theme-b #practiceTabZero.bg-white {
+  background: #059669 !important;
+  color: #fff !important;
+}
 
 /* Review reminder */
 body.theme-b #reviewReminderBanner {
@@ -1231,11 +1242,16 @@ body.theme-b #heroStats .hero-stat span {
     <div id="onboardingModal" class="hidden fixed inset-x-0 bottom-0 z-[60] flex justify-center p-3 sm:p-5 pointer-events-none">
         <div class="pointer-events-auto bg-white rounded-3xl shadow-2xl border border-violet-200 max-w-md w-full p-5 animate-float-up">
             <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center gap-1.5" id="onbDots"><span class="onb-dot on"></span><span class="onb-dot"></span><span class="onb-dot"></span></div>
+                <div class="flex items-center gap-1.5" id="onbDots"><span class="onb-dot on"></span><span class="onb-dot"></span><span class="onb-dot"></span><span class="onb-dot"></span></div>
                 <button type="button" onclick="finishOnboarding()" class="min-h-[36px] px-3 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 cursor-pointer">跳过引导</button>
             </div>
             <h3 id="onbTitle" class="text-base font-bold text-slate-900 mb-1.5"></h3>
             <p id="onbBody" class="text-sm text-slate-700 leading-relaxed"></p>
+            <div id="onbChoices" class="hidden mt-3 grid gap-2">
+                <button type="button" id="onbBaseZero" onclick="chooseEnglishBase('zero')" class="min-h-[48px] w-full text-left px-4 py-2.5 rounded-2xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 cursor-pointer"><span class="block text-sm font-bold text-emerald-900">🌱 几乎零基础</span><span class="block text-[11px] text-emerald-800">从字母、单词开始学</span></button>
+                <button type="button" id="onbBaseSome" onclick="chooseEnglishBase('some')" class="min-h-[48px] w-full text-left px-4 py-2.5 rounded-2xl border border-slate-200 hover:bg-slate-50 cursor-pointer"><span class="block text-sm font-bold text-slate-900">🙂 会一点</span><span class="block text-[11px] text-slate-500">能看懂简单的英文句子</span></button>
+                <button type="button" id="onbBaseGood" onclick="chooseEnglishBase('good')" class="min-h-[48px] w-full text-left px-4 py-2.5 rounded-2xl border border-slate-200 hover:bg-slate-50 cursor-pointer"><span class="block text-sm font-bold text-slate-900">💪 还不错</span><span class="block text-[11px] text-slate-500">能看懂工作邮件和对话</span></button>
+            </div>
             <div class="mt-4 flex items-center justify-end gap-2">
                 <button type="button" id="onbNextBtn" onclick="nextOnboardingStep()" class="min-h-[44px] px-5 rounded-2xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold cursor-pointer">下一步</button>
             </div>
@@ -1497,10 +1513,12 @@ body.theme-b #heroStats .hero-stat span {
                         <p>按听力、口语、阅读、写作筛选题目，或用「综合轮换」交替练习。</p>
                         <p>答对得 +1 积分；同一等级做满 15 题且近 15 题正确率达到 80% 升阶，低于 40% 降阶（当日重复作答与错题本复习不计入）。每天学满 20 分钟再加 +10 积分。</p>
                         <p>口语请先开口，再点「Mark as Practiced」才会计分。</p>
+                        <p>英语基础比较弱？先做「🌱 零基础」4 关，计分规则相同，通过后再来普通练习。</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-2xl mb-3 text-xs font-semibold">
+                <div id="practiceTabBar" class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-2xl mb-3 text-xs font-semibold">
+                    <button type="button" id="practiceTabZero" onclick="setPracticeTab('zero')" class="py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer">🌱 零基础</button>
                     <button type="button" id="practiceTabPractice" onclick="setPracticeTab('practice')" class="py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer">练习</button>
                     <button type="button" id="practiceTabWrongbook" onclick="openWrongBook()" class="py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer">
                         错题本 <span id="wrongBookDueBadge" class="hidden ml-1 px-1.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px] font-bold">0</span>
@@ -1510,6 +1528,23 @@ body.theme-b #heroStats .hero-stat span {
                 <div id="reviewReminderBanner" class="hidden mb-3 px-3.5 py-3 rounded-2xl border border-amber-200 bg-amber-50 flex flex-wrap items-center justify-between gap-2">
                     <span id="reviewReminderText" class="text-xs font-semibold text-amber-900">今天有 <span id="reviewReminderCount">0</span> 道题待复习</span>
                     <button type="button" onclick="startWrongBookReview()" class="shrink-0 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold cursor-pointer">开始复习</button>
+                </div>
+
+                <!-- release21: 零基础闯关面板 -->
+                <div id="zeroStagePanel" class="hidden mb-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3 min-w-0">
+                    <div class="flex items-center justify-between gap-2 mb-2 min-w-0">
+                        <span class="text-xs font-bold text-emerald-900">🌱 零基础 4 关 · 从字母到上班小对话</span>
+                        <span id="zeroOverallText" class="shrink-0 text-[11px] font-semibold text-emerald-700">0/100</span>
+                    </div>
+                    <div class="h-1.5 rounded-full bg-emerald-100 overflow-hidden mb-2.5"><div id="zeroOverallBar" class="h-full bg-emerald-500 rounded-full" style="width:0%"></div></div>
+                    <div id="zeroStageChips" class="grid grid-cols-2 sm:grid-cols-4 gap-1.5"></div>
+                    <p class="mt-2 text-[11px] text-emerald-800 leading-relaxed">每关答对（或口语跟读完成）20 题就算通过。计分和普通练习一样：答对 +1，学满 20 分钟 +10，答错进错题本。</p>
+                    <div id="zeroBridgeCard" class="hidden mt-2.5 p-3 rounded-2xl bg-white border border-emerald-300">
+                        <p class="text-sm font-bold text-emerald-900">🎉 你已经可以开始普通练习了</p>
+                        <p class="mt-1 text-xs text-slate-600 leading-relaxed">四关都通过了。普通练习从最低等级 Lv.1 开始，题目是完整的英文句子，计分规则不变。零基础的题随时可以回来复习。</p>
+                        <button type="button" onclick="goNormalPracticeFromZero()" class="mt-2 min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold cursor-pointer">开始普通练习（Lv.1）</button>
+                    </div>
+                    <p id="zeroSkipLine" class="mt-1.5 text-[11px] text-slate-500">觉得太简单？<button type="button" onclick="goNormalPracticeFromZero()" class="font-semibold text-indigo-600 hover:text-indigo-800 cursor-pointer">直接去普通练习</button></p>
                 </div>
 
                 <!-- 听说读写四维技能筛选胶囊 -->
@@ -2574,7 +2609,10 @@ body.theme-b #heroStats .hero-stat span {
                 targetSpeech: q.targetSpeech,
                 keywords: q.keywords,
                 minWords: q.minWords,
-                audioText: q.audioText
+                audioText: q.audioText,
+                track: q.track,
+                stage: q.stage,
+                bigContext: q.bigContext
             };
         }
         function payloadToQuestion(item) {
@@ -2594,6 +2632,9 @@ body.theme-b #heroStats .hero-stat span {
                 keywords: p && p.keywords,
                 minWords: p && p.minWords,
                 audioText: p && p.audioText,
+                track: p && p.track,
+                stage: p && p.stage,
+                bigContext: p && p.bigContext,
                 _reviewItemId: item.id
             };
         }
@@ -2703,28 +2744,40 @@ body.theme-b #heroStats .hero-stat span {
             });
         };
 
-        window.setPracticeTab = function(tab) {
-            appState.practiceTab = tab === 'wrongbook' ? 'wrongbook' : 'practice';
+        window.setPracticeTab = function(tab, opts) {
+            appState.practiceTab = tab === 'wrongbook' ? 'wrongbook' : (tab === 'zero' ? 'zero' : 'practice');
             const quiz = document.getElementById('quizCard');
             const book = document.getElementById('wrongBookPanel');
             const skills = document.getElementById('skillFilterWrap');
             const goal = document.getElementById('dailyGoalWrap');
+            const zeroPanel = document.getElementById('zeroStagePanel');
+            const aiBtn = document.getElementById('aiGenerateBtn');
             const tabP = document.getElementById('practiceTabPractice');
             const tabW = document.getElementById('practiceTabWrongbook');
+            const tabZ = document.getElementById('practiceTabZero');
             const onBook = appState.practiceTab === 'wrongbook';
+            const onZero = appState.practiceTab === 'zero' && !appState.reviewMode;
             if (quiz) quiz.classList.toggle('hidden', onBook && !appState.reviewMode);
             if (book) book.classList.toggle('hidden', !onBook || appState.reviewMode);
-            if (skills) skills.classList.toggle('hidden', onBook && !appState.reviewMode);
+            if (skills) skills.classList.toggle('hidden', (onBook && !appState.reviewMode) || onZero);
             if (goal) goal.classList.toggle('hidden', onBook && !appState.reviewMode);
-            if (tabP) tabP.className = !onBook
-                ? 'flex-1 py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer'
-                : 'flex-1 py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer';
-            if (tabW) tabW.className = onBook
-                ? 'flex-1 py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer'
-                : 'flex-1 py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer';
+            if (zeroPanel) zeroPanel.classList.toggle('hidden', !onZero);
+            if (aiBtn) aiBtn.classList.toggle('hidden', onZero);
+            const activeCls = 'flex-1 py-2 rounded-xl bg-white text-indigo-600 shadow-2xs text-xs font-semibold cursor-pointer';
+            const idleCls = 'flex-1 py-2 rounded-xl text-slate-600 text-xs font-semibold cursor-pointer';
+            if (tabP) tabP.className = appState.practiceTab === 'practice' ? activeCls : idleCls;
+            if (tabW) tabW.className = onBook ? activeCls : idleCls;
+            if (tabZ) tabZ.className = appState.practiceTab === 'zero' ? 'flex-1 py-2 rounded-xl bg-white text-emerald-700 shadow-2xs text-xs font-semibold cursor-pointer' : idleCls;
             if (onBook) {
                 applyHelpCardState(HELP_LS_WRONG, 'wrongBookHelpBody', 'wrongBookHelpChevron');
                 renderWrongBookList();
+            }
+            if (onZero) renderZeroPanel();
+            // release21: switching between 零基础 and 普通练习 swaps the question track
+            if (!(opts && opts.noLoad) && !onBook && !appState.reviewMode) {
+                const cq = appState.currentQuestion;
+                const isOfficial = cq && appState.officialQuestion && cq === appState.officialQuestion;
+                if (!isOfficial && (!cq || isZeroQuestion(cq) !== onZero)) window.loadNextAdaptiveQuestion();
             }
         };
         window.openWrongBook = function() { window.setPracticeTab('wrongbook'); };
@@ -3156,6 +3209,7 @@ body.theme-b #heroStats .hero-stat span {
             renderLeaderboard();
             renderRegisteredMemberChips();
             if (bankPromise) await bankPromise;
+            if (window.applyDefaultPracticeTab) window.applyDefaultPracticeTab();
             loadNextAdaptiveQuestion();
             try { localStorage.setItem(TL_SEEN_LOGIN_KEY, '1'); } catch (_) {}
             if (sb) sb.rpc('touch_device', { p_device_id: getDeviceId() }).then(() => {}, () => {});
@@ -4942,7 +4996,8 @@ body.theme-b #heroStats .hero-stat span {
 
         // -------------------- release15: 3-step onboarding (shown once after first registration) --------------------
         const ONBOARDING_STEPS = [
-            { target: 'colPractice', title: '第 1 步：先做一道题', body: '练习区有听、说、读、写四种题。答对一题 +1 积分；今天累计学满 20 分钟，再奖 +10 分。' },
+            { kind: 'base', target: 'colPractice', title: '先问一句：你的英语基础怎么样？', body: '我们按你的基础推荐从哪里开始，之后随时可以在练习区切换。' },
+            { target: 'colPractice', title: '第 1 步：先做一道题', body: '练习区有听、说、读、写四种题。答对一题 +1 积分；今天累计学满 20 分钟，再奖 +10 分。', zeroBody: '已为你打开「🌱 零基础」，从第 1 关的字母和常用词开始。答对一题 +1 积分；今天累计学满 20 分钟，再奖 +10 分。' },
             { target: 'colLeaderboard', title: '第 2 步：看看排行榜', body: '这里能看到队友今天学了多久、谁的积分最高。看到谁还没学，可以点「督促」拍拍 TA。' },
             { target: 'petPanel', title: '第 3 步：积分能干什么', body: '积分满 100 可以免费领养一只小猫或小狗；积分越高，头衔越高，还能解锁头衔技能。连续打卡还有额外奖励。' }
         ];
@@ -4956,7 +5011,11 @@ body.theme-b #heroStats .hero-stat span {
             const b = document.getElementById('onbBody');
             const n = document.getElementById('onbNextBtn');
             if (t) t.textContent = step.title;
-            if (b) b.textContent = step.body;
+            const zeroPicked = (function() { try { return localStorage.getItem(englishBaseKey()) === 'zero'; } catch (_) { return false; } })();
+            if (b) b.textContent = (zeroPicked && step.zeroBody) ? step.zeroBody : step.body;
+            const choices = document.getElementById('onbChoices');
+            if (choices) choices.classList.toggle('hidden', step.kind !== 'base');
+            if (n) n.classList.toggle('hidden', step.kind === 'base');
             if (n) n.textContent = i === ONBOARDING_STEPS.length - 1 ? '开始练习' : '下一步';
             document.querySelectorAll('#onbDots .onb-dot').forEach((d, k) => d.classList.toggle('on', k <= i));
             clearOnboardingFocus();
@@ -4977,6 +5036,19 @@ body.theme-b #heroStats .hero-stat span {
             appState.onboardingStep = (appState.onboardingStep || 0) + 1;
             if (appState.onboardingStep >= ONBOARDING_STEPS.length) return window.finishOnboarding();
             renderOnboardingStep();
+        };
+        window.chooseEnglishBase = function(base) {
+            const v = base === 'zero' ? 'zero' : (base === 'good' ? 'good' : 'some');
+            try { localStorage.setItem(englishBaseKey(), v); } catch (_) {}
+            if (v === 'zero') {
+                const prog = loadZeroProgress();
+                if (prog.bridged) { prog.bridged = false; saveZeroProgress(prog); }
+                appState.zeroStage = 0;
+                window.setPracticeTab('zero');
+            } else if (appState.practiceTab === 'zero') {
+                window.setPracticeTab('practice');
+            }
+            window.nextOnboardingStep();
         };
         window.finishOnboarding = function() {
             try { localStorage.setItem(onboardingKey(), '1'); } catch (_) {}
@@ -5469,6 +5541,182 @@ body.theme-b #heroStats .hero-stat span {
         };
 
 
+        // -------------------- release21: 零基础 (absolute beginner) track --------------------
+        // 100 built-in items (qb_z_001..100, track:'zero'). Never mixed into 普通练习, and vice versa.
+        var ZERO_QUESTION_BANK = [{"id": "qb_z_001", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "B", "prompt": "听录音，选出你听到的字母", "options": ["B", "P", "D", "E"], "answerIndex": 0, "explanation": "你听到的是字母 B，读音像“必”。B 和 P 很像：B 声带振动，P 是送气不振动；D 是舌尖抵住上牙龈发音。"}, {"id": "qb_z_002", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "apple", "prompt": "听录音，选出你听到的单词", "options": ["orange", "apple", "banana", "egg"], "answerIndex": 1, "explanation": "apple 是“苹果”，重音在前面：AP-ple。orange 是橙子，banana 是香蕉，egg 是鸡蛋。"}, {"id": "qb_z_003", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "water", "prompt": "听录音，选出你听到的单词", "options": ["water", "coffee", "milk", "tea"], "answerIndex": 0, "explanation": "water 是“水”。coffee 是咖啡，milk 是牛奶，tea 是茶。"}, {"id": "qb_z_004", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "book", "prompt": "听录音，选出你听到的单词", "options": ["bag", "bed", "book", "bus"], "answerIndex": 2, "explanation": "book 是“书”，oo 发短音，嘴唇微微收圆。bag 是包，bed 是床，bus 是公交车。"}, {"id": "qb_z_005", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "seven", "prompt": "听录音，选出你听到的数字", "options": ["6", "7", "11", "9"], "answerIndex": 1, "explanation": "seven 是 7。six 是 6，eleven 是 11，nine 是 9。eleven 和 seven 结尾很像，注意开头多了一个 e 音。"}, {"id": "qb_z_006", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "phone", "prompt": "听录音，选出你听到的单词", "options": ["door", "chair", "cup", "phone"], "answerIndex": 3, "explanation": "phone 是“电话/手机”，ph 读 f 的音。door 是门，chair 是椅子，cup 是杯子。"}, {"id": "qb_z_007", "track": "zero", "stage": 1, "skill": "listening", "level": 0, "category": "🌱 第1关 · 字母与常用词", "audioText": "thanks", "prompt": "听录音，你听到的是哪个词？", "options": ["hello", "sorry", "thanks", "bye"], "answerIndex": 2, "explanation": "thanks 是“谢谢”（比 thank you 更随意）。hello 是你好，sorry 是对不起，bye 是再见。"}, {"id": "qb_z_008", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "🍎", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["apple", "egg", "cake", "rice"], "answerIndex": 0, "explanation": "图里是苹果，英文是 apple。egg 鸡蛋、cake 蛋糕、rice 米饭。"}, {"id": "qb_z_009", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "🐱", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["dog", "cat", "fish", "bird"], "answerIndex": 1, "explanation": "图里是猫，英文是 cat。dog 狗、fish 鱼、bird 鸟。"}, {"id": "qb_z_010", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "🚗", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["bus", "bike", "car", "train"], "answerIndex": 2, "explanation": "图里是小汽车，英文是 car。bus 公交车、bike 自行车、train 火车。"}, {"id": "qb_z_011", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "🥛", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["milk", "tea", "juice", "coffee"], "answerIndex": 0, "explanation": "图里是一杯牛奶，英文是 milk。tea 茶、juice 果汁、coffee 咖啡。"}, {"id": "qb_z_012", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "🏠", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["school", "house", "shop", "office"], "answerIndex": 1, "explanation": "图里是房子，英文是 house。school 学校、shop 商店、office 办公室。"}, {"id": "qb_z_013", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "💻", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["phone", "TV", "computer", "camera"], "answerIndex": 2, "explanation": "图里是电脑，英文是 computer（笔记本电脑也常说 laptop）。phone 手机、TV 电视、camera 相机。"}, {"id": "qb_z_014", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "prompt": "下面哪个是小写字母 a 的大写？", "options": ["A", "E", "O", "U"], "answerIndex": 0, "explanation": "a 的大写是 A。英文有 5 个元音字母：A、E、I、O、U。"}, {"id": "qb_z_015", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "prompt": "“你好”用英文怎么说？", "options": ["Hello", "Goodbye", "Sorry", "Thanks"], "answerIndex": 0, "explanation": "Hello 是“你好”，见面时用。Goodbye 再见、Sorry 对不起、Thanks 谢谢。"}, {"id": "qb_z_016", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "prompt": "数字 3 的英文是？", "options": ["tree", "two", "three", "ten"], "answerIndex": 2, "explanation": "3 是 three，th 要把舌尖轻轻放在上下牙之间。tree 是“树”，two 是 2，ten 是 10。"}, {"id": "qb_z_017", "track": "zero", "stage": 1, "skill": "reading", "level": 0, "category": "🌱 第1关 · 字母与常用词", "context": "☀️", "prompt": "看图，选出对应的英文单词", "bigContext": true, "options": ["moon", "sun", "star", "rain"], "answerIndex": 1, "explanation": "图里是太阳，英文是 sun。moon 月亮、star 星星、rain 雨。"}, {"id": "qb_z_018", "track": "zero", "stage": 1, "skill": "speaking", "level": 0, "category": "🌱 第1关 · 字母与常用词", "targetSpeech": "Hello", "prompt": "先点喇叭听示范，再大声读出这个单词", "explanation": "Hello 读作“哈喽”，重音在后面：he-LLO。见面打招呼最常用。"}, {"id": "qb_z_019", "track": "zero", "stage": 1, "skill": "speaking", "level": 0, "category": "🌱 第1关 · 字母与常用词", "targetSpeech": "Thank you", "prompt": "先点喇叭听示范，再大声读出这个词组", "explanation": "Thank you 是“谢谢你”。th 的音要把舌尖放在上下牙之间轻轻吹气，不要读成 s。"}, {"id": "qb_z_020", "track": "zero", "stage": 1, "skill": "speaking", "level": 0, "category": "🌱 第1关 · 字母与常用词", "targetSpeech": "Coffee", "prompt": "先点喇叭听示范，再大声读出这个单词", "explanation": "coffee 是“咖啡”，重音在前面：COF-fee。"}, {"id": "qb_z_021", "track": "zero", "stage": 1, "skill": "speaking", "level": 0, "category": "🌱 第1关 · 字母与常用词", "targetSpeech": "Apple", "prompt": "先点喇叭听示范，再大声读出这个单词", "explanation": "apple 是“苹果”，开头的 a 嘴巴张大一点，像“哎”和“啊”之间。"}, {"id": "qb_z_022", "track": "zero", "stage": 1, "skill": "speaking", "level": 0, "category": "🌱 第1关 · 字母与常用词", "targetSpeech": "Water", "prompt": "先点喇叭听示范，再大声读出这个单词", "explanation": "water 是“水”，重音在前面：WA-ter。美式口语里中间的 t 常读得像轻轻的 d。"}, {"id": "qb_z_023", "track": "zero", "stage": 1, "skill": "writing", "level": 0, "category": "🌱 第1关 · 字母与常用词", "prompt": "用英文写出“猫”（提示：c _ t）", "minWords": 1, "keywords": ["cat"], "sampleAnswer": "cat", "explanation": "“猫”是 cat，中间的字母是 a。"}, {"id": "qb_z_024", "track": "zero", "stage": 1, "skill": "writing", "level": 0, "category": "🌱 第1关 · 字母与常用词", "prompt": "用英文写出“你好”", "minWords": 1, "keywords": ["hello", "hi"], "sampleAnswer": "Hello", "explanation": "“你好”可以写 Hello，也可以写更随意的 Hi。"}, {"id": "qb_z_025", "track": "zero", "stage": 1, "skill": "writing", "level": 0, "category": "🌱 第1关 · 字母与常用词", "prompt": "用英文写出数字 5（提示：f _ v e）", "minWords": 1, "keywords": ["five"], "sampleAnswer": "five", "explanation": "5 是 five，中间的字母是 i。"}, {"id": "qb_z_026", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "Good morning", "prompt": "听录音，这句话是什么意思？", "options": ["早上好", "晚上好", "晚安", "再见"], "answerIndex": 0, "explanation": "Good morning 是“早上好”，一般中午 12 点前用。晚上好是 Good evening，晚安是 Good night。"}, {"id": "qb_z_027", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "Monday", "prompt": "听录音，选出你听到的是星期几", "options": ["星期天", "星期五", "星期一", "星期三"], "answerIndex": 2, "explanation": "Monday 是星期一。Sunday 星期天、Friday 星期五、Wednesday 星期三。Monday 和 Sunday 结尾都是 -day，注意听开头。"}, {"id": "qb_z_028", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "twenty", "prompt": "听录音，选出你听到的数字", "options": ["12", "30", "22", "20"], "answerIndex": 3, "explanation": "twenty 是 20。twelve 是 12，thirty 是 30，twenty-two 是 22。几十的数字都以 -ty 结尾。"}, {"id": "qb_z_029", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "See you tomorrow", "prompt": "听录音，这句话是什么意思？", "options": ["今天见", "好久不见", "明天见", "一会儿见"], "answerIndex": 2, "explanation": "See you tomorrow 是“明天见”。tomorrow 是明天。一会儿见是 See you later。"}, {"id": "qb_z_030", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "my mother", "prompt": "听录音，这句话是什么意思？", "options": ["我的爸爸", "我的姐姐", "我的朋友", "我的妈妈"], "answerIndex": 3, "explanation": "mother 是妈妈，my 是“我的”。爸爸是 father，姐姐/妹妹是 sister，朋友是 friend。"}, {"id": "qb_z_031", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "the red bag", "prompt": "听录音，这句话是什么意思？", "options": ["蓝色的包", "红色的包", "红色的帽子", "黑色的包"], "answerIndex": 1, "explanation": "red 是红色，bag 是包。蓝色是 blue，黑色是 black，帽子是 hat。英文里颜色放在东西前面。"}, {"id": "qb_z_032", "track": "zero", "stage": 2, "skill": "listening", "level": 0, "category": "🌱 第2关 · 高频词与短语", "audioText": "nine o'clock", "prompt": "听录音，选出你听到的时间", "options": ["5 点", "9 点", "9 点半", "10 点"], "answerIndex": 1, "explanation": "nine o'clock 是 9 点整。9 点半是 half past nine 或 nine thirty。"}, {"id": "qb_z_033", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "“谢谢”用英文怎么说？", "options": ["Thank you", "Excuse me", "Sorry", "You're welcome"], "answerIndex": 0, "explanation": "Thank you 是谢谢。Excuse me 是“打扰一下”，Sorry 是“对不起”，You're welcome 是别人谢你时回答的“不客气”。"}, {"id": "qb_z_034", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "不小心撞到别人，应该说哪句？", "options": ["Thank you", "Please", "Hello", "Sorry"], "answerIndex": 3, "explanation": "Sorry 是“对不起”，做错事或碰到别人时说。Please 是“请”。"}, {"id": "qb_z_035", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "Excuse me 是什么意思？", "options": ["不客气", "再见", "没关系", "打扰一下"], "answerIndex": 3, "explanation": "Excuse me 是“打扰一下/劳驾”，想问路、借过、引起别人注意时说。"}, {"id": "qb_z_036", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "office 是什么意思？", "options": ["学校", "办公室", "医院", "超市"], "answerIndex": 1, "explanation": "office 是办公室。学校 school，医院 hospital，超市 supermarket。"}, {"id": "qb_z_037", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "“同事”用英文怎么说？", "options": ["customer", "colleague", "teacher", "student"], "answerIndex": 1, "explanation": "同事是 colleague（口语里也常说 coworker）。customer 顾客，teacher 老师，student 学生。"}, {"id": "qb_z_038", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "Friday 是星期几？", "options": ["星期四", "星期六", "星期五", "星期一"], "answerIndex": 2, "explanation": "Friday 是星期五。星期四 Thursday，星期六 Saturday，星期一 Monday。"}, {"id": "qb_z_039", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "“会议”用英文怎么说？", "options": ["morning", "meeting", "message", "money"], "answerIndex": 1, "explanation": "会议是 meeting。morning 早上，message 消息，money 钱。这几个词开头都是 m，别看混。"}, {"id": "qb_z_040", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "How are you? 是什么意思？", "options": ["你好吗？", "你是谁？", "你几岁？", "你在哪？"], "answerIndex": 0, "explanation": "How are you? 是“你好吗？”，常用回答是 I am fine, thank you. 你是谁 Who are you，你几岁 How old are you，你在哪 Where are you。"}, {"id": "qb_z_041", "track": "zero", "stage": 2, "skill": "reading", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "You're welcome 一般在什么时候说？", "options": ["刚见面打招呼时", "向别人道歉时", "和别人告别时", "别人对你说谢谢时"], "answerIndex": 3, "explanation": "别人说 Thank you，你回答 You're welcome（不客气）。注意它不是“欢迎光临”的意思。"}, {"id": "qb_z_042", "track": "zero", "stage": 2, "skill": "speaking", "level": 0, "category": "🌱 第2关 · 高频词与短语", "targetSpeech": "Good morning", "prompt": "先点喇叭听示范，再大声跟读这个短语", "explanation": "Good morning 是“早上好”。good 的 d 轻轻带过，和 morning 连起来读。"}, {"id": "qb_z_043", "track": "zero", "stage": 2, "skill": "speaking", "level": 0, "category": "🌱 第2关 · 高频词与短语", "targetSpeech": "Thank you very much", "prompt": "先点喇叭听示范，再大声跟读这个短语", "explanation": "Thank you very much 是“非常感谢”。very 的 v 要上牙轻碰下唇，不要读成 w。"}, {"id": "qb_z_044", "track": "zero", "stage": 2, "skill": "speaking", "level": 0, "category": "🌱 第2关 · 高频词与短语", "targetSpeech": "Excuse me", "prompt": "先点喇叭听示范，再大声跟读这个短语", "explanation": "Excuse me 是“打扰一下”，重音在 cuse：ex-CUSE me。"}, {"id": "qb_z_045", "track": "zero", "stage": 2, "skill": "speaking", "level": 0, "category": "🌱 第2关 · 高频词与短语", "targetSpeech": "See you tomorrow", "prompt": "先点喇叭听示范，再大声跟读这个短语", "explanation": "See you tomorrow 是“明天见”，tomorrow 重音在中间：to-MOR-row。"}, {"id": "qb_z_046", "track": "zero", "stage": 2, "skill": "speaking", "level": 0, "category": "🌱 第2关 · 高频词与短语", "targetSpeech": "Nice to meet you", "prompt": "先点喇叭听示范，再大声跟读这个短语", "explanation": "Nice to meet you 是“很高兴认识你”，第一次见面时说。to 读得轻而短。"}, {"id": "qb_z_047", "track": "zero", "stage": 2, "skill": "writing", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "用英文写出“早上好”（2 个单词）", "minWords": 2, "keywords": ["good morning"], "sampleAnswer": "Good morning", "explanation": "“早上好”是 Good morning，两个单词中间要有空格。"}, {"id": "qb_z_048", "track": "zero", "stage": 2, "skill": "writing", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "用英文写出“谢谢你”（2 个单词）", "minWords": 2, "keywords": ["thank you"], "sampleAnswer": "Thank you", "explanation": "“谢谢你”是 Thank you。也可以写 Thank you very much（非常感谢）。"}, {"id": "qb_z_049", "track": "zero", "stage": 2, "skill": "writing", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "用英文写出“星期一”", "minWords": 1, "keywords": ["monday"], "sampleAnswer": "Monday", "explanation": "星期一是 Monday。英文里星期几的首字母要大写。"}, {"id": "qb_z_050", "track": "zero", "stage": 2, "skill": "writing", "level": 0, "category": "🌱 第2关 · 高频词与短语", "prompt": "用英文写出“我的手机”（2 个单词，提示：my ...）", "minWords": 2, "keywords": ["my phone", "my mobile", "my cellphone", "my cell phone"], "sampleAnswer": "my phone", "explanation": "“我的”是 my，“手机”是 phone，合起来是 my phone。"}, {"id": "qb_z_051", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "I am a student.", "prompt": "听录音，选出这句话的中文意思", "options": ["我是学生。", "我是老师。", "他是学生。", "我有一个学生。"], "answerIndex": 0, "explanation": "I am a student. 是“我是学生”。I am = 我是；he is = 他是；teacher 是老师。"}, {"id": "qb_z_052", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "My name is Lily.", "prompt": "听录音，选出这句话的中文意思", "options": ["她叫莉莉。", "我叫莉莉。", "我喜欢莉莉。", "莉莉是我的朋友。"], "answerIndex": 1, "explanation": "My name is ... 是“我叫……”，自我介绍最常用。她叫莉莉是 Her name is Lily。"}, {"id": "qb_z_053", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "I like coffee.", "prompt": "听录音，选出这句话的中文意思", "options": ["我不喜欢咖啡。", "我想要茶。", "我喜欢咖啡。", "我有咖啡。"], "answerIndex": 2, "explanation": "I like ... 是“我喜欢……”。不喜欢要说 I don't like ...。"}, {"id": "qb_z_054", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "It is cold today.", "prompt": "听录音，选出这句话的中文意思", "options": ["今天很热。", "昨天很冷。", "今天很冷。", "今天下雨。"], "answerIndex": 2, "explanation": "cold 是冷，today 是今天。热是 hot，昨天是 yesterday，下雨是 rainy。"}, {"id": "qb_z_055", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "Where is the bathroom?", "prompt": "听录音，选出这句话的中文意思", "options": ["洗手间几点开门？", "这是洗手间吗？", "我要去洗手间。", "洗手间在哪里？"], "answerIndex": 3, "explanation": "Where is ...? 是“……在哪里？”。bathroom 是洗手间（在公司里也常说 restroom 或 toilet）。"}, {"id": "qb_z_056", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "I work in an office.", "prompt": "听录音，选出这句话的中文意思", "options": ["我在办公室工作。", "我在家工作。", "我在学校学习。", "我想找工作。"], "answerIndex": 0, "explanation": "I work in ... 是“我在……工作”。在家工作是 I work from home。"}, {"id": "qb_z_057", "track": "zero", "stage": 3, "skill": "listening", "level": 0, "category": "🌱 第3关 · 简单句", "audioText": "Can you help me?", "prompt": "听录音，选出这句话的中文意思", "options": ["我能帮你吗？", "你能帮我吗？", "你需要帮忙吗？", "谢谢你的帮助。"], "answerIndex": 1, "explanation": "Can you help me? 是“你能帮我吗？”，you 是你，me 是我。我能帮你吗是 Can I help you?"}, {"id": "qb_z_058", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "把单词排成正确的句子：name / my / is / Tom", "options": ["Name my is Tom.", "My name is Tom.", "Tom name is my.", "My is name Tom."], "answerIndex": 1, "explanation": "英文句子的顺序一般是“谁 + 是/做 + 什么”。My name（我的名字）+ is（是）+ Tom，句首字母大写。"}, {"id": "qb_z_059", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "把单词排成正确的句子：am / I / tired", "options": ["Tired I am.", "I tired am.", "Am tired I.", "I am tired."], "answerIndex": 3, "explanation": "I am tired. 是“我累了”。I（我）+ am（是）+ tired（累的），am 要放在 I 后面。"}, {"id": "qb_z_060", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "“我是新来的。”英文怎么说？", "options": ["I new here.", "I is new here.", "Me am new here.", "I am new here."], "answerIndex": 3, "explanation": "I am new here. 是“我是新来的”。不能漏掉 am；I 后面用 am，不用 is；句子开头的“我”用 I，不用 me。"}, {"id": "qb_z_061", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "没听清别人说什么，想让对方再说一遍，应该选哪句？", "options": ["Can you say that again, please?", "Can you go there again?", "Please say goodbye.", "I can say it."], "answerIndex": 0, "explanation": "Can you say that again, please? 是“请再说一遍好吗？”，上班没听清时非常有用。"}, {"id": "qb_z_062", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "She ___ my colleague. 空格里填什么？", "options": ["am", "are", "is", "be"], "answerIndex": 2, "explanation": "she（她）、he（他）、it（它）后面用 is。I 后面用 am，you / we / they 后面用 are。"}, {"id": "qb_z_063", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "I ___ from China. 空格里填什么？", "options": ["is", "are", "be", "am"], "answerIndex": 3, "explanation": "I 后面固定用 am。I am from China. 是“我来自中国”。"}, {"id": "qb_z_064", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "They are my friends. 是什么意思？", "options": ["他是我的朋友。", "他们是我的朋友。", "我们是朋友。", "他们有朋友。"], "answerIndex": 1, "explanation": "they 是“他们”，are 是“是”，friends 是“朋友们”（多个朋友要加 s）。"}, {"id": "qb_z_065", "track": "zero", "stage": 3, "skill": "reading", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "把单词排成正确的句子：at / I / work / nine / start", "options": ["I work start at nine.", "At nine work I start.", "Start I work at nine.", "I start work at nine."], "answerIndex": 3, "explanation": "I start work at nine. 是“我九点开始上班”。顺序：I（我）+ start work（开始工作）+ at nine（在九点）。时间一般放在句子最后。"}, {"id": "qb_z_066", "track": "zero", "stage": 3, "skill": "speaking", "level": 0, "category": "🌱 第3关 · 简单句", "targetSpeech": "My name is Tom.", "prompt": "先点喇叭听示范，再大声跟读这句话", "explanation": "My name is Tom. 是“我叫汤姆”。读的时候可以换成你自己的名字多练几遍。"}, {"id": "qb_z_067", "track": "zero", "stage": 3, "skill": "speaking", "level": 0, "category": "🌱 第3关 · 简单句", "targetSpeech": "I am from China.", "prompt": "先点喇叭听示范，再大声跟读这句话", "explanation": "I am from China. 是“我来自中国”。China 重音在前：CHI-na。"}, {"id": "qb_z_068", "track": "zero", "stage": 3, "skill": "speaking", "level": 0, "category": "🌱 第3关 · 简单句", "targetSpeech": "I am new here.", "prompt": "先点喇叭听示范，再大声跟读这句话", "explanation": "I am new here. 是“我是新来的”。new 和 here 都要读清楚。"}, {"id": "qb_z_069", "track": "zero", "stage": 3, "skill": "speaking", "level": 0, "category": "🌱 第3关 · 简单句", "targetSpeech": "Can you help me, please?", "prompt": "先点喇叭听示范，再大声跟读这句话", "explanation": "Can you help me, please? 是“请问你能帮我吗？”，句尾语调上扬，听起来更礼貌。"}, {"id": "qb_z_070", "track": "zero", "stage": 3, "skill": "speaking", "level": 0, "category": "🌱 第3关 · 简单句", "targetSpeech": "I don't understand.", "prompt": "先点喇叭听示范，再大声跟读这句话", "explanation": "I don't understand. 是“我没听懂”。don't 的 t 可以轻轻带过，重音在 understand 的 stand 上。"}, {"id": "qb_z_071", "track": "zero", "stage": 3, "skill": "speaking", "level": 0, "category": "🌱 第3关 · 简单句", "targetSpeech": "Please say it again.", "prompt": "先点喇叭听示范，再大声跟读这句话", "explanation": "Please say it again. 是“请再说一遍”。say it 可以连起来读。"}, {"id": "qb_z_072", "track": "zero", "stage": 3, "skill": "writing", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "用英文写：我叫……（例如 My name is Lily.，换成你的名字）", "minWords": 3, "keywords": ["my name", "i am", "i'm"], "sampleAnswer": "My name is Lily.", "explanation": "自我介绍用 My name is + 名字，也可以说 I am + 名字。名字首字母大写。"}, {"id": "qb_z_073", "track": "zero", "stage": 3, "skill": "writing", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "用英文写：我来自中国。", "minWords": 3, "keywords": ["from"], "sampleAnswer": "I am from China.", "explanation": "“我来自……”是 I am from + 地方。China 首字母大写。"}, {"id": "qb_z_074", "track": "zero", "stage": 3, "skill": "writing", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "用英文写：我喜欢咖啡。（也可以换成你喜欢的东西）", "minWords": 3, "keywords": ["like"], "sampleAnswer": "I like coffee.", "explanation": "“我喜欢……”是 I like + 东西。比如 I like tea. / I like music."}, {"id": "qb_z_075", "track": "zero", "stage": 3, "skill": "writing", "level": 0, "category": "🌱 第3关 · 简单句", "prompt": "用英文写：今天很冷。（提示：It is ...）", "minWords": 3, "keywords": ["cold"], "sampleAnswer": "It is cold today.", "explanation": "说天气用 It is ...：It is cold today.（今天很冷）It is hot today.（今天很热）"}, {"id": "qb_z_076", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "Hi, I'm Anna. I'm the new designer. Nice to meet you.", "prompt": "What is Anna's job?（Anna 是做什么工作的？）", "options": ["A teacher.", "A driver.", "A manager.", "A designer."], "answerIndex": 3, "explanation": "Anna 说 I'm the new designer，她是新来的设计师。自我介绍常用：I'm + 名字，I'm the new + 职位。"}, {"id": "qb_z_077", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "Good morning, Mark. The meeting is at ten, in room two.", "prompt": "When is the meeting?（会议几点开始？）", "options": ["At two.", "At nine.", "At ten.", "At twelve."], "answerIndex": 2, "explanation": "录音说 The meeting is at ten，会议十点开始；room two 是 2 号会议室，不是时间。"}, {"id": "qb_z_078", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "Sorry, I am sick today. Can I take the day off?", "prompt": "What does the speaker want?（说话人想要什么？）", "options": ["A new computer.", "A day off.", "A cup of coffee.", "A meeting."], "answerIndex": 1, "explanation": "take the day off 是“请一天假”。I am sick 是“我病了”。这是最简单的请病假说法。"}, {"id": "qb_z_079", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "Excuse me, where is the meeting room? It's on the second floor, next to the kitchen.", "prompt": "Where is the meeting room?（会议室在哪里？）", "options": ["On the first floor.", "On the second floor.", "Next to the lift.", "In the kitchen."], "answerIndex": 1, "explanation": "回答是 on the second floor, next to the kitchen：在二楼，厨房旁边。不在厨房里面。second floor 是二楼。"}, {"id": "qb_z_080", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "Can you send me the file before lunch?", "prompt": "When does he need the file?（他什么时候要文件？）", "options": ["After lunch.", "Tomorrow.", "Before lunch.", "Tonight."], "answerIndex": 2, "explanation": "before lunch 是“午饭前”。after lunch 是“午饭后”。send me the file 是“把文件发给我”。"}, {"id": "qb_z_081", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "I'm sorry I'm late. The bus was slow.", "prompt": "Why is the speaker late?（说话人为什么迟到？）", "options": ["He was sick.", "He got up late.", "He lost his phone.", "The bus was slow."], "answerIndex": 3, "explanation": "I'm sorry I'm late 是“抱歉我迟到了”，原因是 The bus was slow（公交车太慢）。"}, {"id": "qb_z_082", "track": "zero", "stage": 4, "skill": "listening", "level": 0, "category": "🌱 第4关 · 上班小对话", "audioText": "Let's start the meeting. First, Amy will talk about sales.", "prompt": "Who will talk first?（谁先发言？）", "options": ["The manager.", "Tom.", "Amy.", "Nobody."], "answerIndex": 2, "explanation": "Let's start the meeting 是“我们开始开会吧”。First, Amy will talk 是“首先，Amy 来讲”。"}, {"id": "qb_z_083", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "context": "A: Hi, I'm Leo. I'm new here.\nB: Welcome, Leo! I'm Sara.", "prompt": "Who is new?（谁是新来的？）", "options": ["Sara.", "Both of them.", "Nobody.", "Leo."], "answerIndex": 3, "explanation": "Leo 说 I'm new here（我是新来的），Sara 说 Welcome（欢迎），所以新来的是 Leo。"}, {"id": "qb_z_084", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "context": "A: How are you today?\nB: ___", "prompt": "Choose the best reply.（选出最合适的回答）", "options": ["I'm Tom.", "It's nine o'clock.", "I'm fine, thank you.", "Yes, I am a teacher."], "answerIndex": 2, "explanation": "别人问 How are you?（你好吗？），常用回答是 I'm fine, thank you.（我很好，谢谢）。"}, {"id": "qb_z_085", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "context": "Message: Hi Kate, I am sick today. I will not come to work. Sorry! — Ben", "prompt": "Why will Ben not come to work?（Ben 为什么不来上班？）", "options": ["He is sick.", "He is on holiday.", "He is busy.", "He is late."], "answerIndex": 0, "explanation": "Ben 写了 I am sick today（我今天病了），所以不来上班。这就是一条最简单的请假消息。"}, {"id": "qb_z_086", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "context": "Sign: Meeting Room 3 → Turn left.", "prompt": "How do you get to Meeting Room 3?（怎么去 3 号会议室？）", "options": ["Turn left.", "Turn right.", "Go upstairs.", "Go back."], "answerIndex": 0, "explanation": "Turn left 是“左转”，Turn right 是“右转”，Go upstairs 是“上楼”。"}, {"id": "qb_z_087", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "prompt": "You want a colleague to help you. What can you say?（想请同事帮忙，怎么说最合适？）", "options": ["I am help.", "You can helping me?", "Help me now!", "Could you help me, please?"], "answerIndex": 3, "explanation": "Could you help me, please? 是礼貌的请求。Help me now! 太生硬；另外两个句子有语法错误。"}, {"id": "qb_z_088", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "context": "A: Thank you for your help.\nB: ___", "prompt": "Choose the best reply.（选出最合适的回答）", "options": ["You're welcome.", "Thank you.", "I'm sorry.", "Nice to meet you."], "answerIndex": 0, "explanation": "别人说 Thank you for your help（谢谢你的帮助），回答 You're welcome（不客气）。"}, {"id": "qb_z_089", "track": "zero", "stage": 4, "skill": "reading", "level": 0, "category": "🌱 第4关 · 上班小对话", "context": "Email: The team lunch is on Friday at 12:30. Please tell me if you can come.", "prompt": "When is the team lunch?（团队午餐是什么时候？）", "options": ["Friday at 12:30.", "Friday at 2:30.", "Thursday at 12:30.", "Every day at noon."], "answerIndex": 0, "explanation": "邮件写的是 on Friday at 12:30：星期五 12 点半。team lunch 是团队聚餐（午餐）。"}, {"id": "qb_z_090", "track": "zero", "stage": 4, "skill": "speaking", "level": 0, "category": "🌱 第4关 · 上班小对话", "targetSpeech": "Hi, I'm Lily. Nice to meet you.", "prompt": "Read this sentence aloud.（听示范后大声读出这句话）", "explanation": "第一次见同事：Hi, I'm + 名字. Nice to meet you. 可以换成自己的名字来练。"}, {"id": "qb_z_091", "track": "zero", "stage": 4, "skill": "speaking", "level": 0, "category": "🌱 第4关 · 上班小对话", "targetSpeech": "Good morning. How are you?", "prompt": "Read this sentence aloud.（听示范后大声读出这句话）", "explanation": "早上见到同事：Good morning. How are you? How are you 句尾语调稍微往下。"}, {"id": "qb_z_092", "track": "zero", "stage": 4, "skill": "speaking", "level": 0, "category": "🌱 第4关 · 上班小对话", "targetSpeech": "Sorry, I am sick. Can I take today off?", "prompt": "Read this sentence aloud.（听示范后大声读出这句话）", "explanation": "请病假：Sorry, I am sick. Can I take today off?（抱歉，我病了，今天能请假吗？）"}, {"id": "qb_z_093", "track": "zero", "stage": 4, "skill": "speaking", "level": 0, "category": "🌱 第4关 · 上班小对话", "targetSpeech": "Excuse me, where is the meeting room?", "prompt": "Read this sentence aloud.（听示范后大声读出这句话）", "explanation": "问路：Excuse me, where is the meeting room? meeting room 是会议室。"}, {"id": "qb_z_094", "track": "zero", "stage": 4, "skill": "speaking", "level": 0, "category": "🌱 第4关 · 上班小对话", "targetSpeech": "Sorry I'm late. The bus was slow.", "prompt": "Read this sentence aloud.（听示范后大声读出这句话）", "explanation": "迟到时先道歉再说原因：Sorry I'm late. 再加上原因，例如 The bus was slow."}, {"id": "qb_z_095", "track": "zero", "stage": 4, "skill": "speaking", "level": 0, "category": "🌱 第4关 · 上班小对话", "targetSpeech": "Can you say that again, please?", "prompt": "Read this sentence aloud.（听示范后大声读出这句话）", "explanation": "开会没听清时说：Can you say that again, please? 是很礼貌、很实用的一句。"}, {"id": "qb_z_096", "track": "zero", "stage": 4, "skill": "writing", "level": 0, "category": "🌱 第4关 · 上班小对话", "prompt": "Write one sentence to introduce yourself.（写一句英文自我介绍，例如名字和工作）", "minWords": 4, "keywords": ["name", "i am", "i'm"], "sampleAnswer": "Hi, I'm Lily. I am a designer.", "explanation": "自我介绍可以写 Hi, I'm + 名字. I am a + 职位. 例如 I am a designer / an engineer / a nurse。"}, {"id": "qb_z_097", "track": "zero", "stage": 4, "skill": "writing", "level": 0, "category": "🌱 第4关 · 上班小对话", "prompt": "You are sick and cannot come to work today. Write a short message.（写一句话请病假）", "minWords": 5, "keywords": ["sick", "ill", "unwell"], "sampleAnswer": "Sorry, I am sick today. I cannot come to work.", "explanation": "请病假一句话就够：Sorry, I am sick today. 再加 I cannot come to work.（我不能来上班）。"}, {"id": "qb_z_098", "track": "zero", "stage": 4, "skill": "writing", "level": 0, "category": "🌱 第4关 · 上班小对话", "prompt": "Ask a colleague where the meeting room is.（问同事会议室在哪里）", "minWords": 4, "keywords": ["where", "meeting"], "sampleAnswer": "Excuse me, where is the meeting room?", "explanation": "问地点用 Where is ...?，前面加 Excuse me 更礼貌。"}, {"id": "qb_z_099", "track": "zero", "stage": 4, "skill": "writing", "level": 0, "category": "🌱 第4关 · 上班小对话", "prompt": "Say thank you to a colleague for their help.（写一句话感谢同事的帮助）", "minWords": 4, "keywords": ["thank", "thanks"], "sampleAnswer": "Thank you for your help.", "explanation": "感谢别人的帮助：Thank you for your help. 也可以说 Thanks a lot for your help."}, {"id": "qb_z_100", "track": "zero", "stage": 4, "skill": "writing", "level": 0, "category": "🌱 第4关 · 上班小对话", "prompt": "Tell your team you will be ten minutes late.（告诉团队你会晚到 10 分钟）", "minWords": 5, "keywords": ["late", "minutes"], "sampleAnswer": "Sorry, I will be ten minutes late.", "explanation": "“我会晚到 10 分钟”：I will be ten minutes late. 前面加 Sorry 更礼貌。"}];
+        var ZERO_STAGES = [
+            { n: 1, name: '字母与常用词' },
+            { n: 2, name: '高频词与短语' },
+            { n: 3, name: '简单句' },
+            { n: 4, name: '上班小对话' }
+        ];
+        var ZERO_PASS_PER_STAGE = 20;
+        function isZeroQuestion(q) { return !!q && (q.track === 'zero' || /^qb_z_/.test(String(q.id || ''))); }
+        function getZeroBank() {
+            const extra = (typeof cloudQuestionBank !== 'undefined' && cloudQuestionBank ? cloudQuestionBank : []).filter(isZeroQuestion);
+            return uniqueQuestionsById([].concat(ZERO_QUESTION_BANK || [], extra))
+                .filter(isZeroQuestion)
+                .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+        }
+        function zeroUid() { return (appState.currentUser && appState.currentUser.id) || 'guest'; }
+        function zeroProgressKey() { return 'tl_zero_progress_' + zeroUid(); }
+        function englishBaseKey() { return 'tl_english_base_' + zeroUid(); }
+        function loadZeroProgress() {
+            try {
+                const o = JSON.parse(localStorage.getItem(zeroProgressKey()) || 'null');
+                if (o && typeof o === 'object') return { done: (o.done && typeof o.done === 'object') ? o.done : {}, bridged: !!o.bridged };
+            } catch (_) {}
+            return { done: {}, bridged: false };
+        }
+        function saveZeroProgress(p) { try { localStorage.setItem(zeroProgressKey(), JSON.stringify(p)); } catch (_) {} }
+        function zeroStageItems(stage) { return getZeroBank().filter(q => (Number(q.stage) || 1) === stage); }
+        function zeroStageStats(stage, prog) {
+            const items = zeroStageItems(stage);
+            const done = items.filter(q => prog.done[q.id]).length;
+            const need = Math.min(ZERO_PASS_PER_STAGE, items.length);
+            return { total: items.length, done: done, need: need, passed: items.length > 0 && done >= need };
+        }
+        function zeroCurrentStage(prog) {
+            if (appState.zeroStage) return appState.zeroStage;
+            const s = ZERO_STAGES.find(st => !zeroStageStats(st.n, prog).passed);
+            return s ? s.n : ZERO_STAGES[ZERO_STAGES.length - 1].n;
+        }
+        function zeroFinished(prog) { return zeroStageStats(ZERO_STAGES[ZERO_STAGES.length - 1].n, prog).passed; }
+        function preferredPracticeTab() {
+            try {
+                if (localStorage.getItem(englishBaseKey()) === 'zero' && !loadZeroProgress().bridged) return 'zero';
+            } catch (_) {}
+            return 'practice';
+        }
+        window.applyDefaultPracticeTab = function() {
+            appState.zeroStage = 0;
+            window.setPracticeTab(preferredPracticeTab(), { noLoad: true });
+        };
+        function renderZeroPanel() {
+            const chips = document.getElementById('zeroStageChips');
+            if (!chips) return;
+            const prog = loadZeroProgress();
+            const cur = zeroCurrentStage(prog);
+            let total = 0, done = 0;
+            chips.innerHTML = ZERO_STAGES.map(s => {
+                const st = zeroStageStats(s.n, prog);
+                total += st.total; done += Math.min(st.done, st.total);
+                const active = s.n === cur;
+                const cls = active
+                    ? 'min-h-[52px] p-2 rounded-xl bg-white border-2 border-emerald-500 text-left cursor-pointer min-w-0'
+                    : 'min-h-[52px] p-2 rounded-xl bg-white/70 border border-emerald-200 hover:border-emerald-400 text-left cursor-pointer min-w-0';
+                const pct = st.need ? Math.min(100, Math.round(st.done / st.need * 100)) : 0;
+                return `<button type="button" id="zeroStageBtn${s.n}" onclick="selectZeroStage(${s.n})" class="${cls}">
+                    <span class="flex items-center justify-between gap-1 text-[11px] font-bold ${st.passed ? 'text-emerald-700' : 'text-slate-700'}"><span>第${s.n}关</span><span>${st.passed ? '✅' : (st.done + '/' + st.need)}</span></span>
+                    <span class="block text-[11px] text-slate-600 truncate">${escapeHTML(s.name)}</span>
+                    <span class="block mt-1 h-1 rounded-full bg-emerald-100 overflow-hidden"><span class="block h-full bg-emerald-500" style="width:${pct}%"></span></span>
+                </button>`;
+            }).join('');
+            const ot = document.getElementById('zeroOverallText');
+            if (ot) ot.textContent = '已完成 ' + done + '/' + total;
+            const ob = document.getElementById('zeroOverallBar');
+            if (ob) ob.style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+            const finished = zeroFinished(prog);
+            const card = document.getElementById('zeroBridgeCard');
+            if (card) card.classList.toggle('hidden', !finished);
+            const skip = document.getElementById('zeroSkipLine');
+            if (skip) skip.classList.toggle('hidden', finished);
+        }
+        window.renderZeroPanel = renderZeroPanel;
+        window.selectZeroStage = function(n) {
+            appState.zeroStage = Number(n) || 1;
+            if (appState.practiceTab !== 'zero') { window.setPracticeTab('zero'); return; }
+            if (appState.currentQuestion && isZeroQuestion(appState.currentQuestion) && (Number(appState.currentQuestion.stage) || 1) !== appState.zeroStage) {
+                appState.currentQuestion = null;
+            }
+            window.loadNextAdaptiveQuestion();
+        };
+        window.goNormalPracticeFromZero = function() {
+            const prog = loadZeroProgress();
+            prog.bridged = true;
+            saveZeroProgress(prog);
+            appState.skillFilter = 'all';
+            ['All', 'Listening', 'Speaking', 'Reading', 'Writing'].forEach(k => {
+                const btn = document.getElementById('skillBtn' + k);
+                if (btn) btn.className = k === 'All'
+                    ? 'py-2 rounded-xl bg-white text-indigo-600 shadow-2xs transition cursor-pointer'
+                    : 'py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer';
+            });
+            window.setPracticeTab('practice');
+            const lv = appState.currentUser ? (appState.currentUser.level || 1) : 1;
+            const cq = appState.currentQuestion;
+            if (lv <= 1 && !appState.reviewMode && (!cq || (cq.level || 1) > 1)) {
+                // bridge lands on the lowest normal level (Lv.1), preferring a question not seen yet
+                const seen = new Set(appState.answeredHistoryIds || []);
+                const lv1 = collectQuestionBank().filter(q => (q.level || 1) === 1);
+                const pool = lv1.filter(q => !seen.has(q.id));
+                const pick = (pool.length ? pool : lv1)[Math.floor(Math.random() * (pool.length ? pool.length : lv1.length))];
+                if (pick) {
+                    markQuestionSeen(pick.id);
+                    appState.currentQuestion = pick;
+                    appState.selectedOptionIndex = null;
+                    appState.questionAnswered = false;
+                    appState.latestSpeechTranscript = '';
+                    appState.hasRecordedSpeech = false;
+                    appState.latestGrammar = null;
+                    renderCurrentQuestion();
+                }
+            }
+            showToast(lv <= 1 ? '已切换到普通练习，从 Lv.1 开始' : ('已切换到普通练习（你当前是 Lv.' + lv + '）'), 'success');
+        };
+        function loadNextZeroQuestion() {
+            const prog = loadZeroProgress();
+            const stage = zeroCurrentStage(prog);
+            appState.zeroStage = stage;
+            const items = zeroStageItems(stage);
+            if (!items.length) return null;
+            const cur = appState.currentQuestion;
+            const curIdx = cur ? items.findIndex(q => q.id === cur.id) : -1;
+            const n = items.length;
+            let chosen = null;
+            for (let k = 0; k < n; k++) {
+                const q = items[(curIdx + 1 + k) % n];
+                if (!prog.done[q.id] && !(cur && q.id === cur.id && n > 1)) { chosen = q; break; }
+            }
+            if (!chosen) chosen = items[(curIdx + 1) % n];
+            stopSpeakingCapture(false);
+            revokeSpeechPlayback();
+            appState.currentQuestion = chosen;
+            appState.selectedOptionIndex = null;
+            appState.questionAnswered = false;
+            appState.latestSpeechTranscript = '';
+            appState.hasRecordedSpeech = false;
+            appState.speechChunks = [];
+            appState.latestGrammar = null;
+            appState.speechRequesting = false;
+            appState.speechAttemptId = (appState.speechAttemptId || 0) + 1;
+            appState.speechFallbackReason = '';
+            renderCurrentQuestion();
+            renderZeroPanel();
+            return chosen;
+        }
+        function recordZeroProgress(q, isCorrect, skipScoring) {
+            if (!isZeroQuestion(q)) return;
+            const prog = loadZeroProgress();
+            const stage = Number(q.stage) || 1;
+            const before = zeroStageStats(stage, prog).passed;
+            const practicedSpeaking = q.skill === 'speaking' && skipScoring;
+            if (isCorrect || practicedSpeaking) prog.done[q.id] = 1;
+            saveZeroProgress(prog);
+            const after = zeroStageStats(stage, prog);
+            if (!before && after.passed) {
+                const last = ZERO_STAGES[ZERO_STAGES.length - 1].n;
+                if (stage < last) {
+                    appState.zeroStage = stage + 1;
+                    showToast('🎉 第' + stage + '关通过！下一题进入第' + (stage + 1) + '关', 'success');
+                } else {
+                    showToast('🎉 四关全部通过，你已经可以开始普通练习了！', 'success');
+                }
+            }
+            renderZeroPanel();
+        }
+        window.__zero = { bank: getZeroBank, isZero: isZeroQuestion, progress: loadZeroProgress, stats: zeroStageStats, record: recordZeroProgress, baseKey: englishBaseKey, progressKey: zeroProgressKey };
+
         function seenQuestionsStorageKey() {
             const uid = (appState.currentUser && appState.currentUser.id) || 'guest';
             return getLocalStoreKey('seenQuestions_' + uid);
@@ -5517,7 +5765,7 @@ body.theme-b #heroStats .hero-stat span {
             return Array.from(map.values());
         }
         function collectQuestionBank() {
-            return uniqueQuestionsById([].concat(BUILTIN_QUESTION_BANK || [], cloudQuestionBank || [], dynamicQuestionBank || []));
+            return uniqueQuestionsById([].concat(BUILTIN_QUESTION_BANK || [], cloudQuestionBank || [], dynamicQuestionBank || [])).filter(q => !isZeroQuestion(q));
         }
 
         async function loadCloudQuestionBank() {
@@ -5828,6 +6076,9 @@ body.theme-b #heroStats .hero-stat span {
         window.collectQuestionBank = collectQuestionBank;
         window.questionTopicKey = questionTopicKey;
         window.loadNextAdaptiveQuestion = function() {
+            if (appState.practiceTab === 'zero' && !appState.reviewMode) {
+                if (loadNextZeroQuestion()) return;
+            }
             const level = appState.currentUser ? (appState.currentUser.level || 1) : 1;
             let desiredSkill = appState.skillFilter;
             if (desiredSkill === 'all') {
@@ -5883,12 +6134,17 @@ body.theme-b #heroStats .hero-stat span {
             const feedbackBox = document.getElementById('feedbackBox');
 
             if (catTag) catTag.textContent = q.category || q.skill.toUpperCase();
-            if (diffTag) diffTag.textContent = `Difficulty Lv.${q.level || 1}`;
+            const zeroQ = isZeroQuestion(q);
+            if (diffTag) diffTag.textContent = zeroQ ? ('零基础 · 第' + (Number(q.stage) || 1) + '关') : `Difficulty Lv.${q.level || 1}`;
             if (feedbackBox) feedbackBox.classList.add('hidden');
             const gBox = document.getElementById('grammarFeedbackBox');
             if (gBox) { gBox.classList.add('hidden'); gBox.innerHTML = ''; }
 
             if (ctxEl) {
+                ctxEl.style.fontSize = q.bigContext ? '3rem' : '';
+                ctxEl.style.lineHeight = q.bigContext ? '1.25' : '';
+                ctxEl.style.textAlign = q.bigContext ? 'center' : '';
+                ctxEl.style.whiteSpace = zeroQ ? 'pre-line' : '';
                 if (q.context) {
                     ctxEl.textContent = q.context;
                     ctxEl.classList.remove('hidden');
@@ -5973,10 +6229,10 @@ body.theme-b #heroStats .hero-stat span {
                 area.innerHTML = `
                     <div class="space-y-3">
                         <textarea id="writingAnswerInput" rows="4"
-                            placeholder="Write your English response here..."
+                            placeholder="${zeroQ ? '在这里用英文写…' : 'Write your English response here...'}"
                             class="w-full p-3.5 rounded-2xl border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
                         <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-slate-500">Target length: at least <strong>${q.minWords || 8}</strong> English words</span>
+                            <span class="text-xs text-slate-500">${zeroQ ? `至少写 <strong>${q.minWords || 1}</strong> 个英文单词` : `Target length: at least <strong>${q.minWords || 8}</strong> English words`}</span>
                             <button type="button" onclick="submitWritingAnswer()"
                                 class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-xs cursor-pointer">
                                 <span>Submit Writing</span>
@@ -6255,7 +6511,7 @@ body.theme-b #heroStats .hero-stat span {
             const words = text.split(/\s+/).filter(Boolean);
             const minWords = q.minWords || 8;
             if (words.length < minWords) {
-                showToast(`Please write at least ${minWords} English words (currently ${words.length} words).`, 'warning');
+                showToast(isZeroQuestion(q) ? `请至少写 ${minWords} 个英文单词（现在 ${words.length} 个）` : `Please write at least ${minWords} English words (currently ${words.length} words).`, 'warning');
                 return;
             }
 
@@ -6266,7 +6522,7 @@ body.theme-b #heroStats .hero-stat span {
             appState.questionAnswered = true;
             appState.lastUserAnswer = text;
             input.disabled = true;
-            const sampleInfo = q.sampleAnswer ? ' Sample response: "' + q.sampleAnswer + '"' : '';
+            const sampleInfo = q.sampleAnswer ? (isZeroQuestion(q) ? ' 参考答案：' + q.sampleAnswer : ' Sample response: "' + q.sampleAnswer + '"') : '';
             const gram = await checkEnglishGrammar(text);
             appState.latestGrammar = gram;
             await finalizeExerciseResult(isGood, (q.explanation || '') + sampleInfo);
@@ -6334,7 +6590,7 @@ body.theme-b #heroStats .hero-stat span {
 
                     u.correctCount = (u.correctCount || 0) + 1;
                 }
-                if (!appState.reviewMode) {
+                if (!appState.reviewMode && !isZeroQuestion(q)) {
                     levelChangeNotice = applyLevelWindowResult(u, isCorrect);
                 }
 
@@ -6405,6 +6661,7 @@ body.theme-b #heroStats .hero-stat span {
                 feedbackTitle.textContent = `Keep Practicing — Review the Explanation${levelChangeNotice}`;
             }
             feedbackExplanation.textContent = explanationText;
+            if (q && isZeroQuestion(q) && !appState.reviewMode) recordZeroProgress(q, isCorrect, skipScoring);
             let transcriptBox = document.getElementById('listeningTranscriptBox');
             if (!transcriptBox && feedbackExplanation.parentNode) {
                 transcriptBox = document.createElement('div');
