@@ -78,7 +78,7 @@
             font-family: "Fredoka", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif;
         }
 
-        .tl-lang-switch { position: relative; flex-shrink: 0; }
+        .tl-lang-switch { position: relative; flex-shrink: 0; z-index: 40; }
         .tl-lang-btn {
             display: inline-flex; align-items: center; gap: 0.25rem;
             min-height: 32px; padding: 0.25rem 0.5rem; border-radius: 0.75rem;
@@ -88,11 +88,12 @@
         .tl-lang-btn:hover { background: #eef2ff; border-color: #c7d2fe; color: #3730a3; }
         .tl-lang-menu {
             position: absolute; right: 0; top: calc(100% + 4px);
-            min-width: 10.5rem; max-height: 70vh; overflow: auto;
+            min-width: 10.5rem; max-height: min(70vh, 320px); overflow: auto;
             background: #fff; border: 1px solid #e2e8f0; border-radius: 0.9rem;
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14); padding: 0.3rem;
-            z-index: 80;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18); padding: 0.3rem;
+            z-index: 4000; display: block;
         }
+        .tl-lang-menu.hidden { display: none !important; }
         .tl-lang-item {
             display: block; width: 100%; text-align: left;
             padding: 0.55rem 0.7rem; border: 0; background: transparent;
@@ -101,7 +102,11 @@
         }
         .tl-lang-item:hover { background: #eef2ff; }
         .tl-lang-item.tl-lang-on { background: #e0e7ff; color: #3730a3; }
-        #loginModal .tl-lang-switch { z-index: 2; }
+        header.sticky { overflow: visible; }
+        #loginModal .tl-lang-switch { z-index: 60; }
+        @media (max-width: 639.98px) {
+            #appHeaderInner .tl-lang-switch { order: 3; }
+        }
 
         .custom-scrollbar::-webkit-scrollbar {
             width: 5px;
@@ -2136,7 +2141,15 @@ body.theme-b #heroStats .hero-stat span {
             } } catch (_) {}
         }
         function closeLangMenus() {
-            document.querySelectorAll('[data-lang-menu]').forEach(function (m) { m.classList.add('hidden'); });
+            document.querySelectorAll('[data-lang-menu]').forEach(function (m) {
+                m.classList.add('hidden');
+                m.style.top = '';
+                m.style.left = '';
+                m.style.right = '';
+                m.style.position = '';
+                m.style.zIndex = '';
+                if (m._tlHome && m.parentNode !== m._tlHome) m._tlHome.appendChild(m);
+            });
             document.querySelectorAll('[data-lang-btn]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
         }
         function updateLangSwitcherUI() {
@@ -2166,6 +2179,28 @@ body.theme-b #heroStats .hero-stat span {
             if (!opts.skipRefresh) refreshDynamicI18n();
             closeLangMenus();
         }
+        function positionLangMenu(btn, menu) {
+            // Move onto body so header backdrop-filter / overflow cannot clip it
+            if (!menu._tlHome) menu._tlHome = menu.parentNode;
+            document.body.appendChild(menu);
+            const r = btn.getBoundingClientRect();
+            const gap = 4;
+            menu.style.position = 'fixed';
+            menu.style.right = Math.max(8, Math.round(window.innerWidth - r.right)) + 'px';
+            menu.style.left = 'auto';
+            menu.style.top = Math.round(r.bottom + gap) + 'px';
+            menu.style.zIndex = '4000';
+            requestAnimationFrame(function () {
+                const mr = menu.getBoundingClientRect();
+                if (mr.bottom > window.innerHeight - 8) {
+                    menu.style.top = Math.max(8, Math.round(r.top - mr.height - gap)) + 'px';
+                }
+                if (mr.left < 8) {
+                    menu.style.right = 'auto';
+                    menu.style.left = '8px';
+                }
+            });
+        }
         function toggleLangMenu(btn) {
             const wrap = btn && btn.closest ? btn.closest('[data-lang-switch]') : null;
             const menu = wrap ? wrap.querySelector('[data-lang-menu]') : null;
@@ -2173,8 +2208,11 @@ body.theme-b #heroStats .hero-stat span {
             const willOpen = menu.classList.contains('hidden');
             closeLangMenus();
             if (willOpen) {
+                fillLangMenus();
+                updateLangSwitcherUI();
                 menu.classList.remove('hidden');
                 btn.setAttribute('aria-expanded', 'true');
+                positionLangMenu(btn, menu);
             }
         }
         function initLangSwitcher() {
@@ -2955,15 +2993,15 @@ body.theme-b #heroStats .hero-stat span {
                 const title = escapeStatusText((it.question_content || it.question_id || t("错题")).slice(0, 120));
                 const skill = escapeStatusText(it.skill || '');
                 return `<div class="p-3 rounded-2xl border border-slate-200 bg-white flex flex-col gap-2">
-                    <div class="text-sm font-semibold text-slate-800 leading-snug break-words">___TLX0___</div>
+                    <div class="text-sm font-semibold text-slate-800 leading-snug break-words">${title}</div>
                     <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-500">
-                        ___TLX1___
+                        ${skill ? `<span class="px-1.5 py-0.5 rounded-md bg-slate-100">${skill}</span>` : ''}
                         <span>${t("错 {v0} 次", {"v0": it.times_wrong || 1})}</span>
-                        <span class="___TLX3___">___TLX4___</span>
+                        <span class="${it.mastered ? 'text-emerald-600 font-semibold' : (due ? 'text-amber-700 font-semibold' : '')}">${escapeStatusText(status)}</span>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        ___TLX5___
-                        <button type="button" onclick="removeWrongAnswer('___TLX6___')" class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-semibold cursor-pointer">${t("移除")}</button>
+                        ${due && !it.mastered ? `<button type="button" onclick="startWrongBookReview('${it.id}')" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-[11px] font-semibold cursor-pointer">开始复习</button>` : ''}
+                        <button type="button" onclick="removeWrongAnswer('${it.id}')" class="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 text-[11px] font-semibold cursor-pointer">${t("移除")}</button>
                     </div>
                 </div>`;
             }).join('');
@@ -4206,9 +4244,9 @@ body.theme-b #heroStats .hero-stat span {
                 <div class="flex flex-wrap items-center justify-between gap-2 min-w-0">
                     <div class="min-w-0">
                         <div class="text-xs font-bold">${t("📝 出题官发布了新题")}</div>
-                        <p class="text-[11px] text-emerald-800 mt-0.5 break-words">___TLX0___</p>
+                        <p class="text-[11px] text-emerald-800 mt-0.5 break-words">${escapeHTML((q.prompt || '').slice(0, 80))}</p>
                     </div>
-                    ___TLX1___
+                    ${action}
                 </div>`;
             bar.classList.remove('hidden');
         }
@@ -4237,7 +4275,8 @@ body.theme-b #heroStats .hero-stat span {
                         <div class="text-xs font-bold">${t("🤝 3 天组队挑战进行中 · 已加入 {count} 人", {"count": count})}</div>
                         <p class="text-[11px] text-sky-800 mt-0.5">${t("日期：{v0}。所有加入成员每天都完成 20 分钟目标后，每人 +15。", {"v0": escapeHTML((days || []).join('、'))})}</p>
                     </div>
-                    ___TLX2___
+                    ${joined ? '<span class="text-[11px] font-semibold shrink-0">已加入</span>'
+                        : '<button type="button" onclick="joinTeamChallenge()" class="shrink-0 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold cursor-pointer">加入挑战</button>'}
                 </div>`;
             bar.classList.remove('hidden');
         }
@@ -4329,7 +4368,7 @@ body.theme-b #heroStats .hero-stat span {
                 if (unlocked && appState.currentUser) {
                     if (sk.auto) btn = '';
                     else if (sk.existing) btn = `<button type="button" onclick="issuePrinceBounty()" class="shrink-0 px-2.5 py-1 rounded-lg ${ready ? 'bg-violet-600 text-white' : 'bg-slate-200 text-slate-500'} text-[11px] font-semibold cursor-pointer">${ready ? t("去发布") : t("本周已用")}</button>`;
-                    else if (sk.id === 'title_color') btn = `<button type="button" onclick="openTitleSkillAction('___TLX0___')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-semibold cursor-pointer">${t("更换")}</button>`;
+                    else if (sk.id === 'title_color') btn = `<button type="button" onclick="openTitleSkillAction('${sk.id}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-semibold cursor-pointer">${t("更换")}</button>`;
                     else btn = `<button type="button" onclick="openTitleSkillAction('${sk.id}')" class="shrink-0 px-2.5 py-1 rounded-lg ${ready ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-500'} text-[11px] font-semibold cursor-pointer">${ready ? t("使用") : (st && st.period === 'day' ? t("今日已用") : st && st.period === 'week' ? t("本周已用") : t("冷却中"))}</button>`;
                 }
                 return `<div class="p-3 rounded-2xl border ${unlocked ? 'border-slate-200 bg-white' : 'border-slate-100 bg-slate-50'} min-w-0">
@@ -4376,7 +4415,7 @@ body.theme-b #heroStats .hero-stat span {
                 }).join('');
                 box.classList.remove('hidden');
                 box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">${t("选择专属称号色（可随时更换）")}</div>
-                    <div class="flex flex-wrap gap-2">___TLX0___</div>
+                    <div class="flex flex-wrap gap-2">${opts}</div>
                     <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="mt-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">${t("取消")}</button>`;
                 box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 return;
@@ -4435,9 +4474,9 @@ body.theme-b #heroStats .hero-stat span {
             if (!sk.needTarget && !sk.form) {
                 box.classList.remove('hidden');
                 box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">${t("使用「{icon} {v1}」？", {"icon": sk.icon, "v1": t(sk.name)})}</div>
-                    <p class="text-[11px] text-slate-600 mb-3">___TLX2___</p>
+                    <p class="text-[11px] text-slate-600 mb-3">${t(sk.desc)}</p>
                     <div class="flex flex-wrap gap-2">
-                        <button type="button" onclick="useTitleSkill('___TLX3___')" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">${t("确认使用")}</button>
+                        <button type="button" onclick="useTitleSkill('${sk.id}')" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">${t("确认使用")}</button>
                         <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">${t("取消")}</button>
                     </div>`;
                 box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -4445,11 +4484,11 @@ body.theme-b #heroStats .hero-stat span {
             }
             box.classList.remove('hidden');
             box.innerHTML = `<div class="text-xs font-bold text-slate-800 mb-2">${t("使用「{icon} {v1}」", {"icon": sk.icon, "v1": t(sk.name)})}</div>
-                <p class="text-[11px] text-slate-600 mb-2">___TLX2___</p>
+                <p class="text-[11px] text-slate-600 mb-2">${t(sk.desc)}</p>
                 <label class="block text-[11px] text-slate-500 mb-1">${t("选择队友")}</label>
-                <select id="titleSkillTarget" class="w-full text-xs p-2 rounded-xl border border-slate-200 mb-3">___TLX3___</select>
+                <select id="titleSkillTarget" class="w-full text-xs p-2 rounded-xl border border-slate-200 mb-3">${teammateOptionsHtml(false)}</select>
                 <div class="flex flex-wrap gap-2">
-                    <button type="button" onclick="useTitleSkill('___TLX4___', { fromSelect: true })" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">${t("确认使用")}</button>
+                    <button type="button" onclick="useTitleSkill('${sk.id}', { fromSelect: true })" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold cursor-pointer">${t("确认使用")}</button>
                     <button type="button" onclick="document.getElementById('titleSkillActionBox').classList.add('hidden')" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold cursor-pointer">${t("取消")}</button>
                 </div>`;
             box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -4665,14 +4704,14 @@ body.theme-b #heroStats .hero-stat span {
                 const maxs = tg.max_stealable || 3;
                 const lost = tg.lost_today || 0;
                 const btn = canSteal
-                    ? `<button type="button" onclick="stealFrom('___TLX0___')" class="shrink-0 px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-semibold cursor-pointer">${t("偷 3 分")}</button>`
+                    ? `<button type="button" onclick="stealFrom('${tg.id}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-semibold cursor-pointer">${t("偷 3 分")}</button>`
                     : `<button type="button" disabled class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-500 text-[11px] font-semibold">${t("不可偷")}</button>`;
                 return `<div class="p-3 rounded-2xl border border-slate-200 bg-white min-w-0 flex items-start justify-between gap-2">
                     <div class="min-w-0">
-                        <div class="text-xs font-bold text-slate-900 truncate">___TLX0___</div>
+                        <div class="text-xs font-bold text-slate-900 truncate">${escapeHTML(tg.name || '队友')}</div>
                         <p class="text-[11px] text-slate-500 mt-0.5">${t("当前 {v0} 分 · 今日已被偷 {lost} / 6 分{v2}", {"v0": tg.points || 0, "lost": lost, "v2": maxs < 3 ? ' · 最多再偷 ' + maxs + ' 分（避免掉段）' : ''})}</p>
                     </div>
-                    ___TLX4___
+                    ${btn}
                 </div>`;
             }).join('');
         }
@@ -4824,9 +4863,9 @@ body.theme-b #heroStats .hero-stat span {
                 if (points < 100) {
                     body.innerHTML = `
                         <div id="petLockedBox" class="p-3 rounded-2xl border border-slate-200 bg-slate-50 min-w-0">
-                            <p class="text-xs text-slate-700 mb-2">${t("还差")} <strong>___TLX0___</strong> ${t("积分就能免费领养（{points} / 100）。", {"points": points})}</p>
+                            <p class="text-xs text-slate-700 mb-2">${t("还差")} <strong>${need}</strong> ${t("积分就能免费领养（{points} / 100）。", {"points": points})}</p>
                             <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                                <div class="h-full bg-orange-400 rounded-full" style="width:___TLX2___%"></div>
+                                <div class="h-full bg-orange-400 rounded-full" style="width:${Math.min(100, points)}%"></div>
                             </div>
                         </div>`;
                     return;
@@ -4836,11 +4875,11 @@ body.theme-b #heroStats .hero-stat span {
                         <p class="text-xs text-slate-600">${t("选一只宠物，给它起个名字（免费，不扣积分）。")}</p>
                         <div class="grid grid-cols-2 gap-2">
                             <button type="button" id="petPickCat" onclick="window.pickPetSpecies('cat')" class="p-2 rounded-2xl border-2 border-orange-400 bg-orange-50 cursor-pointer">
-                                <img src="___TLX0___" alt="小猫" class="w-20 h-20 mx-auto object-contain">
+                                <img src="${PET_IMAGES['pet-cat-baby']}" alt="小猫" class="w-20 h-20 mx-auto object-contain">
                                 <div class="text-center text-xs font-bold text-slate-800 mt-1">${t("小猫")}</div>
                             </button>
                             <button type="button" id="petPickDog" onclick="window.pickPetSpecies('dog')" class="p-2 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer">
-                                <img src="___TLX1___" alt="小狗" class="w-20 h-20 mx-auto object-contain">
+                                <img src="${PET_IMAGES['pet-dog-baby']}" alt="小狗" class="w-20 h-20 mx-auto object-contain">
                                 <div class="text-center text-xs font-bold text-slate-800 mt-1">${t("小狗")}</div>
                             </button>
                         </div>
@@ -4862,19 +4901,19 @@ body.theme-b #heroStats .hero-stat span {
             body.innerHTML = `
                 <div class="flex items-start gap-3 min-w-0">
                     <div class="relative shrink-0">
-                        <img id="petAvatarImg" src="___TLX0___" alt="___TLX1___" class="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-2xl bg-orange-50 ring-2 ___TLX2___">
-                        <span id="petMoodOverlay" class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-lg shadow-xs">___TLX3___</span>
+                        <img id="petAvatarImg" src="${petImageSrc(pet.species, pet.stage)}" alt="${escapeHTML(pet.name)}" class="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-2xl bg-orange-50 ring-2 ${mood.ring}">
+                        <span id="petMoodOverlay" class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-lg shadow-xs">${mood.emoji}</span>
                     </div>
                     <div class="min-w-0 flex-1">
-                        <div class="text-sm font-bold text-slate-900 truncate" id="petNameLabel">___TLX4___</div>
+                        <div class="text-sm font-bold text-slate-900 truncate" id="petNameLabel">${escapeHTML(pet.name)}</div>
                         <div class="text-[11px] text-slate-500 mt-0.5">${t("{v0} · {stageLabel} · 心情：{emoji} {v3}", {"v0": pet.species === 'dog' ? '小狗' : '小猫', "stageLabel": stageLabel, "emoji": mood.emoji, "v3": t(mood.label)})}</div>
                         <div class="mt-2">
-                            <div class="flex items-center justify-between text-[11px] text-slate-600 mb-0.5"><span>${t("饱食度")}</span><span id="petFullnessText">___TLX9___ / 100</span></div>
-                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div id="petFullnessBar" class="h-full ___TLX10___ rounded-full" style="width:___TLX11___%"></div></div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-600 mb-0.5"><span>${t("饱食度")}</span><span id="petFullnessText">${pet.fullness} / 100</span></div>
+                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div id="petFullnessBar" class="h-full ${mood.bar} rounded-full" style="width:${pet.fullness}%"></div></div>
                         </div>
                         <div class="mt-2">
-                            <div class="flex items-center justify-between text-[11px] text-slate-600 mb-0.5"><span>${t("成长")}</span><span id="petGrowthText">___TLX12___</span></div>
-                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div id="petGrowthBar" class="h-full bg-indigo-500 rounded-full" style="width:___TLX13___%"></div></div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-600 mb-0.5"><span>${t("成长")}</span><span id="petGrowthText">${growthText}</span></div>
+                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden"><div id="petGrowthBar" class="h-full bg-indigo-500 rounded-full" style="width:${growthPct}%"></div></div>
                         </div>
                     </div>
                 </div>
@@ -5211,9 +5250,9 @@ body.theme-b #heroStats .hero-stat span {
             const letters = ['A', 'B', 'C', 'D'];
             box.innerHTML = `
                 <div class="flex items-center justify-between gap-2"><span class="text-[11px] font-bold text-emerald-800">${t("📖 试做一道阅读题")}</span><span class="text-[11px] text-slate-500">${t("不计分")}</span></div>
-                <p class="text-xs text-slate-700 leading-relaxed bg-white/80 rounded-xl p-2.5 border border-emerald-100">___TLX0___</p>
-                <p class="text-sm font-semibold text-slate-900">___TLX1___</p>
-                <div class="space-y-1.5">___TLX2___</div>
+                <p class="text-xs text-slate-700 leading-relaxed bg-white/80 rounded-xl p-2.5 border border-emerald-100">${escapeHTML(q.context || '')}</p>
+                <p class="text-sm font-semibold text-slate-900">${escapeHTML(localizeText(q.prompt || ''))}</p>
+                <div class="space-y-1.5">${(q.options || []).map((opt, i) => `<button type="button" id="sampleOpt_${i}" onclick="answerSampleQuestion(${i})" class="w-full min-h-[44px] text-left px-3 py-2 rounded-xl border border-slate-200 bg-white hover:border-emerald-400 flex items-center gap-2 text-xs sm:text-sm text-slate-800 cursor-pointer"><span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 font-bold text-[11px] flex items-center justify-center shrink-0">${letters[i]}</span><span>${escapeHTML(localizeText(String(opt)))}</span></button>`).join('')}</div>
                 <div id="sampleFeedback" class="hidden"></div>`;
             box.classList.remove('hidden');
             if (btn) btn.classList.add('hidden');
@@ -5234,7 +5273,7 @@ body.theme-b #heroStats .hero-stat span {
                 else b.classList.add('opacity-60');
             });
             fb.className = 'p-3 rounded-xl text-xs leading-relaxed ' + (ok ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-50 text-rose-900');
-            fb.innerHTML = `<div class="font-bold mb-1">___TLX0___</div><div>___TLX1___</div>
+            fb.innerHTML = `<div class="font-bold mb-1">${ok ? '答对了！正式做题每答对一题 +1 积分 🪙' : '差一点～正确答案是 ' + (['A', 'B', 'C', 'D'][q.answerIndex] || '') + '。'}</div><div>${escapeHTML(questionExplanation(q))}</div>
                 <button type="button" onclick="goRegisterFromSample()" class="mt-2.5 w-full min-h-[44px] rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold cursor-pointer">${t("注册保存积分，继续做题 →")}</button>`;
             try { fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (_) {}
         };
@@ -5743,37 +5782,43 @@ body.theme-b #heroStats .hero-stat span {
                 const rankBadge = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : `#${idx + 1}`));
 
                 return `
-                    <div class="p-3.5 rounded-2xl border ___TLX0___ transition">
+                    <div class="p-3.5 rounded-2xl border ${isMe ? 'border-indigo-300 bg-indigo-50/40' : 'border-slate-200/80 bg-slate-50/50'} transition">
                         <div class="flex items-center justify-between gap-2 mb-2">
                             <div class="flex items-center gap-2.5 min-w-0">
-                                <span class="text-xs font-extrabold text-slate-500 w-5 text-center shrink-0">___TLX1___</span>
+                                <span class="text-xs font-extrabold text-slate-500 w-5 text-center shrink-0">${rankBadge}</span>
                                 <div class="relative shrink-0">
-                                    <div class="w-9 h-9 rounded-xl ___TLX2___ text-white font-bold text-sm flex items-center justify-center">
-                                        ___TLX3___
+                                    <div class="w-9 h-9 rounded-xl ${m.color || 'bg-indigo-600'} text-white font-bold text-sm flex items-center justify-center">
+                                        ${escapeHTML(m.name[0].toUpperCase())}
                                     </div>
-                                    ___TLX4___
+                                    ${isOnline ? '<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>' : ''}
                                 </div>
                                 <div class="min-w-0">
                                     <div class="flex items-center gap-1.5 flex-wrap">
-                                        <span class="text-xs font-bold text-slate-900 truncate" style="___TLX5___">___TLX6___</span>
-                                        ___TLX7___
-                                        ___TLX8___
-                                        <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ___TLX9___" style="___TLX10___">___TLX11___ ___TLX12___</span>
+                                        <span class="text-xs font-bold text-slate-900 truncate" style="${titleNameStyleAttr(m)}">${escapeHTML(m.name)}</span>
+                                        ${petThumbHtml(m)}
+                                        ${isMe ? '<span class="px-1.5 py-0.2 rounded bg-indigo-600 text-white text-[10px] font-semibold">我</span>' : ''}
+                                        <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${title.badgeClass}" style="${titleColorStyleAttr(m, title)}">${title.icon} ${t(title.name)}</span>
                                     </div>
                                     <div class="text-[11px] text-slate-500 mt-0.5">
                                         <strong class="text-amber-600">${t("{v0} 分", {"v0": m.points || 0})}</strong> ${t("· {v0} · 连签 {v1}天", {"v0": t(LEVEL_LABELS[m.level || 1]), "v1": m.streak || 1})}
                                     </div>
                                 </div>
                             </div>
-                            ___TLX16___
+                            ${!isMe ? `
+                                <button type="button" onclick="nudgeMember('${escapeHTML(m.name)}')"
+                                    class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 text-[11px] font-semibold transition shrink-0 cursor-pointer"
+                                    title="拍一拍督促学习">
+                                    👋 督促
+                                </button>
+                            ` : ''}
                         </div>
 
                         <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden mb-1.5">
-                            <div class="h-full ___TLX17___ rounded-full transition-all" style="width: ___TLX18___%"></div>
+                            <div class="h-full ${pct >= 100 ? 'bg-emerald-500' : 'bg-indigo-500'} rounded-full transition-all" style="width: ${pct}%"></div>
                         </div>
                         <div class="flex items-center justify-between text-[11px] text-slate-500">
-                            <span class="truncate max-w-[70%]">🚩 ___TLX19___</span>
-                            <span class="font-semibold ___TLX20___">___TLX21___/20m</span>
+                            <span class="truncate max-w-[70%]">🚩 ${escapeHTML(m.flag || '坚持每日英语打卡')}</span>
+                            <span class="font-semibold ${pct >= 100 ? 'text-emerald-600' : 'text-slate-600'}">${mins}/20m</span>
                         </div>
                     </div>
                 `;
@@ -5876,10 +5921,10 @@ body.theme-b #heroStats .hero-stat span {
                     ? 'min-h-[52px] p-2 rounded-xl bg-white border-2 border-emerald-500 text-left cursor-pointer min-w-0'
                     : 'min-h-[52px] p-2 rounded-xl bg-white/70 border border-emerald-200 hover:border-emerald-400 text-left cursor-pointer min-w-0';
                 const pct = st.need ? Math.min(100, Math.round(st.done / st.need * 100)) : 0;
-                return `<button type="button" id="zeroStageBtn___TLX0___" onclick="selectZeroStage(___TLX1___)" class="___TLX2___">
-                    <span class="flex items-center justify-between gap-1 text-[11px] font-bold ___TLX3___"><span>${t("第{n}关", {"n": s.n})}</span><span>___TLX5___</span></span>
-                    <span class="block text-[11px] text-slate-600 truncate">___TLX6___</span>
-                    <span class="block mt-1 h-1 rounded-full bg-emerald-100 overflow-hidden"><span class="block h-full bg-emerald-500" style="width:___TLX7___%"></span></span>
+                return `<button type="button" id="zeroStageBtn${s.n}" onclick="selectZeroStage(${s.n})" class="${cls}">
+                    <span class="flex items-center justify-between gap-1 text-[11px] font-bold ${st.passed ? 'text-emerald-700' : 'text-slate-700'}"><span>${t("第{n}关", {"n": s.n})}</span><span>${st.passed ? '✅' : (st.done + '/' + st.need)}</span></span>
+                    <span class="block text-[11px] text-slate-600 truncate">${escapeHTML(t(s.name))}</span>
+                    <span class="block mt-1 h-1 rounded-full bg-emerald-100 overflow-hidden"><span class="block h-full bg-emerald-500" style="width:${pct}%"></span></span>
                 </button>`;
             }).join('');
             const ot = document.getElementById('zeroOverallText');
@@ -6473,7 +6518,7 @@ body.theme-b #heroStats .hero-stat span {
                 area.innerHTML = `
                     <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200/80 space-y-3">
                         <div class="flex items-start justify-between gap-2">
-                            <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">"___TLX0___"</p>
+                            <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">"${escapeHTML(q.targetSpeech)}"</p>
                             <button type="button" onclick="speakEnglishText(appState.currentQuestion.targetSpeech, 0.95)"
                                 class="p-2 rounded-xl bg-white hover:bg-sky-100 text-sky-700 border border-sky-200 transition shrink-0 cursor-pointer" title="Listen to Demo">
                                 <i data-lucide="volume-2" class="w-4 h-4"></i>
@@ -6490,11 +6535,11 @@ body.theme-b #heroStats .hero-stat span {
                                 Mark as Practiced
                             </button>
                             <button type="button" id="speechManualBtn" onclick="markSpeakingManually()"
-                                class="___TLX1___px-3.5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition cursor-pointer shadow-xs">
+                                class="${speechEnvProblem() ? '' : 'hidden '}px-3.5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition cursor-pointer shadow-xs">
                                 ${t("手动标记已练习（不计分）")}
                             </button>
                         </div>
-                        <p id="speechStatusLine" class="___TLX2___">___TLX3___</p>
+                        <p id="speechStatusLine" class="${speechEnvProblem() ? 'text-[11px] leading-relaxed text-rose-600' : 'text-[11px] text-slate-500 leading-relaxed'}">${speechEnvProblem() ? escapeHTML(speechEnvProblem() + ' 你可以先点上面的喇叭听示范、大声跟读，再点「手动标记已练习」完成本题（不计分）。') : '点击「开始录音」，跟读上面的句子，再点「点击停止」。若浏览器不支持语音识别，仍可录音试听后标记练习。'}</p>
                         <audio id="speechPlayback" class="hidden w-full" controls=""></audio>
                         <div id="speechResultPreview" class="hidden text-xs bg-white p-3 rounded-xl border border-slate-200/80 text-slate-700"></div>
                     </div>
@@ -6506,7 +6551,7 @@ body.theme-b #heroStats .hero-stat span {
                             placeholder="${zeroQ ? t("在这里用英文写…") : 'Write your English response here...'}"
                             class="w-full p-3.5 rounded-2xl border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
                         <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-slate-500">${zeroQ ? `${t("至少写")} <strong>___TLX0___</strong> ${t("个英文单词")}` : `Target length: at least <strong>${q.minWords || 8}</strong> English words`}</span>
+                            <span class="text-xs text-slate-500">${zeroQ ? `${t("至少写")} <strong>${q.minWords || 1}</strong> ${t("个英文单词")}` : `Target length: at least <strong>${q.minWords || 8}</strong> English words`}</span>
                             <button type="button" onclick="submitWritingAnswer()"
                                 class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-xs cursor-pointer">
                                 <span>Submit Writing</span>
