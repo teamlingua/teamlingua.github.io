@@ -6536,11 +6536,13 @@ body.theme-b #heroStats .hero-stat span {
                 const audio = getDictationAudioEl();
                 const src = dictationAudioSrc(meta.l);
                 const start = meta.s;
+                // Pre-roll into the silent gap before the clip so the first sound isn't clipped by seek lag / audio-output wake-up on phones.
+                const seekStart = Math.max(0, start - 0.3);
                 const end = meta.e;
                 const dur = Math.max(0.05, end - start);
                 const rateSafe = Math.max(0.5, Math.min(1.25, Number(rate) || 1));
                 const stale = function () { return gen !== __dictPlayGen; };
-                const nearStart = function () { return Math.abs((audio.currentTime || 0) - start) <= 0.2; };
+                const nearStart = function () { return Math.abs((audio.currentTime || 0) - seekStart) <= 0.2; };
 
                 stopDictationSprite();
                 if (typeof speechSynthesis !== 'undefined' && speechSynthesis.cancel) {
@@ -6567,18 +6569,28 @@ body.theme-b #heroStats .hero-stat span {
                     if (stale()) return;
                     if (__dictTimeHandler) audio.removeEventListener('timeupdate', __dictTimeHandler);
                     if (__dictStopTimer) { clearTimeout(__dictStopTimer); __dictStopTimer = null; }
-                    let seenStart = nearStart() || (audio.currentTime >= start && audio.currentTime < end);
+                    let seenStart = nearStart() || (audio.currentTime >= seekStart && audio.currentTime < end);
                     const startClipTimer = function (fromCt) {
                         if (__dictStopTimer) { clearTimeout(__dictStopTimer); __dictStopTimer = null; }
-                        const remain = Math.max(0.05, end - Math.max(fromCt, start));
+                        const remain = Math.max(0.05, end - Math.max(fromCt, seekStart));
                         // Generous slack: first seek into a sprite can lag, and timeupdate is the primary stop.
-                        __dictStopTimer = setTimeout(finish, (remain / rateSafe) * 1000 + 400);
+                        const timerCheck = function () {
+                            if (stale()) return;
+                            const ct2 = audio.currentTime || 0;
+                            // Playback can lag behind wall-clock (slow seek / phone audio wake-up): never cut the sentence short.
+                            if (!audio.paused && !audio.ended && ct2 < end - 0.05) {
+                                __dictStopTimer = setTimeout(timerCheck, Math.max(60, ((end - ct2) / rateSafe) * 1000 + 150));
+                                return;
+                            }
+                            finish();
+                        };
+                        __dictStopTimer = setTimeout(timerCheck, (remain / rateSafe) * 1000 + 400);
                     };
                     __dictTimeHandler = function () {
                         if (stale() || audio.paused) return;
                         const ct = audio.currentTime;
                         if (!seenStart) {
-                            if (ct >= start - 0.05 && ct < end) {
+                            if (ct >= seekStart - 0.05 && ct < end) {
                                 seenStart = true;
                                 startClipTimer(ct);
                             }
@@ -6610,7 +6622,7 @@ body.theme-b #heroStats .hero-stat span {
                     if (stale()) return;
                     if (!nearStart()) {
                         // Seek did not stick; try once more before playing.
-                        try { audio.currentTime = start; } catch (e) {}
+                        try { audio.currentTime = seekStart; } catch (e) {}
                     }
                     try { audio.playbackRate = rateSafe; } catch (e) {}
                     let started;
@@ -6618,7 +6630,7 @@ body.theme-b #heroStats .hero-stat span {
                     const afterPlaying = function () {
                         if (stale()) return;
                         if (audio.currentTime < start - 0.2) {
-                            try { audio.currentTime = start; } catch (e) {}
+                            try { audio.currentTime = seekStart; } catch (e) {}
                         }
                         markPlaying();
                         armStop();
@@ -6642,7 +6654,7 @@ body.theme-b #heroStats .hero-stat span {
                         playNow();
                     };
                     audio.addEventListener('seeked', onSeeked);
-                    try { audio.currentTime = start; } catch (e) {
+                    try { audio.currentTime = seekStart; } catch (e) {
                         audio.removeEventListener('seeked', onSeeked);
                         playNow();
                         return;
