@@ -1133,15 +1133,25 @@ body.theme-b #heroStats .hero-stat span {
         }
         .tl-stats-sort.is-on { background: #4f46e5; color: #fff; border-color: #4f46e5; }
         .tl-stats-row {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 6px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 6px;
             padding: 10px 10px;
             border-radius: 14px;
             border: 1px solid #e2e8f0;
             background: #f8fafc;
         }
         .tl-stats-row.is-me { border-color: #a5b4fc; background: #eef2ff; }
+        .tl-stats-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.35;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
         .tl-stats-metrics {
             display: flex;
             flex-wrap: wrap;
@@ -1152,6 +1162,7 @@ body.theme-b #heroStats .hero-stat span {
         @media (max-width: 639.98px) {
             body.theme-b #groupStatsPanel > div:first-child { padding: 10px 12px !important; }
             body.theme-b #groupStatsPanel h2 { font-size: 14px !important; }
+            body.theme-b .tl-stats-name { font-size: 15px !important; font-weight: 800 !important; color: #0f172a !important; }
             body.theme-b #groupStatsList.tl-list-expanded {
                 overflow-y: auto !important;
                 -webkit-overflow-scrolling: touch;
@@ -2382,7 +2393,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 32; // release32-group-invite
+        window.__TL_RELEASE = 33; // release33-stats-names
         function sanitizeRoomSlug(raw) {
             const s = String(raw || '').trim().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48);
             return s || '';
@@ -3038,6 +3049,12 @@ body.theme-b #heroStats .hero-stat span {
             renderGroupStatsList();
         }
 
+        function groupStatsMemberName(row) {
+            const r = row || {};
+            const raw = r.display_name || r.username || r.name || '';
+            const name = String(raw).trim();
+            return name || t("成员");
+        }
         function renderGroupStatsList() {
             const list = document.getElementById('groupStatsList');
             const bar = document.getElementById('groupStatsSortBar');
@@ -3094,9 +3111,9 @@ body.theme-b #heroStats .hero-stat span {
                 const acc = (Number(r.questions_done) || 0) > 0 ? (String(r.accuracy_pct || 0) + '%') : '--';
                 const mins = Math.floor(Number(r.today_minutes) || 0);
                 return '<div class="tl-stats-row' + (r.is_me ? ' is-me' : '') + '">'
-                    + '<div class="min-w-0"><div class="text-xs font-bold text-slate-900 truncate">' + escapeHTML(r.display_name || t("成员"))
+                    + '<div class="tl-stats-name">' + escapeHTML(groupStatsMemberName(r))
                     + (r.is_me ? ' <span class="px-1.5 rounded bg-indigo-600 text-white text-[10px] font-semibold">' + t("我") + '</span>' : '')
-                    + '</div></div>'
+                    + '</div>'
                     + '<div class="tl-stats-metrics">'
                     + '<span>' + t("做题数") + ' ' + t("{n} 题", { n: r.questions_done || 0 }) + '</span>'
                     + '<span>' + t("正确数") + ' ' + t("{n} 对", { n: r.correct_count || 0 }) + '</span>'
@@ -3156,6 +3173,7 @@ body.theme-b #heroStats .hero-stat span {
         window.loadGroupMemberStats = loadGroupMemberStats;
         window.renderGroupSwitcher = renderGroupSwitcher;
         window.renderGroupStatsList = renderGroupStatsList;
+        window.groupStatsMemberName = groupStatsMemberName;
         window.switchToGroup = switchToGroup;
         window.startLeaveGroupFromPage = startLeaveGroupFromPage;
 
