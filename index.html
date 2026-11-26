@@ -2659,7 +2659,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 38; // release38-pet-share-card-qr
+        window.__TL_RELEASE = 39; // release38-pet-share-card-qr
         function sanitizeRoomSlug(raw) {
             const s = String(raw || '').trim().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48);
             return s || '';
@@ -2717,7 +2717,7 @@ body.theme-b #heroStats .hero-stat span {
                 auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
             });
             window.sb = sb;
-            try { captureFirstTouch(); recordAnonVisit(); } catch (e) {}
+            /* release39: visit recording moved below the TL_* const declarations (was a TDZ ReferenceError, so record_visit never ran) */
         }
         const SYNTHETIC_EMAIL_DOMAIN = 'teamlingua.local';
         const TL_FIRST_TOUCH_KEY = 'tl_first_touch';
@@ -2778,6 +2778,8 @@ body.theme-b #heroStats .hero-stat span {
                 });
             } catch (e) {}
         }
+        /* release39: record the anonymous visit only after TL_FIRST_TOUCH_KEY / TL_VISIT_KEY are initialised */
+        if (sb) { try { captureFirstTouch(); recordAnonVisit(); } catch (e) {} }
         async function claimSignupSourceIfNeeded(profile) {
             const ft = readFirstTouch() || captureFirstTouch();
             if (!ft || !ft.src) return null;
@@ -8792,7 +8794,7 @@ body.theme-b #heroStats .hero-stat span {
                                 email,
                                 password,
                                 options: {
-                                    data: { username: rawName, display_name: rawName, avatar: color },
+                                    data: (function () { const ftS = (readFirstTouch() || captureFirstTouch() || {}); return { username: rawName, display_name: rawName, avatar: color, signup_src: ftS.src || '', signup_referrer: ftS.referrer || '' }; })(),
                                     emailRedirectTo: getAuthRedirectTo()
                                 }
                             });
