@@ -713,7 +713,8 @@ body.theme-b #sortBtnStreak.text-indigo-600 {
 body.theme-b #leaderboardList { padding-top: 8px !important; }
 @media (min-width: 1024px) {
   /* release15: full-width rows (the 3-column podium squeezed cards into narrow strips) */
-  body.theme-b #leaderboardList { max-height: none !important; }
+  /* release40: keep height unbounded only when the list is collapsed (extra rows are hidden in the DOM). */
+  body.theme-b #leaderboardList:not(.tl-list-expanded) { max-height: none !important; }
   body.theme-b #leaderboardList > div:nth-child(1):not(:only-child) {
     background: linear-gradient(180deg, #FEF3C7, #FDE68A) !important;
     border-color: #F59E0B !important;
@@ -1108,9 +1109,30 @@ body.theme-b #heroStats .hero-stat span {
             }
         }
         @media (min-width: 640px) {
-            .tl-sec-toggle { display: none !important; }
-            .tl-header-more-btn { display: none !important; }
-            #leaderboardMePin { display: none !important; }
+            /* release40-desktop-fold: header 展开/收起, section toggles, and me-pin are visible on desktop too */
+        }
+        /* release40-desktop-fold */
+        .tl-sec-toggle { display: inline-flex !important; }
+        .tl-header-more-btn:not(.hidden) { display: inline-flex !important; }
+        #leaderboardMePin:not(.hidden) { display: block !important; }
+        #titleSkillsPanel.tl-sec-collapsed > :not(:first-child),
+        #stealPanel.tl-sec-collapsed > :not(:first-child),
+        #petPanel.tl-sec-collapsed > :not(:first-child) {
+            display: none !important;
+        }
+        body.theme-b #leaderboardList.tl-list-expanded,
+        body.theme-b #commentFeedList.tl-list-expanded,
+        body.theme-b #stealTargetList.tl-list-expanded,
+        body.theme-b #groupStatsList.tl-list-expanded {
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+        body.theme-b #leaderboardList:not(.tl-list-expanded),
+        body.theme-b #commentFeedList:not(.tl-list-expanded),
+        body.theme-b #stealTargetList:not(.tl-list-expanded),
+        body.theme-b #groupStatsList:not(.tl-list-expanded) {
+            max-height: none !important;
         }
 
         /* release31-group-stats: member stats + group switcher */
@@ -2659,7 +2681,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 39; // release38-pet-share-card-qr
+        window.__TL_RELEASE = 40; // release40-desktop-fold
         function sanitizeRoomSlug(raw) {
             const s = String(raw || '').trim().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48);
             return s || '';
@@ -3537,7 +3559,7 @@ body.theme-b #heroStats .hero-stat span {
                 return;
             }
             const previewN = (typeof TL_LIST_PREVIEW === 'number') ? TL_LIST_PREVIEW : 5;
-            const compact = isCompactMobile() && !appState.groupStatsExpanded;
+            const compact = isListFoldEnabled() && !appState.groupStatsExpanded;
             const showIdx = new Set();
             if (!compact || all.length <= previewN) {
                 all.forEach(function (_, i) { showIdx.add(i); });
@@ -4232,6 +4254,9 @@ body.theme-b #heroStats .hero-stat span {
         function isCompactMobile() {
             try { return window.matchMedia && window.matchMedia('(max-width: 639.98px)').matches; } catch (_) { return false; }
         }
+        function isListFoldEnabled() {
+            return true;
+        }
         const TL_LIST_PREVIEW = 5;
         const TL_SEC_KEYS = {
             titleSkillsPanel: 'tl_sec_collapsed_titleskills',
@@ -4247,7 +4272,6 @@ body.theme-b #heroStats .hero-stat span {
             } catch (_) { return false; }
         }
         function isSecCollapsed(id) {
-            if (!isCompactMobile()) return false;
             const key = TL_SEC_KEYS[id];
             if (!key) return false;
             try {
@@ -4255,7 +4279,7 @@ body.theme-b #heroStats .hero-stat span {
                 if (v === '0') return false;
                 if (v === '1') return true;
             } catch (_) {}
-            return true;
+            return isCompactMobile();
         }
         function applySecPanelState() {
             Object.keys(TL_SEC_KEYS).forEach(function (id) {
@@ -4270,7 +4294,6 @@ body.theme-b #heroStats .hero-stat span {
             });
         }
         function toggleSecPanel(id) {
-            if (!isCompactMobile()) return;
             const el = document.getElementById(id);
             if (!el) return;
             const next = !el.classList.contains('tl-sec-collapsed');
@@ -4293,6 +4316,7 @@ body.theme-b #heroStats .hero-stat span {
             return '<button type="button" id="' + id + '" class="tl-more-btn" onclick="' + handler + '">' + label + '</button>';
         }
         window.isCompactMobile = isCompactMobile;
+        window.isListFoldEnabled = isListFoldEnabled;
         window.toggleSecPanel = toggleSecPanel;
         window.applySecPanelState = applySecPanelState;
         window.TL_LIST_PREVIEW = TL_LIST_PREVIEW;
@@ -4301,7 +4325,7 @@ body.theme-b #heroStats .hero-stat span {
         }
         function applyExpandedListBox(listEl, previewCount) {
             if (!listEl) return;
-            const on = isCompactMobile() && listEl.classList.contains('tl-list-expanded');
+            const on = isListFoldEnabled() && listEl.classList.contains('tl-list-expanded');
             if (!on) {
                 listEl.style.maxHeight = '';
                 return;
@@ -4348,7 +4372,7 @@ body.theme-b #heroStats .hero-stat span {
             const extraShow = opts.extraShow !== false;
             const list = document.getElementById(listId);
             const btn = document.getElementById(btnId);
-            const can = isCompactMobile() && total > TL_LIST_PREVIEW && extraShow;
+            const can = isListFoldEnabled() && total > TL_LIST_PREVIEW && extraShow;
             if (list) {
                 list.classList.toggle('tl-list-expanded', !!(can && expanded));
                 applyExpandedListBox(list, previewCount);
@@ -4363,7 +4387,7 @@ body.theme-b #heroStats .hero-stat span {
             const pin = document.getElementById('leaderboardMePin');
             if (!pin) return;
             const me = appState.currentUser;
-            const show = isCompactMobile() && appState.leaderboardExpanded && me && sorted && sorted.length > TL_LIST_PREVIEW;
+            const show = isListFoldEnabled() && appState.leaderboardExpanded && me && sorted && sorted.length > TL_LIST_PREVIEW;
             if (!show) { pin.classList.add('hidden'); pin.innerHTML = ''; return; }
             const ridx = sorted.findIndex((m) => (me.id && m.id === me.id) || (m.name && me.name && m.name.toLowerCase() === me.name.toLowerCase()));
             if (ridx < 0) { pin.classList.add('hidden'); pin.innerHTML = ''; return; }
@@ -6383,7 +6407,7 @@ body.theme-b #heroStats .hero-stat span {
             }
             const canSteal = protectedToday && left > 0;
             const previewN = (typeof TL_LIST_PREVIEW === 'number') ? TL_LIST_PREVIEW : 5;
-            const compact = isCompactMobile() && !appState.stealTargetsExpanded;
+            const compact = isListFoldEnabled() && !appState.stealTargetsExpanded;
             const shown = (compact && targets.length > previewN) ? targets.slice(0, previewN) : targets;
             list.innerHTML = shown.map(tg => {                const maxs = tg.max_stealable || 3;
                 const lost = tg.lost_today || 0;
@@ -9006,7 +9030,7 @@ body.theme-b #heroStats .hero-stat span {
             }
 
             const previewN = (typeof TL_LIST_PREVIEW === 'number') ? TL_LIST_PREVIEW : 5;
-            const compact = isCompactMobile() && !appState.leaderboardExpanded;
+            const compact = isListFoldEnabled() && !appState.leaderboardExpanded;
             const showIdx = new Set();
             if (!compact || sorted.length <= previewN) {
                 sorted.forEach(function (_, i) { showIdx.add(i); });
@@ -11251,7 +11275,7 @@ body.theme-b #heroStats .hero-stat span {
             }
 
             const previewN = (typeof TL_LIST_PREVIEW === 'number') ? TL_LIST_PREVIEW : 5;
-            const compact = isCompactMobile() && !appState.commentsExpanded;
+            const compact = isListFoldEnabled() && !appState.commentsExpanded;
             const all = appState.comments;
             const items = (compact && all.length > previewN) ? all.slice(0, previewN) : all;
             list.innerHTML = items.map(c => {                const isSpecial = ['nudge', 'levelup', 'pomodoro', 'system'].includes(c.type);
