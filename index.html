@@ -34,19 +34,19 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamLingua · 免费团队职场英语练习 | Team English Practice</title>
-    <meta name="description" content="TeamLingua 是免费的团队职场英语练习工具，无需下载，打开网页就能用。和队友一起练听、说、读、写，每天做题赚积分、打卡涨连签，积分可领养宠物、解锁头衔。适合上班族日常练习。">
+    <meta name="description" content="TeamLingua 是免费的团队职场英语练习工具，无需下载，打开网页就能用。还可以邀请学习搭档：双人火苗、PK排行榜、共养宠物。成为搭档后，对方第一次学习，你们各得 +50 积分。">
     <meta name="keywords" content="TeamLingua,职场英语,团队英语,英语口语,英语听力,英语阅读,英语写作,免费英语练习,Team English Practice">
     <link rel="canonical" href="https://teamlingua.github.io/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="TeamLingua">
     <meta property="og:locale" content="zh_CN">
     <meta property="og:url" content="https://teamlingua.github.io/">
-    <meta property="og:title" content="TeamLingua · 免费团队职场英语练习 | Team English Practice">
-    <meta property="og:description" content="TeamLingua 是免费的团队职场英语练习工具，无需下载，打开网页就能用。和队友一起练听、说、读、写，每天做题赚积分、打卡涨连签，积分可领养宠物、解锁头衔。适合上班族日常练习。">
+    <meta property="og:title" content="TeamLingua · 免费团队英语练习 · 学习搭档 | Free Team English Practice">
+    <meta property="og:description" content="TeamLingua 是免费的团队职场英语练习工具，无需下载，打开网页就能用。还可以邀请学习搭档：双人火苗、PK排行榜、共养宠物。成为搭档后，对方第一次学习，你们各得 +50 积分。">
     <meta property="og:image" content="https://teamlingua.github.io/icons/icon-512.png">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="TeamLingua · 免费团队职场英语练习 | Team English Practice">
-    <meta name="twitter:description" content="TeamLingua 是免费的团队职场英语练习工具，无需下载，打开网页就能用。和队友一起练听、说、读、写，每天做题赚积分、打卡涨连签，积分可领养宠物、解锁头衔。适合上班族日常练习。">
+    <meta name="twitter:title" content="TeamLingua · 免费团队英语练习 · 学习搭档 | Free Team English Practice">
+    <meta name="twitter:description" content="TeamLingua 是免费的团队职场英语练习工具，无需下载，打开网页就能用。还可以邀请学习搭档：双人火苗、PK排行榜、共养宠物。成为搭档后，对方第一次学习，你们各得 +50 积分。">
     <meta name="twitter:image" content="https://teamlingua.github.io/icons/icon-512.png">
     <meta name="theme-color" content="#6D28D9">
     <meta name="mobile-web-app-capable" content="yes">
@@ -2615,6 +2615,181 @@ body.theme-b #heroStats .hero-stat span {
   #appHeaderTimer { margin-left: 6px; }
 }
 
+/* release50-invite-cards: pink 学习搭档 look for invite + share surfaces */
+
+/* Share modal */
+#shareModal .tl-invite-card {
+  background: linear-gradient(180deg, #FFF7FB 0%, #FFFFFF 120px);
+  border: 2px solid #FBCFE8;
+  box-shadow: 0 18px 40px rgba(157, 23, 77, 0.18);
+}
+#shareModal .tl-invite-hero {
+  display: flex; align-items: center; gap: 10px;
+}
+#shareModal .tl-invite-badge {
+  width: 42px; height: 42px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  background: linear-gradient(180deg, #FF8EC4, #DB2777);
+  box-shadow: 0 3px 0 #9D174D;
+}
+#shareModalTitle, #shareModal .tl-invite-title { color: #9D174D; }
+#shareModal .tl-invite-lead {
+  margin: 2px 0 0; font-size: 12px; font-weight: 600; color: #BE185D;
+}
+#shareModal .tl-invite-feats {
+  list-style: none; margin: 10px 0 12px; padding: 0;
+}
+#shareModal .tl-invite-feats li {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 8px 10px; margin-bottom: 6px; border-radius: 12px;
+  background: #FFF1F7; color: #831843; font-size: 13px; font-weight: 700;
+}
+#shareModal .tl-invite-feats .ico { font-size: 16px; line-height: 1.2; }
+#shareModal #tlInvitePartnerBtn {
+  display: block; width: 100%; min-height: 48px; border: 0; border-radius: 16px;
+  font-size: 15px; font-weight: 800; color: #fff; cursor: pointer; font-family: inherit;
+  background: linear-gradient(180deg, #FF8EC4, #DB2777);
+  box-shadow: 0 4px 0 #9D174D;
+}
+#shareModal #tlInvitePartnerBtn:active { transform: translateY(2px); box-shadow: 0 2px 0 #9D174D; }
+#shareModal #inviteNativeShareBtn {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important; color: #fff !important;
+  box-shadow: 0 3px 0 #9D174D; border: 0 !important;
+}
+#shareModal #inviteCopyTextBtn {
+  background: #FFF1F7 !important; color: #9D174D !important; border: 2px solid #F9A8D4 !important;
+}
+#shareModal #openResultCardBtn,
+#shareModal #openPetCardBtn {
+  background: linear-gradient(180deg, #FDE68A, #FBBF24) !important;
+  color: #831843 !important; box-shadow: 0 3px 0 #D97706 !important;
+  border: 0 !important; border-radius: 14px !important;
+}
+#shareModal #inviteRewardInfo {
+  background: #FFF1F7 !important; border: 1px solid #F9A8D4 !important; color: #831843 !important;
+  border-radius: 16px !important;
+}
+#shareModal .flex.items-center.gap-2 button[onclick="copyShareLink()"] {
+  background: #DB2777 !important;
+}
+
+/* Header 邀请 +50: keep compact, slightly pinker, don't grow the 64px row */
+body.theme-b #headerShareBtn {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #fff !important;
+  border: 2px solid rgba(255, 142, 196, 0.85) !important;
+}
+#headerShareBtn .invite-plus50 {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important;
+  color: #fff !important;
+  border: 1px solid #FBCFE8 !important;
+  box-shadow: 0 1px 0 #9D174D !important;
+}
+
+/* Leaderboard invite banner */
+#inviteLeaderboardBanner {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important;
+  color: #fff !important;
+  border: 2px solid #FBCFE8 !important;
+  box-shadow: 0 3px 0 #9D174D !important;
+}
+
+/* First-question invite + goal toast */
+#firstQInviteBtn {
+  border-color: #F9A8D4 !important;
+  background: #FFF1F7 !important;
+  color: #9D174D !important;
+}
+.goal-toast-card {
+  background: linear-gradient(180deg, #FFF1F7, #FCE7F3) !important;
+  color: #9D174D !important;
+  border-color: #F9A8D4 !important;
+  box-shadow: 0 10px 28px rgba(157, 23, 77, 0.22) !important;
+}
+.goal-toast-title { color: #9D174D !important; }
+.goal-toast-invite {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 3px 0 #9D174D;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+/* Incoming legacy invite banner */
+#inviteBanner {
+  background: #FFF1F7 !important;
+  border-color: #F9A8D4 !important;
+  color: #9D174D !important;
+}
+
+/* Group invite sheet */
+#inviteToGroupBtn {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important;
+  box-shadow: 0 3px 0 #9D174D;
+  border: 0 !important;
+}
+#groupInviteSheet {
+  border-color: #F9A8D4 !important;
+  background: #FFF7FB !important;
+}
+#groupInviteSheetTitle { color: #9D174D !important; }
+
+/* Result card sheet chrome */
+.rc-sheet {
+  background: #FFF7FB !important;
+}
+.rc-title { color: #9D174D !important; }
+.rc-sub { color: #BE185D !important; }
+.rc-btn-primary {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 0 #9D174D !important;
+}
+.rc-btn-secondary {
+  background: #fff !important;
+  color: #9D174D !important;
+  border: 2px solid #F9A8D4 !important;
+}
+.rc-hint { color: #BE185D !important; }
+
+/* Pet share sheet */
+#petCardSheet > div {
+  border-color: #F9A8D4 !important;
+  background: linear-gradient(180deg, #FFF7FB, #fff) !important;
+}
+#petCardSheet .text-sm.font-bold { color: #9D174D !important; }
+#petCardSaveBtn {
+  background: linear-gradient(180deg, #FF8EC4, #DB2777) !important;
+  box-shadow: 0 3px 0 #9D174D;
+  border: 0 !important;
+}
+#petCardShareBtn {
+  background: linear-gradient(180deg, #FDE68A, #FBBF24) !important;
+  color: #831843 !important;
+  box-shadow: 0 3px 0 #D97706;
+  border: 0 !important;
+}
+
+/* Partner invite modal — pink 学习搭档 */
+#tlpModal .tlp-modal { border-color: #F9A8D4; }
+#tlpModal .tlp-codebox {
+  background: #FFF1F7; border-color: #F9A8D4;
+}
+#tlpModal .tlp-codebox small { color: #9D174D; }
+#tlpModal .tlp-digits span {
+  border-color: #F9A8D4; color: #9D174D;
+}
+#tlpModal .tlp-qr { border-color: #F9A8D4; }
+#tlpModal .tlp-feats {
+  list-style: none; margin: 0 0 12px; padding: 0; text-align: left;
+}
+#tlpModal .tlp-feats li {
+  display: flex; gap: 8px; padding: 8px 10px; margin-bottom: 6px;
+  border-radius: 12px; background: #FFF1F7; color: #831843;
+  font-size: 13px; font-weight: 700;
+}
+
 </style>
 </head>
 <body class="theme-b min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
@@ -2700,7 +2875,7 @@ body.theme-b #heroStats .hero-stat span {
         <div class="goal-toast-card">
             <div class="goal-toast-title" data-i18n="🎉 完成今日 20 分钟学习目标">🎉 完成今日 20 分钟学习目标</div>
             <div class="goal-toast-sub"><span data-i18n="额外获得">额外获得</span> <strong data-i18n="+10 积分">+10 积分</strong>！</div>
-            <button type="button" class="goal-toast-invite" onclick="openShareModal()" data-i18n="邀请朋友一起学，每邀请 1 人得 +50">邀请朋友一起学，每邀请 1 人得 +50</button>
+            <button type="button" class="goal-toast-invite" onclick="openShareModal()" data-i18n="邀请学习搭档一起学，第一次学习后各得 +50">邀请学习搭档一起学，第一次学习后各得 +50</button>
         </div>
     </div>
 
@@ -2709,7 +2884,7 @@ body.theme-b #heroStats .hero-stat span {
         <div class="rc-sheet" role="dialog" aria-label="练习结果卡" data-i18n-aria-label="练习结果卡">
             <div class="rc-grip"></div>
             <div class="rc-head">
-                <div><div class="rc-title" data-i18n="🎉 今日目标已达成！">🎉 今日目标已达成！</div><div class="rc-sub" data-i18n="生成你的练习结果卡，向朋友求挑战">生成你的练习结果卡，向朋友求挑战</div></div>
+                <div><div class="rc-title" data-i18n="🎉 今日目标已达成！">🎉 今日目标已达成！</div><div class="rc-sub" data-i18n="生成你的练习结果卡，邀请学习搭档一起学">生成你的练习结果卡，邀请学习搭档一起学</div></div>
                 <button type="button" class="rc-close" onclick="closeResultCardSheet()" aria-label="关闭" data-i18n-aria-label="关闭">✕</button>
             </div>
             <div class="rc-preview"><img id="resultCardImg" class="hidden" alt="我的练习结果卡" data-i18n-alt="我的练习结果卡"><div id="resultCardLoading" data-i18n="正在生成你的练习结果卡…">正在生成你的练习结果卡…</div></div>
@@ -2904,7 +3079,7 @@ body.theme-b #heroStats .hero-stat span {
                     <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" class="lucide lucide-users w-5 h-5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
                     </div>
-                    <h3 id="shareModalTitle" title="团队分享链接" data-i18n-title="团队分享链接" class="font-bold text-slate-900 select-none"><span data-i18n="邀请朋友加入学习">邀请朋友加入学习</span></h3>
+                    <h3 id="shareModalTitle" title="团队分享链接" data-i18n-title="团队分享链接" class="font-bold text-slate-900 select-none"><span data-i18n="邀请学习搭档">邀请学习搭档</span></h3>
                 </div>
                 <button type="button" onclick="closeShareModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x w-5 h-5"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
@@ -2932,8 +3107,8 @@ body.theme-b #heroStats .hero-stat span {
             </div>
             <label for="inviteTextBox" class="block mt-2 text-[11px] font-semibold text-slate-500" data-i18n="邀请文案（可直接发微信 / Facebook）">邀请文案（可直接发微信 / Facebook）</label>
             <textarea id="inviteTextBox" readonly rows="4" class="mt-1 w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 leading-relaxed resize-none focus:outline-none"></textarea>
-            <button type="button" id="openResultCardBtn" onclick="openResultCardSheet(false)" style="display:block;width:100%;margin-top:12px;min-height:44px;border-radius:12px;background:linear-gradient(90deg,#fcd34d,#fb923c);color:#451a03;font-size:14px;font-weight:700;box-shadow:0 2px 6px rgba(251,146,60,.35);cursor:pointer" data-i18n="📸 生成练习结果卡，向朋友求挑战">📸 生成练习结果卡，向朋友求挑战</button>
-            <button type="button" id="openPetCardBtn" onclick="openPetShareCard()" style="display:block;width:100%;margin-top:8px;min-height:44px;border-radius:12px;background:linear-gradient(90deg,#c4b5fd,#818cf8);color:#1e1b4b;font-size:14px;font-weight:700;cursor:pointer" data-i18n="生成宠物卡片">生成宠物卡片</button>
+            <button type="button" id="openResultCardBtn" onclick="openResultCardSheet(false)" style="display:block;width:100%;margin-top:12px;min-height:44px;border-radius:12px;background:linear-gradient(90deg,#fcd34d,#fb923c);color:#451a03;font-size:14px;font-weight:700;box-shadow:0 2px 6px rgba(251,146,60,.35);cursor:pointer" data-i18n="📸 生成练习结果卡，邀请学习搭档">📸 生成练习结果卡，邀请学习搭档</button>
+            <button type="button" id="openPetCardBtn" onclick="openPetShareCard()" style="display:block;width:100%;margin-top:8px;min-height:44px;border-radius:12px;background:linear-gradient(90deg,#c4b5fd,#818cf8);color:#1e1b4b;font-size:14px;font-weight:700;cursor:pointer" data-i18n="🐾 生成宠物卡片，邀请学习搭档">🐾 生成宠物卡片，邀请学习搭档</button>
             <div id="inviteRewardInfo" class="mt-3 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed">
                 <p><span data-i18n="🎁 朋友用">🎁 朋友用</span><strong data-i18n="你的专属链接">你的专属链接</strong><span data-i18n="注册，并完成">注册，并完成</span><strong data-i18n="首日 20 分钟学习目标">首日 20 分钟学习目标</strong><span data-i18n="，你就得">，你就得</span> <strong data-i18n="+50 积分">+50 积分</strong><span data-i18n="。每月最多奖励 10 人；自己的小号、在你设备上注册的账号不算。">。每月最多奖励 10 人；自己的小号、在你设备上注册的账号不算。</span></p>
                 <p id="inviteeRewardNote" class="mt-1" data-i18n="🎉 朋友完成首日学习后也能得 +20 积分新人奖励。">🎉 朋友完成首日学习后也能得 +20 积分新人奖励。</p>
@@ -3031,7 +3206,7 @@ body.theme-b #heroStats .hero-stat span {
             <p id="firstQDonePoints" class="mt-2 text-2xl font-extrabold text-amber-600"></p>
             <p class="mt-2 text-xs text-slate-500 leading-relaxed" data-i18n="每天学满 20 分钟，再奖 +10 积分。积分满 100 可以领养宠物。">每天学满 20 分钟，再奖 +10 积分。积分满 100 可以领养宠物。</p>
             <button type="button" id="firstQContinueBtn" onclick="closeFirstQuestionDone()" class="mt-4 w-full min-h-[44px] rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold cursor-pointer" data-i18n="继续做题">继续做题</button>
-            <button type="button" id="firstQInviteBtn" onclick="closeFirstQuestionDone(); openShareModal()" class="mt-2 w-full min-h-[40px] rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 text-xs font-semibold cursor-pointer" data-i18n="🎁 邀请朋友 · 每人帮你得 +50 积分">🎁 邀请朋友 · 每人帮你得 +50 积分</button>
+            <button type="button" id="firstQInviteBtn" onclick="closeFirstQuestionDone(); openShareModal()" class="mt-2 w-full min-h-[40px] rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 text-xs font-semibold cursor-pointer" data-i18n="💕 邀请学习搭档 · 各得 +50 积分">💕 邀请学习搭档 · 各得 +50 积分</button>
         </div>
     </div>
 
@@ -3091,7 +3266,7 @@ body.theme-b #heroStats .hero-stat span {
                     <span class="hidden xl:inline text-amber-600/80" data-i18n="| 规则">| 规则</span>
                 </button>
 
-                <button type="button" id="headerShareBtn" onclick="openShareModal()" title="邀请朋友完成首日打卡，你得 +50 积分" data-i18n-title="邀请朋友完成首日打卡，你得 +50 积分" class="header-action-btn flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition shadow-xs cursor-pointer shrink-0">
+                <button type="button" id="headerShareBtn" onclick="openShareModal()" title="邀请学习搭档，第一次学习后各得 +50 积分" data-i18n-title="邀请学习搭档，第一次学习后各得 +50 积分" class="header-action-btn flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition shadow-xs cursor-pointer shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-plus" aria-hidden="true" class="lucide lucide-user-plus w-3.5 h-3.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>
                     <span class="header-share-label-sm sm:hidden"><span data-i18n="邀请">邀请</span> <span class="invite-plus50">+50</span></span>
                     <span class="header-share-label-md hidden sm:inline"><span data-i18n="邀请">邀请</span> <span class="invite-plus50">+50</span></span>
@@ -3395,7 +3570,7 @@ body.theme-b #heroStats .hero-stat span {
             <!-- 团队成员列表容器 -->
             <div id="leaderboardMePin" class="hidden tl-me-pin"></div>
             <div id="leaderboardList" class="p-4 space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar"><div class="text-center py-8 text-xs text-slate-400" data-i18n="暂无成员数据，快邀请朋友一起加入吧！">暂无成员数据，快邀请朋友一起加入吧！</div></div>
-            <button type="button" id="inviteLeaderboardBanner" class="hidden" onclick="openShareModal()" data-i18n="🎁 邀请朋友 · 每人帮你得 +50 积分">🎁 邀请朋友 · 每人帮你得 +50 积分</button>
+            <button type="button" id="inviteLeaderboardBanner" class="hidden" onclick="openShareModal()" data-i18n="💕 邀请学习搭档 · 各得 +50 积分">💕 邀请学习搭档 · 各得 +50 积分</button>
         </section>
             <section id="groupStatsPanel" class="hidden bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
                 <div class="p-4 border-b border-slate-100">
@@ -3415,7 +3590,7 @@ body.theme-b #heroStats .hero-stat span {
                             <div id="groupInviteSheetTitle" class="text-xs font-bold text-indigo-900" data-i18n="邀请进小组">邀请进小组</div>
                             <button type="button" id="closeGroupInviteSheetBtn" onclick="closeGroupInviteSheet()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-white min-h-[32px] min-w-[32px]" data-i18n-aria-label="关闭" aria-label="关闭">✕</button>
                         </div>
-                        <p class="text-[11px] text-slate-600 mb-2 leading-relaxed" data-i18n="小组成员都可以邀请朋友加入。用你的专属链接，对方进组后完成首日学习，你还能拿邀请积分。">小组成员都可以邀请朋友加入。用你的专属链接，对方进组后完成首日学习，你还能拿邀请积分。</p>
+                        <p class="text-[11px] text-slate-600 mb-2 leading-relaxed" data-i18n="小组成员都可以邀请朋友加入，一起免费练英语。进组后也可以成为学习搭档：双人火苗、PK排行榜、共养宠物。用你的专属链接，对方进组后完成首日学习，你还能拿邀请积分。">小组成员都可以邀请朋友加入，一起免费练英语。进组后也可以成为学习搭档：双人火苗、PK排行榜、共养宠物。用你的专属链接，对方进组后完成首日学习，你还能拿邀请积分。</p>
                         <div class="flex items-center gap-2 mb-2">
                             <input type="text" id="groupInviteLinkInputPage" readonly class="flex-1 min-w-0 px-3 py-2 rounded-xl bg-white border border-slate-200 text-[11px] font-mono text-slate-800">
                             <button type="button" id="copyGroupInviteBtnPage" onclick="copyGroupInviteFromPage()" class="px-3 py-2 min-h-[40px] rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shrink-0 cursor-pointer" data-i18n="复制链接">复制链接</button>
@@ -3913,7 +4088,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 49; // release49-partner-entry
+        window.__TL_RELEASE = 50; // release50-invite-cards
         async function forceReloadLatest() {
             if (window.__tlForceReloading) return;
             window.__tlForceReloading = true;
@@ -13645,8 +13820,8 @@ body.theme-b #heroStats .hero-stat span {
 <script>/* qrcode-generator 2.0.4 (c) Kazuhiko Arase, MIT */
 var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(o*r,n*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)};
 </script>
-<script>/* release49-partner-entry */
-(function(){try{var en=(window.__TL_I18N_DATA||{}).en;if(!en)return;var d={" 天": " days", "7 天内不能和 {name} 重新绑定": "You can't re-pair with {name} for 7 days", "7 天火苗": "7-day streak", "PK 与排行榜": "PK and leaderboards", "PK 排行榜：按做题数比一比，看谁练得更多": "PK leaderboards: compare question counts and see who practiced more", "PK 结果": "PK result", "PK 胜利": "PK win", "TA 已打卡": "Partner done", "{days} 天没上线": "Offline {days} days", "{name} 今天学了 {min} 分钟、做了 {n} 道题": "{name} studied {min} min and answered {n} questions today", "{name} 完成了第一次学习（本月邀请奖励已达上限）": "{name} finished their first study (monthly invite reward cap reached)", "{name} 完成第一次学习后，你们各得 +50 积分 🎁": "When {name} finishes their first study, you both get +50 points 🎁", "{name} 已经 {days} 天没上线了，可以解除或换一个搭档": "{name} hasn't been online for {days} days. You can unpair or find a new partner.", "{name} 已经打卡，就差你了 💪": "{name} has checked in. Only you left! 💪", "{name} 戳了你一下 {emoji} 快来一起学！": "{name} poked you {emoji} Come study together!", "{name} 解除了和你的搭档关系。": "{name} ended your partnership.", "{name} 邀请你成为": "{name} invites you to be their", "{name} 领先": "{name} leads", "{n} 天": "{n} days", "{n} 天双人火苗": "{n}-day duo streak", "{n} 道": "{n} Qs", "一起养": "raise together", "一起学英语第 {n} 天": "Day {n} learning English together", "上周 PK 输给了 {name}（{me}:{them}），这周加油！": "You lost last week's PK to {name} ({me}:{them}). Go for it this week!", "不当昵称或头像": "Inappropriate name or avatar", "不能接受自己发出的邀请": "You can't accept your own invite", "不要了": "No thanks", "两个人每天都学，宠物才吃得饱；任一方今天不学习，宠物就会饿。先做一道题才能喂。每人每天喂一次，成长 +10；每周 PK 获胜，宠物再成长 +20。": "The pet stays full only if both of you study that day — if either of you skips, it gets hungry. Answer one question before feeding. Each of you can feed once a day (+10 growth). The weekly PK winner's pet gets another +20.", "两人都打卡，火苗才继续。断了可以用 20 积分补签一次，每次断签只能补一次。刚绑定的搭档还不能补签；如果前一天也没有连上，也无法补签。": "The streak only continues when both of you check in. If it breaks, you can make it up once with 20 points — once per break. You can't make up a streak on a brand-new partnership, or if the previous day wasn't linked either.", "为你找到了「{name}」，等对方确认后就是搭档了": "Found {name} for you. You'll be partners once they confirm.", "举报 / 拉黑": "Report / Block", "举报/拉黑": "Report/Block", "二维码生成失败": "Couldn't create QR code", "云端不可用": "Cloud unavailable", "今天 {name} 已喂养，就差你了": "{name} fed it today. Only you left!", "今天你们俩都喂过了，{name} 吃得饱饱的 🥰": "You both fed {name} today. It's full 🥰", "今天的次数用完了，明天再来": "No more today. Come back tomorrow", "今日已打卡": "checked in", "今日未打卡": "not yet", "以后再说": "Maybe later", "任一方今天不学习，宠物就会饿。做完一道题就能喂养。": "If either of you skips studying, the pet gets hungry. Answer one question to feed it.", "你今天已经喂过了": "You already fed it today", "你们已经是搭档了": "You're already partners", "你们已经有共养宠物了": "You already have a shared pet", "你已经喂过了，等 {name} 来喂": "You've fed it. Waiting for {name}.", "你已经有一个等待确认的匹配": "You already have a match waiting for confirmation", "你已经有情侣搭档了，需先解除": "You already have a couple partner. Unpair first.", "你还没有好友搭档，绑定后就能上好友榜": "Pair with a friend to join the friend board", "你还没有情侣搭档，绑定后就能上情侣榜": "Pair with your partner to join the couple board", "保存图片": "Save image", "做题": "Qs", "先去做一道题再来喂": "Answer a question first, then feed", "先完成一道题，才能喂养共养宠物": "Answer one question before feeding the shared pet", "先选标签，再把邀请发给对方": "Pick a tag, then send the invite", "免费团队英语练习 · 和搭档一起打卡": "Free team English practice · check in with your partner", "免费领养共养宠物": "Adopt a shared pet (free)", "共养宠物": "Shared pet", "共养宠物将冻结保留 14 天，冷静期过后复合可恢复": "The shared pet is frozen for 14 days and comes back if you re-pair after the cooldown", "共养宠物已恢复": "Shared pet restored", "共养宠物：一起喂养，情侣还有专属装扮": "A shared pet you feed together — couples get an exclusive look.", "共养第 {d} 天": "Day {d} together", "关闭": "Close", "其他": "Other", "再想想": "Let me think", "分享": "Share", "分享图": "Share image", "刚戳过，等一分钟再戳吧": "You just poked. Wait a minute.", "刚绑定的搭档还不能补签": "New partners can't make up a streak yet", "前一天也没有连上，无法补签": "The day before wasn't a streak day, so no makeup", "加载中…": "Loading…", "势均力敌": "Neck and neck", "匹配": "Matched", "匹配好友": "Matched friend", "匹配成功，你们成为好友学习搭档了！": "Matched! You're now study partners.", "去做题": "Practice", "去喂养": "Feed", "去邀请": "Invite now", "双人火苗": "Duo streak", "双人火苗将清零，连续打卡天数不再保留": "Your duo streak resets to 0", "双人火苗满 7 天，可获得火苗徽章。": "A 7-day duo streak earns a streak badge.", "双人火苗连续 {n} 天": "{n}-day duo streak", "双人火苗：两人一起打卡，火苗才算数": "Duo streak: it only counts when you both check in", "双方都确认后才成为搭档，待确认的匹配 48 小时内有效。对方只能看到你的昵称、头像和学习数据，看不到邮箱。拉黑后会立即解除搭档，并且永远不会再匹配到对方。": "You become partners only after both of you confirm. Pending matches expire in 48 hours. They only see your nickname, avatar, and study data — not your email. Blocking ends the partnership immediately and you will never be matched again.", "发给微信好友": "Send to a friend", "只匹配好友搭档，不匹配情侣。双方都确认后才成为搭档；对方只能看到你的昵称、头像和学习数据。": "Matching is for friend partners only, never couples. You pair only after both confirm, and they see only your nickname, avatar and study data.", "只匹配好友搭档，不匹配情侣。需要注册满 3 天、累计学习 60 分钟以上、年满 18 岁（自己确认）、打开「接受匹配」，且好友未满 3 个。": "Matching is for friends only, not couples. You need to have been registered for 3 days, studied 60+ minutes, confirmed you're 18+, turned on Accept matches, and have fewer than 3 friend partners.", "同意成为搭档": "Accept", "同时拉黑对方": "Also block this person", "周榜": "Weekly", "喂好了！成长 +10 🍖": "Fed! Growth +10 🍖", "复制失败，请手动复制": "Copy failed. Please copy manually.", "复制链接": "Copy link", "好友": "Friend", "好友专属装扮 · 友谊围巾": "Friend look · friendship scarf", "好友学习搭档": "friend study partner", "好友搭档": "Friend partners", "好友搭档已满 3 个": "You already have 3 friend partners", "好友搭档未满 3 个": "Fewer than 3 friend partners", "好友榜": "Friends", "好友每组可以共养一只宠物，戴专属「友谊围巾」。两个人每天都学，宠物才吃得饱。": "Each friend pair can raise one pet with a friendship scarf. It stays full only if you both study every day.", "如果对方已经 14 天没上线，页面会提示你可以解除或换一个搭档。": "If they haven't been online for 14 days, you'll see a prompt to unpair or find a new partner.", "学习搭档": "Study partners", "学习搭档加载失败：": "Couldn't load study partners: ", "学习搭档怎么玩": "How Study Partners work", "学习搭档第 {n} 天": "Day {n} as study partners", "完成第一次学习（做 5 道题），你和邀请人各得 +50 积分 🎁": "Finish your first study (5 questions) and you and your inviter each get +50 points 🎁", "对方已拒绝": "They declined", "对方的搭档名额已满": "Their partner slots are full", "对方确认后绑定，邀请 7 天内有效。对方第一次学习后你们各得 +50 积分。": "You pair once they accept. The invite lasts 7 days. After their first study you both get +50 points.", "对方第一次学习（做 5 道题）后，你们各得 +50 积分。本月邀请奖励有上限，也不会和原来的邀请奖励重复发放。": "After they finish their first study (5 questions), you both get +50 points. Monthly invite rewards are capped, and this does not stack with the original invite reward.", "小红书版（图上不带网址）": "Version without the web address", "少年": "Young ", "已复制邀请文字，打开微信粘贴给好友": "Invite text copied. Paste it to your friend.", "已拒绝": "Declined", "已提交，谢谢你的反馈": "Submitted. Thanks for the feedback.", "已确认，等待对方确认": "Confirmed. Waiting for them.", "已确认，等待对方确认（48 小时内有效）": "Confirmed. Waiting for them (valid 48 hours).", "已经成为搭档": "Already partners", "已经戳了 {name} {emoji}": "Poked {name} {emoji}", "已解除搭档关系": "Partnership ended", "帮我找一个学习搭档": "Find me a study partner", "年满 18 岁（自己确认）": "18 or older (self-confirmed)", "幼年": "Baby ", "广告或拉人": "Ads or spam", "心情": "Mood", "忽略": "Ignore", "怎么邀请": "How to invite", "总榜": "All-time", "总榜从绑定那天起一直累计；周榜每周一（新西兰时间）重新开始。一个人在多个好友组里，只算排名最高的一组。": "The all-time board counts from the day you paired. The weekly board resets every Monday (New Zealand time). If you're in several friend pairs, only your highest pair is ranked.", "情侣": "Couple", "情侣专属装扮 · 爱心小皇冠": "Couple look · heart crown", "情侣共养宠物有专属装扮「爱心小皇冠」。两个人每天都学，宠物才吃得饱。": "Couple pets wear an exclusive heart crown. It stays full only if you both study every day.", "情侣和好友都可以共养一只宠物。情侣有专属装扮「爱心小皇冠」，好友有专属「友谊围巾」。": "Couples and friends can each raise a shared pet. Couples get the exclusive Heart Crown; friends get the Friendship Scarf.", "情侣天数": "Days together", "情侣学习搭档": "couple study partner", "情侣或好友搭档 · 一起打卡、比做题、养宠物": "Couple or friend partners · check in, compare questions, and raise a pet", "情侣搭档最多 1 位，仅限 18 岁以上（需自己勾选确认）。好友搭档最多 3 位。": "Couple partners: 1 max, 18+ only (you confirm). Friend partners: 3 max.", "情侣标签仅限 18 岁以上。我确认已年满 18 岁。": "The couple tag is 18+ only. I confirm I'm 18 or older.", "情侣榜": "Couples", "情侣第几天": "Days together", "成年": "Adult ", "成长 {g}": "Growth {g}", "我": "Me", "我们一起在 TeamLingua 学英语吧！做我的情侣学习搭档 💕 一起打卡、PK、养宠物：{url} （搭档码 {code}）": "Let's learn English together on TeamLingua! Be my couple study partner 💕 Check in, PK and raise a pet: {url} (partner code {code})", "我的排名": "My rank", "我的搭档徽章": "My partner badges", "我确认已年满 18 岁": "I confirm I'm 18 or older", "戳 {name} 来喂": "Poke {name} to feed", "戳一下 {name}": "Poke {name}", "戳一下提醒": "Poke to remind", "戳一戳": "Poke", "手机上也可以长按图片保存": "On a phone, long-press the image to save it", "打开“接受匹配”": "Turn on \"accept matches\"", "找一位搭档，每天一起学英语": "Find a partner and study English together every day", "找不到搭档？系统帮你配一个": "No partner? We'll match you", "把邀请链接、6 位搭档码或二维码发给对方。对方必须点「接受」才会绑定，邀请 7 天内有效。": "Send the invite link, 6-digit partner code, or QR code. They must tap Accept to pair. Invites expire after 7 days.", "拉黑后会立即解除搭档，并且永远不会再匹配到对方。": "Blocking ends the partnership right away and you'll never be matched again.", "按两人做题数合计排名": "Ranked by both partners' total questions", "按两人做题数合计排名。情侣榜和好友榜分开，零基础和普通练习也分开。": "Ranked by your combined question count. Couple and friend boards are separate, and so are Zero-basics and regular practice.", "按做题数 · 情侣/好友分榜": "By questions · couples and friends", "排行榜": "Leaderboard", "排行榜加载失败：": "Couldn't load leaderboard: ", "接受匹配：允许系统把我推荐给其他学习者": "Accept matches: let us suggest me to other learners", "接受后将开始计算双人火苗、PK 和共养宠物。": "After you accept, your duo streak, PK and shared pet start.", "接受邀请": "Accept invite", "提交": "Submit", "搭档": "Partner", "搭档只能看到你的昵称、头像、学习时长、积分和打卡，看不到邮箱等其他信息。": "Partners only see your nickname, avatar, study time, points, and check-ins — not your email or other details.", "搭档只能看到你的昵称、头像、学习时长、积分和打卡，看不到邮箱等其他信息。没有私聊，想聊天请去微信。": "Partners see only your nickname, avatar, study time, points and check-ins, never your email. There's no private chat.", "搭档名额": "Partner slots", "搭档天数": "Days paired", "搭档码不正确或已失效": "Wrong or expired partner code", "搭档码（6 位）": "Partner code (6 digits)", "撤回": "Withdraw", "操作太频繁，请稍后再试": "Too many tries. Please wait.", "新功能：学习搭档 💕": "New: Study Partners 💕", "昨天火苗断了，可以用 {cost} 积分补签一次": "Your streak broke yesterday. Make it up once for {cost} points.", "普通练习": "Practice", "暂时无法和对方成为搭档": "Can't pair with this person right now", "暂时没有合适的搭档，晚点再试试": "No match right now. Try again later.", "更多玩法": "More", "有情侣搭档时不能取消 18 岁确认": "Can't remove 18+ confirmation while you have a couple partner", "本周 PK 做题": "This week's PK", "本周做题数 · {w}": "Questions this week · {w}", "本周学习 PK": "This week's study PK", "来做我的 TeamLingua 学习搭档吧 🤝 每天一起打卡、比做题、养宠物：{url} （搭档码 {code}）": "Be my TeamLingua study partner 🤝 Check in daily, race on questions and raise a pet: {url} (partner code {code})", "正在生成邀请…": "Creating invite…", "每人每天喂一次，成长 +10；每周 PK 获胜宠物再成长 +20。": "Each of you can feed once a day (+10 growth). Winning the weekly PK adds +20.", "没有找到这个搭档": "Partner not found", "没有找到这条记录": "Not found", "没有私聊。可以用固定表情（👋💪🔥❤️🎉📚）戳一下提醒对方，每天最多 5 次，两次之间至少间隔 1 分钟。想聊天请去微信。": "There's no in-app chat. Poke your partner with a fixed emoji (👋💪🔥❤️🎉📚) up to 5 times a day, at least 1 minute apart. To chat, use WeChat.", "注册满 3 天（已 {d} 天）": "Registered 3+ days ({d} so far)", "火苗": "Streak", "火苗没有断，不需要补签": "Your streak isn't broken", "生成分享图": "Share image", "用 {cost} 积分补签昨天的火苗？每次断签只能补一次。": "Use {cost} points to make up yesterday's streak? Only once per break.", "确定要解除和 {name} 的搭档关系吗？": "End your partnership with {name}?", "确认": "Confirm", "确认并生成情侣邀请": "Confirm and create couple invite", "确认解除": "Unpair", "积分": "Points", "积分不够": "Not enough points", "第 {n} 天": "Day {n}", "等待对方接受：{kind}搭档码 {code}（{date} 前有效）": "Waiting: {kind} code {code} (valid until {date})", "等待确认": "Waiting", "累计做题": "Total questions", "累计学习 60 分钟以上（已 {m} 分钟）": "60+ minutes of study ({m} so far)", "绑定": "Pair", "给宠物起个名字": "Name your pet", "补签": "Make up", "补签成功，火苗 {n} 天 🔥": "Made up! Streak {n} days 🔥", "解除": "Unpair", "解除后 7 天内不能再和同一个人绑定": "You can't re-pair with the same person for 7 days", "解除后 7 天内不能再和同一个人绑定（还剩 {days} 天）": "You can't re-pair with the same person for 7 days ({days} left)", "解除搭档": "Unpair", "解除需要二次确认（「再想想」/「确认解除」），立即生效并通知对方。双人火苗将清零。共养宠物将冻结保留 14 天，冷静期过后重新绑定可以恢复。7 天内不能和同一人重新绑定。": "Unpair needs a second confirmation (Think again / Confirm unpair). It takes effect immediately and notifies the other person. Your duo streak resets. The shared pet is frozen for 14 days and can be restored if you re-pair after the cooldown. You can't re-pair with the same person for 7 days.", "让对方用手机扫码": "Let them scan with their phone", "说明": "How it works", "请先勾选确认已年满 18 岁": "Please confirm you're 18 or older", "请先登录": "Please log in first", "请输入 6 位数字搭档码": "Enter the 6-digit partner code", "输入 6 位搭档码": "6-digit partner code", "近 14 天学习": "Studied (14 days)", "返回": "Back", "返回搭档列表": "Back to partners", "还没有共养宠物": "No shared pet yet", "还没有搭档上榜，快邀请一个搭档一起冲榜吧": "No pairs yet. Invite a partner and climb the board!", "还没达到随机匹配门槛": "Not eligible for matching yet", "这个浏览器不支持直接分享，请保存图片后再发": "This browser can't share directly. Save the image first.", "这个邀请已经被使用了": "This invite was already used", "这个邀请已过期（7 天有效）": "This invite expired (valid 7 days)", "这是你自己发出的搭档邀请，发给对方就好": "This is your own invite. Send it to your partner.", "这次断签已经补过了": "You already made up this break", "选一个鼓励表情，对方会收到提醒（每天最多 5 次）": "Pick an emoji; they'll get a reminder (up to 5 a day)", "道": " Qs", "邀请": "Invite", "邀请 TA 一起学，双人 PK，各得 50 积分": "Invite them to study together, PK as a pair, and you both get 50 points", "邀请好友": "Invite a friend", "邀请学习搭档": "Invite a study partner", "邀请已撤回": "Invite withdrawn", "邀请情侣学习搭档（限 1 位，18 岁以上）": "Invite your couple partner (1 only, 18+)", "邀请搭档": "Invite partner", "邀请链接已复制，粘贴发给对方吧": "Invite link copied. Paste it to them.", "随机匹配": "Random match", "隐私": "Privacy", "零基础": "Beginner", "需要先确认你已年满 18 岁": "Please confirm you're 18 or older first", "领养成功！两个人每天都学，宠物就会吃饱 🐾": "Adopted! Study every day together to keep it full 🐾", "饱食度": "Fullness", "饿了": "hungry", "马上邀请": "Invite now", "骚扰或不友善": "Harassment or unkind", "🎁 搭档邀请奖励 +{points} 积分已到账（{name}）": "🎁 Partner invite reward +{points} points ({name})", "🎉 {name} 接受了你的邀请，成为{kind}！": "🎉 {name} accepted and is now your {kind}!", "🏆 上周 PK 你赢了 {name}（{me}:{them} 道），获得 PK 徽章！": "🏆 You beat {name} in last week's PK ({me}:{them}) and earned a PK badge!", "💞 你和 {name} 成为{kind}了！": "💞 You and {name} are now {kind}s!", "💞 你和 {name} 成为学习搭档了！": "💞 You and {name} are now study partners!", "💞 你收到一个「学习搭档」邀请。注册或登录后会自动弹出确认，接受后就能一起打卡、PK、养宠物。": "💞 You've got a study partner invite. Sign up or log in and it will pop up so you can accept.", "🔥 和 {name} 的双人火苗满 7 天，获得火苗徽章！": "🔥 7-day duo streak with {name}! Streak badge earned.", "🤝 上周 PK 和 {name} 打平（{me}:{them}），双方都得徽章！": "🤝 Last week's PK with {name} was a tie ({me}:{them}). Badges for both!", "🤝 你和 {name} 匹配成功，成为好友学习搭档！": "🤝 You and {name} matched as study partners!", "🤝 系统为你匹配了一位学习搭档「{name}」，去学习搭档页确认吧": "🤝 We matched you with {name}. Confirm on the Study partners page.", "🧊 和 {partner} 的共养宠物「{name}」已冻结，{date} 前重新绑定可以恢复": "🧊 Your shared pet {name} with {partner} is frozen. Re-pair before {date} to restore it."};for(var k in d){if(en[k]==null)en[k]=d[k];}}catch(e){}})();
+<script>/* release50-invite-cards */
+(function(){try{var en=(window.__TL_I18N_DATA||{}).en;if(!en)return;var d={" 天": " days", "7 天内不能和 {name} 重新绑定": "You can't re-pair with {name} for 7 days", "7 天火苗": "7-day streak", "PK 与排行榜": "PK and leaderboards", "PK 排行榜：按做题数比一比，看谁练得更多": "PK leaderboards: compare question counts and see who practiced more", "PK 结果": "PK result", "PK 胜利": "PK win", "TA 已打卡": "Partner done", "{days} 天没上线": "Offline {days} days", "{name} 今天学了 {min} 分钟、做了 {n} 道题": "{name} studied {min} min and answered {n} questions today", "{name} 完成了第一次学习（本月邀请奖励已达上限）": "{name} finished their first study (monthly invite reward cap reached)", "{name} 完成第一次学习后，你们各得 +50 积分 🎁": "When {name} finishes their first study, you both get +50 points 🎁", "{name} 已经 {days} 天没上线了，可以解除或换一个搭档": "{name} hasn't been online for {days} days. You can unpair or find a new partner.", "{name} 已经打卡，就差你了 💪": "{name} has checked in. Only you left! 💪", "{name} 戳了你一下 {emoji} 快来一起学！": "{name} poked you {emoji} Come study together!", "{name} 解除了和你的搭档关系。": "{name} ended your partnership.", "{name} 邀请你成为": "{name} invites you to be their", "{name} 领先": "{name} leads", "{n} 天": "{n} days", "{n} 天双人火苗": "{n}-day duo streak", "{n} 道": "{n} Qs", "一起养": "raise together", "一起学英语第 {n} 天": "Day {n} learning English together", "上周 PK 输给了 {name}（{me}:{them}），这周加油！": "You lost last week's PK to {name} ({me}:{them}). Go for it this week!", "不当昵称或头像": "Inappropriate name or avatar", "不能接受自己发出的邀请": "You can't accept your own invite", "不要了": "No thanks", "两个人每天都学，宠物才吃得饱；任一方今天不学习，宠物就会饿。先做一道题才能喂。每人每天喂一次，成长 +10；每周 PK 获胜，宠物再成长 +20。": "The pet stays full only if both of you study that day — if either of you skips, it gets hungry. Answer one question before feeding. Each of you can feed once a day (+10 growth). The weekly PK winner's pet gets another +20.", "两人都打卡，火苗才继续。断了可以用 20 积分补签一次，每次断签只能补一次。刚绑定的搭档还不能补签；如果前一天也没有连上，也无法补签。": "The streak only continues when both of you check in. If it breaks, you can make it up once with 20 points — once per break. You can't make up a streak on a brand-new partnership, or if the previous day wasn't linked either.", "为你找到了「{name}」，等对方确认后就是搭档了": "Found {name} for you. You'll be partners once they confirm.", "举报 / 拉黑": "Report / Block", "举报/拉黑": "Report/Block", "二维码生成失败": "Couldn't create QR code", "云端不可用": "Cloud unavailable", "今天 {name} 已喂养，就差你了": "{name} fed it today. Only you left!", "今天你们俩都喂过了，{name} 吃得饱饱的 🥰": "You both fed {name} today. It's full 🥰", "今天的次数用完了，明天再来": "No more today. Come back tomorrow", "今日已打卡": "checked in", "今日未打卡": "not yet", "以后再说": "Maybe later", "任一方今天不学习，宠物就会饿。做完一道题就能喂养。": "If either of you skips studying, the pet gets hungry. Answer one question to feed it.", "你今天已经喂过了": "You already fed it today", "你们已经是搭档了": "You're already partners", "你们已经有共养宠物了": "You already have a shared pet", "你已经喂过了，等 {name} 来喂": "You've fed it. Waiting for {name}.", "你已经有一个等待确认的匹配": "You already have a match waiting for confirmation", "你已经有情侣搭档了，需先解除": "You already have a couple partner. Unpair first.", "你还没有好友搭档，绑定后就能上好友榜": "Pair with a friend to join the friend board", "你还没有情侣搭档，绑定后就能上情侣榜": "Pair with your partner to join the couple board", "保存图片": "Save image", "做题": "Qs", "先去做一道题再来喂": "Answer a question first, then feed", "先完成一道题，才能喂养共养宠物": "Answer one question before feeding the shared pet", "先选标签，再把邀请发给对方": "Pick a tag, then send the invite", "免费团队英语练习 · 和搭档一起打卡": "Free team English practice · check in with your partner", "免费领养共养宠物": "Adopt a shared pet (free)", "共养宠物": "Shared pet", "共养宠物将冻结保留 14 天，冷静期过后复合可恢复": "The shared pet is frozen for 14 days and comes back if you re-pair after the cooldown", "共养宠物已恢复": "Shared pet restored", "共养宠物：一起喂养，情侣还有专属装扮": "A shared pet you feed together — couples get an exclusive look.", "共养第 {d} 天": "Day {d} together", "关闭": "Close", "其他": "Other", "再想想": "Let me think", "分享": "Share", "分享图": "Share image", "刚戳过，等一分钟再戳吧": "You just poked. Wait a minute.", "刚绑定的搭档还不能补签": "New partners can't make up a streak yet", "前一天也没有连上，无法补签": "The day before wasn't a streak day, so no makeup", "加载中…": "Loading…", "势均力敌": "Neck and neck", "匹配": "Matched", "匹配好友": "Matched friend", "匹配成功，你们成为好友学习搭档了！": "Matched! You're now study partners.", "去做题": "Practice", "去喂养": "Feed", "去邀请": "Invite now", "双人火苗": "Duo streak", "双人火苗将清零，连续打卡天数不再保留": "Your duo streak resets to 0", "双人火苗满 7 天，可获得火苗徽章。": "A 7-day duo streak earns a streak badge.", "双人火苗连续 {n} 天": "{n}-day duo streak", "双人火苗：两人一起打卡，火苗才算数": "Duo streak: it only counts when you both check in", "双方都确认后才成为搭档，待确认的匹配 48 小时内有效。对方只能看到你的昵称、头像和学习数据，看不到邮箱。拉黑后会立即解除搭档，并且永远不会再匹配到对方。": "You become partners only after both of you confirm. Pending matches expire in 48 hours. They only see your nickname, avatar, and study data — not your email. Blocking ends the partnership immediately and you will never be matched again.", "发给微信好友": "Send to a friend", "只匹配好友搭档，不匹配情侣。双方都确认后才成为搭档；对方只能看到你的昵称、头像和学习数据。": "Matching is for friend partners only, never couples. You pair only after both confirm, and they see only your nickname, avatar and study data.", "只匹配好友搭档，不匹配情侣。需要注册满 3 天、累计学习 60 分钟以上、年满 18 岁（自己确认）、打开「接受匹配」，且好友未满 3 个。": "Matching is for friends only, not couples. You need to have been registered for 3 days, studied 60+ minutes, confirmed you're 18+, turned on Accept matches, and have fewer than 3 friend partners.", "同意成为搭档": "Accept", "同时拉黑对方": "Also block this person", "周榜": "Weekly", "喂好了！成长 +10 🍖": "Fed! Growth +10 🍖", "复制失败，请手动复制": "Copy failed. Please copy manually.", "复制链接": "Copy link", "好友": "Friend", "好友专属装扮 · 友谊围巾": "Friend look · friendship scarf", "好友学习搭档": "friend study partner", "好友搭档": "Friend partners", "好友搭档已满 3 个": "You already have 3 friend partners", "好友搭档未满 3 个": "Fewer than 3 friend partners", "好友榜": "Friends", "好友每组可以共养一只宠物，戴专属「友谊围巾」。两个人每天都学，宠物才吃得饱。": "Each friend pair can raise one pet with a friendship scarf. It stays full only if you both study every day.", "如果对方已经 14 天没上线，页面会提示你可以解除或换一个搭档。": "If they haven't been online for 14 days, you'll see a prompt to unpair or find a new partner.", "学习搭档": "Study partners", "学习搭档加载失败：": "Couldn't load study partners: ", "学习搭档怎么玩": "How Study Partners work", "学习搭档第 {n} 天": "Day {n} as study partners", "完成第一次学习（做 5 道题），你和邀请人各得 +50 积分 🎁": "Finish your first study (5 questions) and you and your inviter each get +50 points 🎁", "对方已拒绝": "They declined", "对方的搭档名额已满": "Their partner slots are full", "对方确认后绑定，邀请 7 天内有效。对方第一次学习后你们各得 +50 积分。": "You pair once they accept. The invite lasts 7 days. After their first study you both get +50 points.", "对方第一次学习（做 5 道题）后，你们各得 +50 积分。本月邀请奖励有上限，也不会和原来的邀请奖励重复发放。": "After they finish their first study (5 questions), you both get +50 points. Monthly invite rewards are capped, and this does not stack with the original invite reward.", "小红书版（图上不带网址）": "Version without the web address", "少年": "Young ", "已复制邀请文字，打开微信粘贴给好友": "Invite text copied. Paste it to your friend.", "已拒绝": "Declined", "已提交，谢谢你的反馈": "Submitted. Thanks for the feedback.", "已确认，等待对方确认": "Confirmed. Waiting for them.", "已确认，等待对方确认（48 小时内有效）": "Confirmed. Waiting for them (valid 48 hours).", "已经成为搭档": "Already partners", "已经戳了 {name} {emoji}": "Poked {name} {emoji}", "已解除搭档关系": "Partnership ended", "帮我找一个学习搭档": "Find me a study partner", "年满 18 岁（自己确认）": "18 or older (self-confirmed)", "幼年": "Baby ", "广告或拉人": "Ads or spam", "心情": "Mood", "忽略": "Ignore", "怎么邀请": "How to invite", "总榜": "All-time", "总榜从绑定那天起一直累计；周榜每周一（新西兰时间）重新开始。一个人在多个好友组里，只算排名最高的一组。": "The all-time board counts from the day you paired. The weekly board resets every Monday (New Zealand time). If you're in several friend pairs, only your highest pair is ranked.", "情侣": "Couple", "情侣专属装扮 · 爱心小皇冠": "Couple look · heart crown", "情侣共养宠物有专属装扮「爱心小皇冠」。两个人每天都学，宠物才吃得饱。": "Couple pets wear an exclusive heart crown. It stays full only if you both study every day.", "情侣和好友都可以共养一只宠物。情侣有专属装扮「爱心小皇冠」，好友有专属「友谊围巾」。": "Couples and friends can each raise a shared pet. Couples get the exclusive Heart Crown; friends get the Friendship Scarf.", "情侣天数": "Days together", "情侣学习搭档": "couple study partner", "情侣或好友搭档 · 一起打卡、比做题、养宠物": "Couple or friend partners · check in, compare questions, and raise a pet", "情侣搭档最多 1 位，仅限 18 岁以上（需自己勾选确认）。好友搭档最多 3 位。": "Couple partners: 1 max, 18+ only (you confirm). Friend partners: 3 max.", "情侣标签仅限 18 岁以上。我确认已年满 18 岁。": "The couple tag is 18+ only. I confirm I'm 18 or older.", "情侣榜": "Couples", "情侣第几天": "Days together", "成年": "Adult ", "成长 {g}": "Growth {g}", "我": "Me", "我们一起在 TeamLingua 学英语吧！做我的情侣学习搭档 💕 一起打卡、PK、养宠物：{url} （搭档码 {code}）": "Let's learn English together on TeamLingua! Be my couple study partner 💕 Check in, PK and raise a pet: {url} (partner code {code})", "我的排名": "My rank", "我的搭档徽章": "My partner badges", "我确认已年满 18 岁": "I confirm I'm 18 or older", "戳 {name} 来喂": "Poke {name} to feed", "戳一下 {name}": "Poke {name}", "戳一下提醒": "Poke to remind", "戳一戳": "Poke", "手机上也可以长按图片保存": "On a phone, long-press the image to save it", "打开“接受匹配”": "Turn on \"accept matches\"", "找一位搭档，每天一起学英语": "Find a partner and study English together every day", "找不到搭档？系统帮你配一个": "No partner? We'll match you", "把邀请链接、6 位搭档码或二维码发给对方。对方必须点「接受」才会绑定，邀请 7 天内有效。": "Send the invite link, 6-digit partner code, or QR code. They must tap Accept to pair. Invites expire after 7 days.", "拉黑后会立即解除搭档，并且永远不会再匹配到对方。": "Blocking ends the partnership right away and you'll never be matched again.", "按两人做题数合计排名": "Ranked by both partners' total questions", "按两人做题数合计排名。情侣榜和好友榜分开，零基础和普通练习也分开。": "Ranked by your combined question count. Couple and friend boards are separate, and so are Zero-basics and regular practice.", "按做题数 · 情侣/好友分榜": "By questions · couples and friends", "排行榜": "Leaderboard", "排行榜加载失败：": "Couldn't load leaderboard: ", "接受匹配：允许系统把我推荐给其他学习者": "Accept matches: let us suggest me to other learners", "接受后将开始计算双人火苗、PK 和共养宠物。": "After you accept, your duo streak, PK and shared pet start.", "接受邀请": "Accept invite", "提交": "Submit", "搭档": "Partner", "搭档只能看到你的昵称、头像、学习时长、积分和打卡，看不到邮箱等其他信息。": "Partners only see your nickname, avatar, study time, points, and check-ins — not your email or other details.", "搭档只能看到你的昵称、头像、学习时长、积分和打卡，看不到邮箱等其他信息。没有私聊，想聊天请去微信。": "Partners see only your nickname, avatar, study time, points and check-ins, never your email. There's no private chat.", "搭档名额": "Partner slots", "搭档天数": "Days paired", "搭档码不正确或已失效": "Wrong or expired partner code", "搭档码（6 位）": "Partner code (6 digits)", "撤回": "Withdraw", "操作太频繁，请稍后再试": "Too many tries. Please wait.", "新功能：学习搭档 💕": "New: Study Partners 💕", "昨天火苗断了，可以用 {cost} 积分补签一次": "Your streak broke yesterday. Make it up once for {cost} points.", "普通练习": "Practice", "暂时无法和对方成为搭档": "Can't pair with this person right now", "暂时没有合适的搭档，晚点再试试": "No match right now. Try again later.", "更多玩法": "More", "有情侣搭档时不能取消 18 岁确认": "Can't remove 18+ confirmation while you have a couple partner", "本周 PK 做题": "This week's PK", "本周做题数 · {w}": "Questions this week · {w}", "本周学习 PK": "This week's study PK", "来做我的 TeamLingua 学习搭档吧 🤝 每天一起打卡、比做题、养宠物：{url} （搭档码 {code}）": "Be my TeamLingua study partner 🤝 Check in daily, race on questions and raise a pet: {url} (partner code {code})", "正在生成邀请…": "Creating invite…", "每人每天喂一次，成长 +10；每周 PK 获胜宠物再成长 +20。": "Each of you can feed once a day (+10 growth). Winning the weekly PK adds +20.", "没有找到这个搭档": "Partner not found", "没有找到这条记录": "Not found", "没有私聊。可以用固定表情（👋💪🔥❤️🎉📚）戳一下提醒对方，每天最多 5 次，两次之间至少间隔 1 分钟。想聊天请去微信。": "There's no in-app chat. Poke your partner with a fixed emoji (👋💪🔥❤️🎉📚) up to 5 times a day, at least 1 minute apart. To chat, use WeChat.", "注册满 3 天（已 {d} 天）": "Registered 3+ days ({d} so far)", "火苗": "Streak", "火苗没有断，不需要补签": "Your streak isn't broken", "生成分享图": "Share image", "用 {cost} 积分补签昨天的火苗？每次断签只能补一次。": "Use {cost} points to make up yesterday's streak? Only once per break.", "确定要解除和 {name} 的搭档关系吗？": "End your partnership with {name}?", "确认": "Confirm", "确认并生成情侣邀请": "Confirm and create couple invite", "确认解除": "Unpair", "积分": "Points", "积分不够": "Not enough points", "第 {n} 天": "Day {n}", "等待对方接受：{kind}搭档码 {code}（{date} 前有效）": "Waiting: {kind} code {code} (valid until {date})", "等待确认": "Waiting", "累计做题": "Total questions", "累计学习 60 分钟以上（已 {m} 分钟）": "60+ minutes of study ({m} so far)", "绑定": "Pair", "给宠物起个名字": "Name your pet", "补签": "Make up", "补签成功，火苗 {n} 天 🔥": "Made up! Streak {n} days 🔥", "解除": "Unpair", "解除后 7 天内不能再和同一个人绑定": "You can't re-pair with the same person for 7 days", "解除后 7 天内不能再和同一个人绑定（还剩 {days} 天）": "You can't re-pair with the same person for 7 days ({days} left)", "解除搭档": "Unpair", "解除需要二次确认（「再想想」/「确认解除」），立即生效并通知对方。双人火苗将清零。共养宠物将冻结保留 14 天，冷静期过后重新绑定可以恢复。7 天内不能和同一人重新绑定。": "Unpair needs a second confirmation (Think again / Confirm unpair). It takes effect immediately and notifies the other person. Your duo streak resets. The shared pet is frozen for 14 days and can be restored if you re-pair after the cooldown. You can't re-pair with the same person for 7 days.", "让对方用手机扫码": "Let them scan with their phone", "说明": "How it works", "请先勾选确认已年满 18 岁": "Please confirm you're 18 or older", "请先登录": "Please log in first", "请输入 6 位数字搭档码": "Enter the 6-digit partner code", "输入 6 位搭档码": "6-digit partner code", "近 14 天学习": "Studied (14 days)", "返回": "Back", "返回搭档列表": "Back to partners", "还没有共养宠物": "No shared pet yet", "还没有搭档上榜，快邀请一个搭档一起冲榜吧": "No pairs yet. Invite a partner and climb the board!", "还没达到随机匹配门槛": "Not eligible for matching yet", "这个浏览器不支持直接分享，请保存图片后再发": "This browser can't share directly. Save the image first.", "这个邀请已经被使用了": "This invite was already used", "这个邀请已过期（7 天有效）": "This invite expired (valid 7 days)", "这是你自己发出的搭档邀请，发给对方就好": "This is your own invite. Send it to your partner.", "这次断签已经补过了": "You already made up this break", "选一个鼓励表情，对方会收到提醒（每天最多 5 次）": "Pick an emoji; they'll get a reminder (up to 5 a day)", "道": " Qs", "邀请": "Invite", "邀请 TA 一起学，双人 PK，各得 50 积分": "Invite them to study together, PK as a pair, and you both get 50 points", "邀请好友": "Invite a friend", "邀请学习搭档": "Invite a study partner", "邀请已撤回": "Invite withdrawn", "邀请情侣学习搭档（限 1 位，18 岁以上）": "Invite your couple partner (1 only, 18+)", "邀请搭档": "Invite partner", "邀请链接已复制，粘贴发给对方吧": "Invite link copied. Paste it to them.", "随机匹配": "Random match", "隐私": "Privacy", "零基础": "Beginner", "需要先确认你已年满 18 岁": "Please confirm you're 18 or older first", "领养成功！两个人每天都学，宠物就会吃饱 🐾": "Adopted! Study every day together to keep it full 🐾", "饱食度": "Fullness", "饿了": "hungry", "马上邀请": "Invite now", "骚扰或不友善": "Harassment or unkind", "🎁 搭档邀请奖励 +{points} 积分已到账（{name}）": "🎁 Partner invite reward +{points} points ({name})", "🎉 {name} 接受了你的邀请，成为{kind}！": "🎉 {name} accepted and is now your {kind}!", "🏆 上周 PK 你赢了 {name}（{me}:{them} 道），获得 PK 徽章！": "🏆 You beat {name} in last week's PK ({me}:{them}) and earned a PK badge!", "💞 你和 {name} 成为{kind}了！": "💞 You and {name} are now {kind}s!", "💞 你和 {name} 成为学习搭档了！": "💞 You and {name} are now study partners!", "💞 你收到一个「学习搭档」邀请。注册或登录后会自动弹出确认，接受后就能一起打卡、PK、养宠物。": "💞 You've got a study partner invite. Sign up or log in and it will pop up so you can accept.", "🔥 和 {name} 的双人火苗满 7 天，获得火苗徽章！": "🔥 7-day duo streak with {name}! Streak badge earned.", "🤝 上周 PK 和 {name} 打平（{me}:{them}），双方都得徽章！": "🤝 Last week's PK with {name} was a tie ({me}:{them}). Badges for both!", "🤝 你和 {name} 匹配成功，成为好友学习搭档！": "🤝 You and {name} matched as study partners!", "🤝 系统为你匹配了一位学习搭档「{name}」，去学习搭档页确认吧": "🤝 We matched you with {name}. Confirm on the Study partners page.", "🧊 和 {partner} 的共养宠物「{name}」已冻结，{date} 前重新绑定可以恢复": "🧊 Your shared pet {name} with {partner} is frozen. Re-pair before {date} to restore it.", "先选标签，再把邀请发给对方。成为搭档后，对方第一次学习（做 5 道题），你们各得 +50 积分。": "Pick a label, then send the invite. After you become partners and they finish their first study (5 questions), you both get +50 points.", "对方必须点「接受」才会绑定，邀请 7 天内有效。对方第一次学习（做 5 道题）后你们各得 +50 积分。本月邀请奖励有上限，也不会和原来的邀请奖励重复发放。": "They must tap Accept to pair. Invites expire after 7 days. After their first study (5 questions), you both get +50 points. Monthly invite rewards are capped, and this does not stack with the original invite reward.", "我们一起在 TeamLingua 免费学英语吧！做我的情侣学习搭档 💕 双人火苗、PK排行榜、共养宠物：{url} （搭档码 {code}）": "Let's study English for free on TeamLingua! Be my couple study partner 💕 duo streak, PK boards, and a shared pet: {url} (code {code})", "来做我的 TeamLingua 学习搭档吧 🤝 免费练英语，还有双人火苗、PK排行榜、共养宠物：{url} （搭档码 {code}）": "Be my TeamLingua study partner 🤝 free English practice, plus a duo streak, PK boards, and a shared pet: {url} (code {code})", "免费团队英语练习 · 双人火苗 · PK排行榜 · 共养宠物": "Free team English practice · duo streak · PK boards · shared pet", "我在用 TeamLingua 免费练英语，还可以找学习搭档：双人火苗、PK排行榜、共养宠物。来一起学吧！成为学习搭档后，对方第一次学习（做 5 道题）我们各得 +50 积分。{url}": "I'm practicing English for free on TeamLingua — and you can be my study partner: duo streak, PK boards, and a shared pet. After we pair and you finish your first study (5 questions), we both get +50 points. {url}", "我邀请你加入 TeamLingua 小组「{name}」，一起免费练英语。还可以成为学习搭档：双人火苗、PK排行榜、共养宠物。用这个链接加入。成为学习搭档后，对方第一次学习我们各得 +50 积分；注册并完成首日 20 分钟学习，你还可以得 +20 新人积分 🎁 {url}": "Join my TeamLingua group “{name}” and practice English for free. You can also become study partners: duo streak, PK boards, and a shared pet. Use this link to join. After you become partners and finish a first study, we both get +50 points; if you sign up and finish your first 20-minute day, you also get +20 newcomer points 🎁 {url}", "免费团队英语练习 · 找一位搭档每天一起学": "Free team English practice · find a partner and study together every day", "去邀请学习搭档": "Invite a study partner", "邀请学习搭档，第一次学习后各得 +50 积分": "Invite a study partner — you both get +50 after their first study", "📸 生成练习结果卡，邀请学习搭档": "📸 Make a practice card and invite a study partner", "🐾 生成宠物卡片，邀请学习搭档": "🐾 Make a pet card and invite a study partner", "学习搭档邀请": "Study partner invite", "对方接受邀请并完成第一次学习（做 5 道题）后，你们各得 +50 积分。本月邀请奖励有上限，也不会和原来的邀请奖励重复发放。": "After they accept and finish their first study (5 questions), you both get +50 points. Monthly invite rewards are capped, and this does not stack with the original invite reward.", "用上面的专属链接注册并完成首日 20 分钟学习，邀请人得 +50 积分，朋友得 +20 积分新人奖励（每月最多 10 人；自己的小号、在你设备上注册的账号不算）。": "If they sign up with the link above and finish a 20-minute first day, you get +50 points and they get a +20 newcomer bonus (max 10 people per month; your own alt accounts and sign-ups on your device don't count).", "💕 邀请学习搭档 · 各得 +50 积分": "💕 Invite a study partner · +50 each", "邀请学习搭档一起学，第一次学习后各得 +50": "Invite a study partner — you both get +50 after the first study", "小组成员都可以邀请朋友加入，一起免费练英语。进组后也可以成为学习搭档：双人火苗、PK排行榜、共养宠物。用你的专属链接，对方进组后完成首日学习，你还能拿邀请积分。": "Anyone in the group can invite friends to practice English for free. After they join, you can also become study partners: duo streak, PK boards, and a shared pet. Use your personal link — when they finish their first-day study, you can still earn the original invite points.", "生成你的练习结果卡，邀请学习搭档一起学": "Make your practice card and invite a study partner", "成为学习搭档后，对方第一次学习，各得 +50 积分": "After you become partners, their first study earns you both +50 points", "一起来当学习搭档吧！": "Come be my study partner!", "扫码免费练英语，邀请学习搭档": "Scan to practice English for free and invite a study partner", "免费团队英语练习 · 共养宠物 🐾": "Free team English practice · raise a pet together 🐾", "学习搭档：双人火苗 · PK排行榜 · 共养宠物": "Study partners: duo streak · PK boards · shared pet", "成为学习搭档后，对方第一次学习各得 +50 积分": "After you become partners, their first study earns you both +50 points", "用邀请码注册还可领 +20 新人积分": "Sign up with my invite code for a +20 newcomer bonus", "在这里也可以邀请学习搭档，一起打卡涨双人火苗、PK排行榜、共养宠物。": "You can also invite a study partner here — check in for a duo streak, PK on the boards, and raise a pet together."};for(var k in d){if(en[k]==null)en[k]=d[k];else en[k]=d[k];}}catch(e){}})();
 /* release48-study-partners + release49-partner-entry: 学习搭档. All writes go through partner_* RPCs. */
 (function () {
   'use strict';
@@ -14071,7 +14246,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
   function renderHome() {
     var ov = S.ov;
-    var h = bar(T('学习搭档'), '<span class="tlp-bar-actions"><button type="button" class="tlp-sub" data-tlp="help">❓ ' + E(T('说明')) + '</button><button type="button" class="tlp-sub" data-tlp="board">🏆 ' + E(T('排行榜')) + '</button></span>');
+    var h = bar(T('学习搭档'), '<span class="tlp-bar-actions"><button type="button" class="tlp-sub" data-tlp="board">🏆 ' + E(T('排行榜')) + '</button></span>');
     if (!ov) return h + helpCard() + '<div class="tlp-card" style="padding:18px;text-align:center"><div class="tlp-muted">' + E(T('加载中…')) + '</div></div>';
     var cp = couple(), fr = friends();
     if (S.relId && rel(S.relId) && rel(S.relId).kind === 'friend') {
@@ -14259,9 +14434,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   }
   function renderInvite() {
     var k = S.invite.kind, d = S.invite.data;
-    var h = '<h3>' + E(T('邀请学习搭档')) + '</h3><div class="tlp-lead">' + E(T('先选标签，再把邀请发给对方')) + '</div>' +
+    var h = '<h3>' + E(T('邀请学习搭档')) + '</h3><div class="tlp-lead">' + E(T('先选标签，再把邀请发给对方。成为搭档后，对方第一次学习（做 5 道题），你们各得 +50 积分。')) + '</div>' +
       '<div class="tlp-seg"><button type="button" class="' + (k === 'couple' ? 'on' : '') + '" data-tlp="ikind" data-v="couple">💕 ' + E(T('情侣')) + '</button>' +
-      '<button type="button" class="' + (k === 'friend' ? 'on fr' : '') + '" data-tlp="ikind" data-v="friend">🤝 ' + E(T('好友')) + '</button></div>';
+      '<button type="button" class="' + (k === 'friend' ? 'on fr' : '') + '" data-tlp="ikind" data-v="friend">🤝 ' + E(T('好友')) + '</button></div>' +
+      '<ul class="tlp-feats"><li>🔥 ' + E(T('双人火苗：两人一起打卡，火苗才算数')) + '</li>' +
+      '<li>🏆 ' + E(T('PK 排行榜：按做题数比一比，看谁练得更多')) + '</li>' +
+      '<li>🐾 ' + E(T('共养宠物：一起喂养，情侣还有专属装扮')) + '</li></ul>';
     if (k === 'couple' && !(S.ov && S.ov.settings.adult)) {
       h += '<label class="tlp-chk"><input type="checkbox" id="tlpAdultChk"> ' + E(T('情侣标签仅限 18 岁以上。我确认已年满 18 岁。')) + '</label>' +
         '<button type="button" class="tlp-btn tlp-gold" data-tlp="adultinvite">' + E(T('确认并生成情侣邀请')) + '</button>';
@@ -14275,14 +14453,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         '<div class="tlp-qr" id="tlpQr">' + qrSvg(url) + '<small>' + E(T('让对方用手机扫码')) + '</small></div>' +
         '<div class="tlp-gap"><button type="button" class="tlp-btn tlp-gold" data-tlp="copylink" data-url="' + E(url) + '">🔗 ' + E(T('复制链接')) + '</button>' +
         '<button type="button" class="tlp-btn tlp-purple" style="height:44px;font-size:14px" data-tlp="sharelink" data-url="' + E(url) + '">💬 ' + E(T('发给微信好友')) + '</button></div>' +
-        '<div class="tlp-note">' + E(T('对方确认后绑定，邀请 7 天内有效。对方第一次学习后你们各得 +50 积分。')) + '</div>';
+        '<div class="tlp-note">' + E(T('对方必须点「接受」才会绑定，邀请 7 天内有效。对方第一次学习（做 5 道题）后你们各得 +50 积分。本月邀请奖励有上限，也不会和原来的邀请奖励重复发放。')) + '</div>';
     }
     modal(h);
   }
   function inviteText(url) {
     var k = S.invite.kind;
-    return (k === 'couple' ? T('我们一起在 TeamLingua 学英语吧！做我的情侣学习搭档 💕 一起打卡、PK、养宠物：{url} （搭档码 {code}）', { url: url, code: S.invite.data.code })
-                          : T('来做我的 TeamLingua 学习搭档吧 🤝 每天一起打卡、比做题、养宠物：{url} （搭档码 {code}）', { url: url, code: S.invite.data.code }));
+    return (k === 'couple' ? T('我们一起在 TeamLingua 免费学英语吧！做我的情侣学习搭档 💕 双人火苗、PK排行榜、共养宠物：{url} （搭档码 {code}）', { url: url, code: S.invite.data.code })
+                          : T('来做我的 TeamLingua 学习搭档吧 🤝 免费练英语，还有双人火苗、PK排行榜、共养宠物：{url} （搭档码 {code}）', { url: url, code: S.invite.data.code }));
   }
   async function copyText(s) {
     try { await navigator.clipboard.writeText(s); return true; } catch (e) {
@@ -14346,7 +14524,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   function drawShare(r, mode, noUrl) {
     var W = 720, H = 1160, c = document.createElement('canvas'); c.width = W; c.height = H;
     var x = c.getContext('2d'), F = '"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
-    var g = x.createLinearGradient(0, 0, W * 0.4, H); g.addColorStop(0, '#6D28D9'); g.addColorStop(0.45, '#7C3AED'); g.addColorStop(1, r.kind === 'couple' ? '#DB2777' : '#0EA5E9');
+    var g = x.createLinearGradient(0, 0, W * 0.35, H); g.addColorStop(0, '#9D174D'); g.addColorStop(0.4, '#DB2777'); g.addColorStop(1, r.kind === 'couple' ? '#BE185D' : '#7C3AED');
     x.fillStyle = g; x.fillRect(0, 0, W, H);
     x.fillStyle = 'rgba(255,255,255,0.10)'; x.beginPath(); x.arc(W - 40, 70, 190, 0, 7); x.fill(); x.beginPath(); x.arc(40, H - 300, 130, 0, 7); x.fill();
     // brand
@@ -14378,7 +14556,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       x.fillStyle = 'rgba(255,255,255,0.16)'; rr(x, W / 2 - uw / 2, 960, uw, 64, 32); x.fill(); x.strokeStyle = 'rgba(255,255,255,0.3)'; x.stroke();
       x.fillStyle = '#fff'; x.fillText(u, W / 2, 993);
     }
-    x.font = 'bold 24px ' + F; x.globalAlpha = 0.88; x.fillStyle = '#fff'; x.fillText(T('免费团队英语练习 · 和搭档一起打卡'), W / 2, noUrl ? 990 : 1068); x.globalAlpha = 1;
+    x.font = 'bold 22px ' + F; x.globalAlpha = 0.95; x.fillStyle = '#fff'; x.fillText(T('免费团队英语练习 · 双人火苗 · PK排行榜 · 共养宠物'), W / 2, noUrl ? 990 : 1068); x.globalAlpha = 1;
     return c;
   }
   function openShare(id, mode, noUrl) {
@@ -14555,6 +14733,443 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     setTimeout(loggedOutBanner, 1500);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* release50-invite-cards: refresh invite/share copy + poster art to the 学习搭档 look. */
+(function () {
+  function T(k, v) {
+    try { return (typeof t === 'function') ? t(k, v) : k; } catch (e) { return k; }
+  }
+  function setText(el, key, attr) {
+    if (!el) return;
+    var val = T(key);
+    if (attr) el.setAttribute(attr, val);
+    else el.textContent = val;
+    if (el.getAttribute && el.hasAttribute('data-i18n')) el.setAttribute('data-i18n', key);
+  }
+
+  /* ---------- share / invite copy ---------- */
+  window.inviteShareText = function (url) {
+    return T('我在用 TeamLingua 免费练英语，还可以找学习搭档：双人火苗、PK排行榜、共养宠物。来一起学吧！成为学习搭档后，对方第一次学习（做 5 道题）我们各得 +50 积分。{url}', { url: url });
+  };
+  window.inviteShareText = inviteShareText;
+  // also assign the bare function if it was a declaration in the same scope — re-bind via window is what later calls use if they go through window; local calls in the original script still close over the old function.
+  // Patch renderInviteInfo / copyInviteText by wrapping after they're defined:
+  var _renderInviteInfo = window.renderInviteInfo || (typeof renderInviteInfo === 'function' ? renderInviteInfo : null);
+
+  function groupText(url) {
+    var name = '';
+    try {
+      name = (typeof getCurrentRoomName === 'function' ? getCurrentRoomName() : '')
+        || (window.appState && appState.currentRoom && appState.currentRoom.name)
+        || (typeof ROOM_ID === 'string' ? ROOM_ID : '');
+    } catch (e) {}
+    var link = url || (typeof getShareUrl === 'function' ? getShareUrl() : '');
+    return T('我邀请你加入 TeamLingua 小组「{name}」，一起免费练英语。还可以成为学习搭档：双人火苗、PK排行榜、共养宠物。用这个链接加入。成为学习搭档后，对方第一次学习我们各得 +50 积分；注册并完成首日 20 分钟学习，你还可以得 +20 新人积分 🎁 {url}', { name: name, url: link });
+  }
+  window.groupInviteShareText = groupText;
+
+  function enhanceShareModal() {
+    var modal = document.getElementById('shareModal');
+    if (!modal) return;
+    var card = modal.querySelector(':scope > div');
+    if (card) card.classList.add('tl-invite-card');
+    var icon = modal.querySelector('.w-9.h-9');
+    if (icon && !icon.classList.contains('tl-invite-badge')) {
+      icon.className = 'tl-invite-badge';
+      icon.innerHTML = '💕';
+    }
+    var title = document.getElementById('shareModalTitle');
+    if (title) {
+      var span = title.querySelector('[data-i18n]') || title;
+      setText(span, '邀请学习搭档');
+      title.setAttribute('title', T('邀请学习搭档，第一次学习后各得 +50 积分'));
+      title.setAttribute('data-i18n-title', '邀请学习搭档，第一次学习后各得 +50 积分');
+    }
+    if (!document.getElementById('tlInviteHeroExtras')) {
+      var host = title && title.parentNode && title.parentNode.parentNode;
+      if (host && host.parentNode) {
+        var extras = document.createElement('div');
+        extras.id = 'tlInviteHeroExtras';
+        extras.innerHTML =
+          '<p class="tl-invite-lead">' + T('免费团队英语练习 · 找一位搭档每天一起学') + '</p>' +
+          '<ul class="tl-invite-feats">' +
+            '<li><span class="ico">🔥</span>' + T('双人火苗：两人一起打卡，火苗才算数') + '</li>' +
+            '<li><span class="ico">🏆</span>' + T('PK 排行榜：按做题数比一比，看谁练得更多') + '</li>' +
+            '<li><span class="ico">🐾</span>' + T('共养宠物：一起喂养，情侣还有专属装扮') + '</li>' +
+          '</ul>' +
+          '<button type="button" id="tlInvitePartnerBtn">💕 ' + T('去邀请学习搭档') + '</button>';
+        var titleRow = host;
+        titleRow.insertAdjacentElement('afterend', extras);
+        extras.querySelector('#tlInvitePartnerBtn').addEventListener('click', function () {
+          try { if (window.closeShareModal) closeShareModal(); } catch (e) {}
+          try {
+            if (window.openPartnerPage) openPartnerPage();
+            setTimeout(function () {
+              var b = document.querySelector('#tlpPage [data-tlp=invite]');
+              if (b) b.click();
+            }, 250);
+          } catch (e) {}
+        });
+      }
+    }
+    var resBtn = document.getElementById('openResultCardBtn');
+    if (resBtn) setText(resBtn, '📸 生成练习结果卡，邀请学习搭档');
+    var petBtn = document.getElementById('openPetCardBtn');
+    if (petBtn) setText(petBtn, '🐾 生成宠物卡片，邀请学习搭档');
+    var nat = document.getElementById('inviteNativeShareBtn');
+    if (nat) setText(nat, '📤 分享给朋友');
+    var copyT = document.getElementById('inviteCopyTextBtn');
+    if (copyT) setText(copyT, '📋 复制邀请文案');
+    var lab = modal.querySelector('label[for="inviteTextBox"]');
+    if (lab) setText(lab, '邀请文案（可直接发微信 / Facebook）');
+    var reward = document.getElementById('inviteRewardInfo');
+    if (reward && !reward.getAttribute('data-tl50')) {
+      reward.setAttribute('data-tl50', '1');
+      reward.innerHTML =
+        '<p>💕 <strong>' + T('学习搭档邀请') + '</strong>：' + T('对方接受邀请并完成第一次学习（做 5 道题）后，你们各得 +50 积分。本月邀请奖励有上限，也不会和原来的邀请奖励重复发放。') + '</p>' +
+        '<p id="inviteeRewardNote" class="mt-1">' + T('用上面的专属链接注册并完成首日 20 分钟学习，邀请人得 +50 积分，朋友得 +20 积分新人奖励（每月最多 10 人；自己的小号、在你设备上注册的账号不算）。') + '</p>' +
+        '<p id="inviteStatsText" class="mt-1.5 font-semibold"></p>';
+    }
+  }
+
+  function patchStaticCopy() {
+    var hs = document.getElementById('headerShareBtn');
+    if (hs) {
+      hs.setAttribute('title', T('邀请学习搭档，第一次学习后各得 +50 积分'));
+      hs.setAttribute('data-i18n-title', '邀请学习搭档，第一次学习后各得 +50 积分');
+    }
+    var lb = document.getElementById('inviteLeaderboardBanner');
+    if (lb) setText(lb, '💕 邀请学习搭档 · 各得 +50 积分');
+    var fq = document.getElementById('firstQInviteBtn');
+    if (fq) setText(fq, '💕 邀请学习搭档 · 各得 +50 积分');
+    var goalBtn = document.querySelector('.goal-toast-invite');
+    if (goalBtn) setText(goalBtn, '邀请学习搭档一起学，第一次学习后各得 +50');
+    var gTitle = document.getElementById('groupInviteSheetTitle');
+    if (gTitle) setText(gTitle, '邀请进小组');
+    var gP = document.querySelector('#groupInviteSheet p[data-i18n]');
+    if (gP) setText(gP, '小组成员都可以邀请朋友加入，一起免费练英语。进组后也可以成为学习搭档：双人火苗、PK排行榜、共养宠物。用你的专属链接，对方进组后完成首日学习，你还能拿邀请积分。');
+    var gBtn = document.getElementById('inviteToGroupBtn');
+    if (gBtn) setText(gBtn, '邀请进小组');
+    var rcSub = document.querySelector('#resultCardSheet .rc-sub');
+    if (rcSub) setText(rcSub, '生成你的练习结果卡，邀请学习搭档一起学');
+    enhanceShareModal();
+  }
+
+  // Wrap openShareModal / renderInviteInfo / showInviteBannerIfAny once they exist
+  function wrap() {
+    if (typeof window.openShareModal === 'function' && !window.openShareModal.__tl50) {
+      var orig = window.openShareModal;
+      window.openShareModal = function () {
+        enhanceShareModal();
+        var r = orig.apply(this, arguments);
+        try {
+          var itb = document.getElementById('inviteTextBox');
+          var url = (typeof myInviteUrl === 'function' && myInviteUrl()) || (typeof getShareUrl === 'function' && getShareUrl()) || '';
+          if (itb && url) itb.value = window.inviteShareText(url);
+        } catch (e) {}
+        return r;
+      };
+      window.openShareModal.__tl50 = true;
+    }
+    if (typeof window.renderInviteInfo === 'function' && !window.renderInviteInfo.__tl50) {
+      var ri = window.renderInviteInfo;
+      window.renderInviteInfo = function () {
+        var r = ri.apply(this, arguments);
+        try {
+          var itb = document.getElementById('inviteTextBox');
+          var url = (typeof myInviteUrl === 'function' && myInviteUrl()) || (typeof getShareUrl === 'function' && getShareUrl()) || '';
+          if (itb && url) itb.value = window.inviteShareText(url);
+        } catch (e) {}
+        return r;
+      };
+      window.renderInviteInfo.__tl50 = true;
+    }
+    if (typeof window.groupInviteShareText === 'function' && !window.groupInviteShareText.__tl50) {
+      window.groupInviteShareText = groupText;
+      window.groupInviteShareText.__tl50 = true;
+    }
+    if (typeof window.showInviteBannerIfAny === 'function' && !window.showInviteBannerIfAny.__tl50) {
+      var sib = window.showInviteBannerIfAny;
+      window.showInviteBannerIfAny = async function () {
+        var r = await sib.apply(this, arguments);
+        try {
+          var el = document.getElementById('inviteBanner');
+          if (el && !el.classList.contains('hidden') && el.textContent) {
+            /* keep the implemented legacy peek message, then add 学习搭档 context */
+            if (el.textContent.indexOf('学习搭档') < 0) {
+              el.textContent = el.textContent + ' ' + T('在这里也可以邀请学习搭档，一起打卡涨双人火苗、PK排行榜、共养宠物。');
+            }
+          }
+        } catch (e) {}
+        return r;
+      };
+      window.showInviteBannerIfAny.__tl50 = true;
+    }
+  }
+
+  /* ---------- result card canvas ---------- */
+  function rr(ctx, x, y, w, h, r) {
+    if (typeof rcRoundRect === 'function') { rcRoundRect(ctx, x, y, w, h, r); return; }
+    var rad = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rad, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rad);
+    ctx.arcTo(x + w, y + h, x, y + h, rad);
+    ctx.arcTo(x, y + h, x, y, rad);
+    ctx.arcTo(x, y, x + w, y, rad);
+    ctx.closePath();
+  }
+  function font(px, w) {
+    if (typeof rcFont === 'function') return rcFont(px, w);
+    return (w ? (w + ' ') : '700 ') + px + 'px "PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
+  }
+
+  window.buildResultCardCanvas = async function (data) {
+    if (typeof rcWaitFonts === 'function') { try { await rcWaitFonts(); } catch (e) {} }
+    var W = 768, H = 1024, S = 2;
+    var cv = document.createElement('canvas');
+    cv.width = W * S; cv.height = H * S;
+    var ctx = cv.getContext('2d');
+    ctx.scale(S, S);
+    ctx.textBaseline = 'middle';
+    var blush = ctx.createLinearGradient(0, 620, 0, H);
+    blush.addColorStop(0, '#FCE7F3'); blush.addColorStop(1, '#FFF7FB');
+    ctx.fillStyle = blush; ctx.fillRect(0, 0, W, H);
+    var pink = ctx.createLinearGradient(0, 0, 0, 640);
+    pink.addColorStop(0, '#9D174D'); pink.addColorStop(0.55, '#DB2777'); pink.addColorStop(1, '#EC4899');
+    ctx.fillStyle = pink; ctx.fillRect(0, 0, W, 640);
+    var glow = ctx.createRadialGradient(W - 80, 70, 10, W - 80, 70, 380);
+    glow.addColorStop(0, 'rgba(255,236,153,0.4)'); glow.addColorStop(1, 'rgba(255,236,153,0)');
+    ctx.fillStyle = glow; ctx.fillRect(0, 0, W, 640);
+    [[66,192,3],[700,128,3],[128,584,3],[724,372,2],[32,436,2]].forEach(function (p) {
+      ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.beginPath(); ctx.arc(p[0], p[1], p[2], 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.fillStyle = '#FDE68A'; ctx.font = font(28); ctx.textAlign = 'center'; ctx.fillText('💕', 712, 228);
+    var lg = ctx.createLinearGradient(40, 36, 92, 88);
+    lg.addColorStop(0, '#FF8EC4'); lg.addColorStop(1, '#DB2777');
+    ctx.fillStyle = lg; rr(ctx, 40, 36, 52, 52, 14); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = font(26); ctx.textAlign = 'center'; ctx.fillText('💕', 66, 63);
+    ctx.font = font(26); ctx.textAlign = 'left'; ctx.fillStyle = '#fff'; ctx.fillText('TeamLingua', 106, 54);
+    ctx.font = font(16, 600); ctx.fillStyle = 'rgba(255,241,247,0.92)'; ctx.fillText(T('学习搭档'), 106, 76);
+
+    var name = String(data.name || '').slice(0, 14);
+    ctx.font = font(22);
+    var nw = ctx.measureText(name).width;
+    var pw = nw + 92, px = (W - pw) / 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.16)'; rr(ctx, px, 118, pw, 62, 31); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 2; rr(ctx, px, 118, pw, 62, 31); ctx.stroke();
+    ctx.fillStyle = data.avatarHex || '#DB2777'; ctx.beginPath(); ctx.arc(px + 33, 149, 22, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = font(22); ctx.fillText(Array.from(name)[0] ? Array.from(name)[0].toUpperCase() : '?', px + 33, 150);
+    ctx.textAlign = 'left'; ctx.fillText(name, px + 68, 150);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fff';
+    ctx.font = font(36);
+    var line1 = T('我今天练了 {minutes} 分钟，', { minutes: String(data.minutes) });
+    ctx.fillText(line1, W / 2, 236);
+    ctx.font = font(36);
+    if (data.todayPoints != null) ctx.fillText(T('得了 {n} 分！', { n: String(data.todayPoints) }), W / 2, 286);
+    else ctx.fillText(T('已攒 {n} 积分！', { n: String(data.totalPoints) }), W / 2, 286);
+
+    var stats = [
+      data.todayPoints != null ? [String(data.todayPoints), T('今日积分')] : [String(data.totalPoints), T('总积分')],
+      [data.rank ? T('第 {n} 名', { n: data.rank }) : '—', T('排行榜')],
+      [T('{n} 天', { n: data.streak }), T('连续打卡')]
+    ];
+    var bw = 218, gap = 16, bx0 = (W - (bw * 3 + gap * 2)) / 2;
+    stats.forEach(function (s, i) {
+      var bx = bx0 + i * (bw + gap);
+      ctx.fillStyle = 'rgba(255,255,255,0.14)'; rr(ctx, bx, 330, bw, 100, 20); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = font(28); ctx.fillText(s[0], bx + bw / 2, 368);
+      ctx.font = font(16, 600); ctx.fillStyle = 'rgba(255,241,247,0.92)'; ctx.fillText(s[1], bx + bw / 2, 402);
+    });
+
+    ctx.fillStyle = 'rgba(255,255,255,0.16)'; rr(ctx, 48, 450, W - 96, 86, 22); ctx.fill();
+    ctx.fillStyle = '#FFF1F7'; ctx.font = font(18, 700);
+    ctx.fillText(T('学习搭档：双人火苗 · PK排行榜 · 共养宠物'), W / 2, 478);
+    ctx.font = font(16, 600); ctx.fillStyle = '#FDE68A';
+    ctx.fillText(T('成为学习搭档后，对方第一次学习，各得 +50 积分'), W / 2, 508);
+
+    ctx.fillStyle = '#FDE68A'; ctx.font = font(28);
+    ctx.fillText(T('一起来当学习搭档吧！'), W / 2 + 2, 575);
+    ctx.fillStyle = '#fff'; ctx.fillText(T('一起来当学习搭档吧！'), W / 2, 572);
+
+    ctx.fillStyle = 'rgba(157,23,77,0.10)'; rr(ctx, 40, 640, W - 80, 362, 30); ctx.fill();
+    ctx.fillStyle = '#ffffff'; rr(ctx, 40, 630, W - 80, 362, 30); ctx.fill();
+
+    var qb = 238, qx = (W - qb) / 2, qy = 646;
+    ctx.fillStyle = '#ffffff'; rr(ctx, qx, qy, qb, qb, 22); ctx.fill();
+    ctx.strokeStyle = '#F9A8D4'; ctx.lineWidth = 4; rr(ctx, qx, qy, qb, qb, 22); ctx.stroke();
+    if (data.url && typeof qrcode === 'function') {
+      var qr = qrcode(0, 'M'); qr.addData(data.url); qr.make();
+      var n = qr.getModuleCount(), area = qb - 36, cell = area / n;
+      ctx.fillStyle = '#9D174D';
+      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+        if (qr.isDark(r, c)) ctx.fillRect(Math.floor(qx + 18 + c * cell), Math.floor(qy + 18 + r * cell), Math.ceil(cell), Math.ceil(cell));
+      }
+    }
+    ctx.fillStyle = '#831843'; ctx.font = font(20, 700);
+    ctx.fillText(T('扫码免费练英语，邀请学习搭档'), W / 2, 910);
+    ctx.fillStyle = '#BE185D'; ctx.font = font(18, 600);
+    ctx.fillText(T('免费团队英语练习 · 共养宠物 🐾'), W / 2, 944);
+    return cv;
+  };
+
+  /* ---------- pet share card canvas ---------- */
+  window.buildPetShareCardCanvas = async function (opts) {
+    var pet = (typeof currentPetRecord === 'function') ? currentPetRecord() : null;
+    if (!pet) throw new Error(T('请先领养一只宠物'));
+    if (typeof rcWaitFonts === 'function') { try { await rcWaitFonts(); } catch (e) {} }
+    var W = 768, H = 1024, S = 2;
+    var cv = document.createElement('canvas');
+    cv.width = W * S; cv.height = H * S;
+    var ctx = cv.getContext('2d');
+    ctx.scale(S, S);
+    ctx.textBaseline = 'middle';
+    var blush = ctx.createLinearGradient(0, 620, 0, H);
+    blush.addColorStop(0, '#FCE7F3'); blush.addColorStop(1, '#FFF7FB');
+    ctx.fillStyle = blush; ctx.fillRect(0, 0, W, H);
+    var pink = ctx.createLinearGradient(0, 0, 0, 660);
+    pink.addColorStop(0, '#9D174D'); pink.addColorStop(0.55, '#DB2777'); pink.addColorStop(1, '#EC4899');
+    ctx.fillStyle = pink; ctx.fillRect(0, 0, W, 660);
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    rr(ctx, 48, 48, W - 96, 560, 28); ctx.fill();
+    ctx.fillStyle = '#FDE68A';
+    ctx.font = '700 26px Fredoka, "Noto Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('TeamLingua · ' + T('学习搭档'), W / 2, 84);
+    var src = (typeof petImageSrc === 'function') ? petImageSrc(pet.species, pet.stage) : '';
+    if (src) {
+      try {
+        var img = await loadPetCardImage(src);
+        var size = 340, x = (W - size) / 2, y = 130;
+        ctx.drawImage(img, x, y, size, size);
+      } catch (e) {}
+    }
+    var worn = (typeof petNormalizeIdList === 'function') ? petNormalizeIdList(pet.equipped) : [];
+    ctx.font = '64px "Apple Color Emoji","Noto Color Emoji",sans-serif';
+    worn.forEach(function (id, i) {
+      var em = (typeof petAccessoryEmoji === 'function') ? petAccessoryEmoji(id) : '';
+      if (em) ctx.fillText(em, W / 2 - 90 + i * 70, 150);
+    });
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 44px Fredoka, "Noto Sans", sans-serif';
+    ctx.fillText(String(pet.name || ''), W / 2, 500);
+    var stageLabel = T((typeof PET_STAGE_LABEL !== 'undefined' && PET_STAGE_LABEL[pet.stage]) || '') || (pet.stage || '');
+    var species = (typeof petSpeciesLabel === 'function') ? petSpeciesLabel(pet.species) : (pet.species || '');
+    ctx.font = '600 22px Fredoka, "Noto Sans", sans-serif';
+    ctx.fillStyle = '#FFE4F1';
+    ctx.fillText(String(species) + ' · ' + String(stageLabel), W / 2, 548);
+
+    var user = (window.appState && appState.currentUser) || {};
+    var streak = (pet.checkin_streak != null) ? pet.checkin_streak : (user.checkinStreak || user.streak || 0);
+    var points = (appState.petStatus && appState.petStatus.points != null) ? appState.petStatus.points : (user.points || 0);
+    var title = (typeof getMemberNobleTitle === 'function') ? getMemberNobleTitle(user) : null;
+    var titleName = (typeof titleLabelOf === 'function') ? titleLabelOf(title) : ((title && title.name) || '');
+    var lang = (typeof getLang === 'function' && getLang()) || 'zh';
+    var noQr = !!(opts && opts.noQr);
+    var code = (appState.inviteInfo && appState.inviteInfo.code) ? String(appState.inviteInfo.code) : '';
+    var qrUrl = (typeof getPetCardQrUrl === 'function') ? getPetCardQrUrl() : ('https://teamlingua.github.io/?src=share' + (code ? ('&invite=' + encodeURIComponent(code)) : ''));
+    window.__petCardDrawText = [];
+    var write = function (text, x, y) {
+      var s = (text == null) ? '' : String(text);
+      window.__petCardDrawText.push(s);
+      ctx.fillText(s, x, y);
+    };
+    var wrapLines = function (text, maxWidth) {
+      var src = String(text || '');
+      var lines = [], line = '';
+      var flush = function () { if (line) { lines.push(line); line = ''; } };
+      var tokens = src.split(/(\s+)/);
+      for (var i = 0; i < tokens.length; i++) {
+        var tok = tokens[i];
+        if (!tok) continue;
+        if (ctx.measureText(line + tok).width <= maxWidth) { line += tok; continue; }
+        if (/^\s+$/.test(tok)) { flush(); continue; }
+        if (ctx.measureText(tok).width <= maxWidth) { flush(); line = tok.replace(/^\s+/, ''); continue; }
+        for (var j = 0; j < tok.length; j++) {
+          var ch = tok.charAt(j);
+          if (line && ctx.measureText(line + ch).width > maxWidth) flush();
+          line += ch;
+        }
+      }
+      flush();
+      return lines;
+    };
+
+    var padL = 48, qb = 196, qx = W - 40 - qb, qy = 668;
+    var textRight = noQr ? (W - padL) : (qx - 20);
+    var maxTextW = Math.max(200, textRight - padL);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#9D174D';
+    ctx.font = '700 22px Fredoka, "Noto Sans", "Noto Sans SC", "PingFang SC", sans-serif';
+    var hook = T('我和宠物已连签{days}天。你的宠物能超过我们吗？', { days: streak });
+    var hookSentences = String(hook).split(/(?<=[。！？])\s*|(?<=[.!?])\s+/).map(function (s) { return s.trim(); }).filter(Boolean);
+    var hookLines = [];
+    (hookSentences.length ? hookSentences : [hook]).forEach(function (sentence) {
+      var parts = wrapLines(sentence, maxTextW);
+      if (parts.length) hookLines.push.apply(hookLines, parts);
+    });
+    var y = 684;
+    hookLines.slice(0, 3).forEach(function (ln) { write(ln, padL, y); y += 28; });
+    ctx.fillStyle = '#BE185D';
+    ctx.font = '700 18px Fredoka, "Noto Sans", "Noto Sans SC", "PingFang SC", sans-serif';
+    write(T('学习搭档：双人火苗 · PK排行榜 · 共养宠物'), padL, y); y += 28;
+    ctx.fillStyle = '#9D174D';
+    ctx.font = '600 17px Fredoka, "Noto Sans", "Noto Sans SC", "PingFang SC", sans-serif';
+    var promo = wrapLines(T('成为学习搭档后，对方第一次学习各得 +50 积分'), maxTextW);
+    promo.slice(0, 2).forEach(function (ln) { write(ln, padL, y); y += 24; });
+    ctx.fillStyle = '#831843';
+    ctx.font = '700 20px Fredoka, "Noto Sans", sans-serif';
+    var stats = T('{points} 积分', { points: points }) + (titleName ? (' · ' + titleName) : '');
+    write(stats, padL, Math.max(y + 6, 820));
+    y = Math.max(y + 32, 846);
+    ctx.fillStyle = '#9D174D';
+    ctx.font = '600 16px Fredoka, "Noto Sans", "Noto Sans SC", "PingFang SC", sans-serif';
+    write(T('用邀请码注册还可领 +20 新人积分'), padL, y);
+    if (code) {
+      y += 36;
+      ctx.font = '700 36px Fredoka, "Noto Sans", sans-serif';
+      ctx.fillStyle = '#4A044E';
+      write(code, padL, y);
+    }
+    var drewUrl = false, drewWeChat = false;
+    if (!noQr) {
+      ctx.fillStyle = '#ffffff'; rr(ctx, qx, qy, qb, qb, 16); ctx.fill();
+      ctx.strokeStyle = '#DB2777'; ctx.lineWidth = 2; rr(ctx, qx, qy, qb, qb, 16); ctx.stroke();
+      if (typeof qrcode === 'function') {
+        var qr = qrcode(0, 'M'); qr.addData(qrUrl); qr.make();
+        var n = qr.getModuleCount(), inset = 14, area = qb - inset * 2, cell = area / n;
+        ctx.fillStyle = '#9D174D';
+        for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+          if (qr.isDark(r, c)) ctx.fillRect(Math.floor(qx + inset + c * cell), Math.floor(qy + inset + r * cell), Math.ceil(cell), Math.ceil(cell));
+        }
+      }
+      ctx.textAlign = 'left';
+      ctx.font = '500 16px "Noto Sans", sans-serif';
+      ctx.fillStyle = '#9D174D';
+      write('teamlingua.github.io', padL, 1000);
+      drewUrl = true;
+      if (lang === 'zh') {
+        ctx.font = '600 15px "Noto Sans", "Noto Sans SC", "PingFang SC", sans-serif';
+        ctx.fillStyle = '#4A044E';
+        write(T('加客服微信 TeamLingua，进学习打卡群'), padL, 974);
+        drewWeChat = true;
+      }
+    }
+    window.__petCardMeta = { noQr: noQr, url: qrUrl, code: code, lang: lang, streak: streak, hasQr: !noQr, hasWeChat: drewWeChat, hasUrl: drewUrl, hook: hook };
+    return cv;
+  };
+
+  function boot() {
+    patchStaticCopy();
+    wrap();
+    setTimeout(wrap, 0);
+    setTimeout(wrap, 800);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 
 </script>
