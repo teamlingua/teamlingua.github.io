@@ -788,7 +788,7 @@ body.theme-b #petNavModal,
 body.theme-b #stealInboxModal {
   background: rgba(42, 18, 80, 0.62) !important;
 }
-body.theme-b #loginModal > div,
+body.theme-b #loginModal > .tl-login-stack > .tl-login-card,
 body.theme-b #shareModal > div,
 body.theme-b #flagModal > div,
 body.theme-b #pointsRulesModal > div,
@@ -1891,7 +1891,8 @@ body.theme-b #heroStats .hero-stat span {
 
     <!-- 1. 极简账号注册 / 登录模态框 -->
     <div id="loginModal" class="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200/80 max-w-md w-full p-6 sm:p-8 animate-float-up my-auto">
+        <div class="tl-login-stack flex flex-col items-center w-full max-w-md my-auto">
+        <div class="tl-login-card bg-white rounded-3xl shadow-2xl border border-slate-200/80 w-full p-6 sm:p-8 animate-float-up">
             <!-- 顶部品牌与切换按钮 -->
             <div class="flex items-center justify-between mb-5">
                 <div class="flex items-center gap-3">
@@ -1980,6 +1981,41 @@ body.theme-b #heroStats .hero-stat span {
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </button>
             </form>
+        </div>
+            <style>
+              /* release45-featured-on */
+              .tl-featured-on { margin-top: 8px; width: 100%; text-align: center; background: rgba(255,255,255,0.96); border: 1px solid rgba(253,230,138,0.7); border-radius: 16px; padding: 6px 8px 5px; box-shadow: 0 8px 20px rgba(42,18,80,0.12); }
+              .tl-featured-on__label { margin: 0 0 4px; font-size: 8px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #94a3b8; }
+              .tl-featured-on__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 6px; }
+              .tl-featured-on__row a { display: inline-flex; line-height: 0; text-decoration: none; border: 0; }
+              .tl-featured-on__row img { height: 29px; width: auto; display: block; opacity: 0.88; transition: opacity 0.15s ease; }
+              .tl-featured-on__row a:hover img, .tl-featured-on__row a:focus img { opacity: 1; }
+              .tl-featured-on__copy { margin: 4px 0 0; font-size: 9px; color: #94a3b8; }
+            </style>
+            <div class="tl-featured-on" id="tlFeaturedOn">
+                <p class="tl-featured-on__label">Featured on</p>
+                <div class="tl-featured-on__row">
+                    <a href="https://launchigniter.com" target="_blank" rel="noopener" title="LaunchIgniter">
+                        <img src="https://launchigniter.com/api/badge/teamlingua?theme=light" alt="Featured on LaunchIgniter" width="212" height="55">
+                    </a>
+                    <a href="https://turbo0.com/item/teamlingua" target="_blank" rel="noopener noreferrer" title="Turbo0">
+                        <img src="https://img.turbo0.com/badge-listed-light.svg" alt="Listed on Turbo0" width="200" height="66">
+                    </a>
+                    <a href="https://fazier.com" target="_blank" rel="noopener" title="Fazier">
+                        <img src="https://fazier.com/api/v1/public/badges/launch_badges.svg?badge_type=featured&amp;theme=light" alt="Featured on Fazier" width="182" height="43">
+                    </a>
+                    <a href="https://twelve.tools" target="_blank" rel="noopener" title="Twelve Tools">
+                        <img src="https://twelve.tools/badge0-light.svg" alt="Featured on Twelve Tools" width="200" height="54">
+                    </a>
+                    <a href="https://startuptrusted.com" target="_blank" rel="noopener" title="StartupTrusted">
+                        <img src="https://startuptrusted.com/api/badge?type=featured&amp;style=light" alt="Featured on StartupTrusted" width="240" height="54">
+                    </a>
+                    <a href="https://findly.tools" target="_blank" rel="noopener noreferrer" title="Findly.tools">
+                        <img src="https://findly.tools/badges/findly-tools-badge-light.svg" alt="FEATURED ON Findly.tools" width="139" height="44">
+                    </a>
+                </div>
+                <p class="tl-featured-on__copy">&copy; 2026 TeamLingua</p>
+            </div>
         </div>
     </div>
 
@@ -3021,7 +3057,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 44; // release44-bond-bar
+        window.__TL_RELEASE = 45; // release45-featured-on
         function sanitizeRoomSlug(raw) {
             const s = String(raw || '').trim().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48);
             return s || '';
