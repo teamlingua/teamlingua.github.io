@@ -1401,6 +1401,13 @@ body.theme-b #heroStats .hero-stat span {
         .pet-acc-bow { z-index: 4; }
         .pet-acc-hat { z-index: 5; }
         /* release43-pet-care */
+        /* release44-bond-bar: these utilities were used by pet mood/bond bars but
+           missing from the prebuilt Tailwind bundle, so the bar fill was invisible. */
+        .bg-pink-400{--tw-bg-opacity:1;background-color:rgb(244 114 182/var(--tw-bg-opacity,1))}
+        .bg-pink-500{--tw-bg-opacity:1;background-color:rgb(236 72 153/var(--tw-bg-opacity,1))}
+        .bg-rose-300{--tw-bg-opacity:1;background-color:rgb(253 164 175/var(--tw-bg-opacity,1))}
+        .bg-rose-400{--tw-bg-opacity:1;background-color:rgb(251 113 133/var(--tw-bg-opacity,1))}
+        .bg-sky-400{--tw-bg-opacity:1;background-color:rgb(56 189 248/var(--tw-bg-opacity,1))}
         .pet-pick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
         @media (min-width: 640px) {
             .pet-pick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -3014,7 +3021,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 43; // release43-pet-care
+        window.__TL_RELEASE = 44; // release44-bond-bar
         function sanitizeRoomSlug(raw) {
             const s = String(raw || '').trim().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48);
             return s || '';
