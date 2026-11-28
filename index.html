@@ -2023,6 +2023,290 @@ body.theme-b #heroStats .hero-stat span {
         #dictationAnswerInput { font-size: 16px; }
         @media (min-width: 640px) { #dictationAnswerInput { font-size: 14px; } }
 </style>
+<style id="tlpStyle">
+/* release48-study-partners */
+#tlpPage{position:fixed;inset:0;z-index:29;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:var(--tlp-hh,64px);
+  background:linear-gradient(180deg,#4C1D95 0%,#6D28D9 160px,#FFF3E0 420px,#FFE8CC 100%);color:#2A1240;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+#tlpPage.hidden,#tlpModal.hidden{display:none!important}
+.tlp-wrap{max-width:480px;margin:0 auto;padding:0 14px 40px}
+.tlp-bar{display:flex;align-items:center;gap:8px;padding:12px 0 10px;color:#fff}
+.tlp-back{width:34px;height:34px;border-radius:12px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;font-size:18px;line-height:1}
+.tlp-bar h1{font-family:"Fredoka","PingFang SC","Microsoft YaHei",sans-serif;font-weight:700;font-size:19px;color:#fff;margin:0;letter-spacing:-.01em}
+.tlp-bar .tlp-sub{margin-left:auto;font-size:12px;font-weight:700;color:rgba(255,255,255,.9);background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px 10px;cursor:pointer;white-space:nowrap}
+.tlp-card{background:#fff;border:2px solid #FDE68A;border-radius:22px;box-shadow:0 6px 0 rgba(124,45,18,.08);color:#2A1240}
+.tlp-couple{position:relative;overflow:hidden;border-radius:24px;padding:16px 16px 14px;color:#fff;background:linear-gradient(160deg,#7C3AED 0%,#DB2777 55%,#FB923C 140%);box-shadow:0 10px 0 rgba(88,28,135,.28)}
+.tlp-couple.tlp-friendhero{background:linear-gradient(160deg,#4F46E5 0%,#0EA5E9 70%,#22D3EE 140%)}
+.tlp-couple::after{content:"";position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12);pointer-events:none}
+.tlp-couple>*{position:relative;z-index:1}
+.tlp-rowb{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tlp-tag{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.28);font-size:11px;font-weight:800;color:#fff;white-space:nowrap}
+.tlp-tag.friend{background:#EEF2FF;color:#3730A3;border-color:#C7D2FE}
+.tlp-tag.match{background:#ECFEFF;color:#0E7490;border-color:#A5F3FC}
+.tlp-link{font-size:11px;font-weight:700;color:rgba(255,255,255,.88);text-decoration:underline;text-underline-offset:2px;background:none;border:0;padding:4px 0;cursor:pointer}
+.tlp-pair{display:flex;align-items:center;gap:10px;margin:12px 0 8px}
+.tlp-avs{display:flex;align-items:center}
+.tlp-av{width:36px;height:36px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;flex-shrink:0;background:#4F46E5}
+.tlp-av.lg{width:44px;height:44px;border-radius:16px;font-size:18px}
+.tlp-av.sm{width:26px;height:26px;border-radius:9px;font-size:12px}
+.tlp-av.ring{border:2px solid #fff;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.tlp-av.ov{margin-left:-10px}
+.tlp-names{font-family:"Fredoka","PingFang SC","Microsoft YaHei",sans-serif;font-size:20px;font-weight:700;line-height:1.15;color:#fff;word-break:break-all}
+.tlp-meta{font-size:12px;font-weight:600;opacity:.92;margin-top:2px}
+.tlp-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.tlp-stats.three{grid-template-columns:1fr 1fr 1fr}
+.tlp-stat{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:8px 6px 7px;text-align:center}
+.tlp-stat b{display:block;font-family:"Fredoka","PingFang SC",sans-serif;font-size:18px;font-weight:700;line-height:1.15}
+.tlp-stat span{display:block;font-size:10px;font-weight:600;opacity:.88;margin-top:2px}
+.tlp-checks{display:flex;gap:8px;margin-bottom:10px}
+.tlp-check{flex:1;min-width:0;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.18);border-radius:12px;padding:6px 8px;font-size:11px;font-weight:700;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tlp-tick{width:18px;height:18px;border-radius:50%;background:#22C55E;color:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px}
+.tlp-tick.no{background:rgba(255,255,255,.25)}
+.tlp-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:44px;border-radius:16px;font-size:14px;font-weight:800;cursor:pointer;border:0;font-family:inherit}
+.tlp-gold{border:2px solid #FFF3A0;background:linear-gradient(180deg,#FFE566,#F5B400);color:#5B2C06;box-shadow:0 3px 0 #C2410C}
+.tlp-purple{background:linear-gradient(180deg,#8B5CF6,#6D28D9);color:#fff;box-shadow:0 4px 0 #4C1D95;height:48px;font-size:16px}
+.tlp-ghost{background:#fff;border:2px solid #E9D5FF;color:#5B21B6}
+.tlp-danger{background:#fff;border:2px solid #FDA4AF;color:#E11D48}
+.tlp-glass{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;height:36px;font-size:12px;border-radius:12px}
+.tlp-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.tlp-sec{display:flex;align-items:baseline;justify-content:space-between;margin:18px 2px 8px}
+.tlp-sec h2{font-family:"Fredoka","PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;font-weight:700;color:#2A1240;margin:0}
+.tlp-sec .tlp-count{font-size:11px;font-weight:700;color:#7C2D12}
+.tlp-list{display:flex;flex-direction:column;gap:8px}
+.tlp-friend{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;width:100%;text-align:left;font-family:inherit}
+.tlp-friend .tlp-info{flex:1;min-width:0}
+.tlp-fn{font-size:14px;font-weight:800;color:#2A1240;display:flex;align-items:center;gap:6px;min-width:0}
+.tlp-fn .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tlp-fmeta{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:3px;font-size:11px;font-weight:700;color:#64748B}
+.tlp-fmeta b{color:#2A1240}
+.tlp-chev{color:#C4B5FD;font-size:18px;font-weight:800}
+.tlp-slot{display:flex;align-items:center;justify-content:center;gap:8px;min-height:60px;padding:12px;border:2px dashed #FBBF24;background:rgba(255,255,255,.75);border-radius:22px;color:#9A3412;font-size:13px;font-weight:800;cursor:pointer;width:100%;font-family:inherit}
+.tlp-slot.couple{border-color:#F9A8D4;color:#9D174D;background:rgba(255,255,255,.85)}
+.tlp-plus{width:28px;height:28px;border-radius:10px;background:#FEF3C7;color:#B45309;display:inline-flex;align-items:center;justify-content:center;font-size:18px;line-height:1}
+.tlp-nudge{background:#FFF7ED;border:2px dashed #FB923C;color:#9A3412;border-radius:14px;padding:9px 12px;font-size:12.5px;font-weight:800;line-height:1.4;margin:8px 0}
+.tlp-nudge.info{background:#EEF2FF;border-color:#A5B4FC;color:#3730A3}
+.tlp-nudge.warn{background:#FFF1F2;border-color:#FDA4AF;color:#9F1239}
+.tlp-nudge button{margin-left:6px;background:#fff;border:1.5px solid currentColor;color:inherit;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:800;cursor:pointer}
+.tlp-mini{display:flex;gap:8px;flex-wrap:wrap}
+.tlp-pill{display:inline-flex;align-items:center;gap:5px;background:#F5F3FF;border:1px solid #DDD6FE;color:#5B21B6;border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:800}
+.tlp-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tlp-tile{padding:12px;cursor:pointer;text-align:left;font-family:inherit;width:100%}
+.tlp-tile b{display:block;font-size:14px;font-weight:800;color:#2A1240}
+.tlp-tile span{display:block;font-size:11px;font-weight:600;color:#64748B;margin-top:2px}
+.tlp-code-in{display:flex;gap:8px;padding:10px 12px;align-items:center}
+.tlp-code-in input{flex:1;min-width:0;height:38px;border:2px solid #E9D5FF;border-radius:12px;padding:0 10px;font-size:16px;font-weight:800;letter-spacing:.2em;color:#2A1240;background:#FAF5FF}
+.tlp-code-in button{height:38px;padding:0 14px;border-radius:12px;border:0;background:#6D28D9;color:#fff;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap}
+.tlp-badges{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px}
+.tlp-badge{display:inline-flex;align-items:center;gap:4px;background:#FEF3C7;border:1px solid #FCD34D;color:#92400E;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800}
+.tlp-muted{font-size:11.5px;color:#64748B;font-weight:600;line-height:1.5}
+/* modal */
+#tlpModal{position:fixed;inset:0;z-index:72;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}
+.tlp-modal{position:relative;width:100%;max-width:380px;background:#fff;border:2px solid #FDE68A;border-radius:24px;padding:18px 16px 16px;box-shadow:0 10px 0 rgba(88,28,135,.25);color:#2A1240;max-height:calc(100vh - 28px);overflow-y:auto}
+.tlp-modal h3{font-family:"Fredoka","PingFang SC","Microsoft YaHei",sans-serif;font-size:17px;font-weight:700;margin:0 30px 4px 0;line-height:1.3}
+.tlp-modal .tlp-lead{font-size:12px;color:#64748B;font-weight:600;margin-bottom:12px}
+.tlp-x{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1.5px solid #E2E8F0;background:#fff;color:#64748B;font-size:16px;line-height:1;cursor:pointer}
+.tlp-seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tlp-seg button{height:42px;border-radius:14px;border:2px solid #E2E8F0;background:#F8FAFC;font-weight:800;font-size:14px;color:#475569;cursor:pointer;font-family:inherit}
+.tlp-seg button.on{border-color:#F472B6;background:#FDF2F8;color:#9D174D;box-shadow:0 3px 0 #FBCFE8}
+.tlp-seg button.on.fr{border-color:#818CF8;background:#EEF2FF;color:#3730A3;box-shadow:0 3px 0 #C7D2FE}
+.tlp-seg.sm button{height:34px;font-size:12.5px;border-radius:12px}
+.tlp-seg.sm button.on{border-color:#7C3AED;background:#7C3AED;color:#fff;box-shadow:none}
+.tlp-codebox{background:#F5F3FF;border:2px solid #DDD6FE;border-radius:18px;padding:10px;text-align:center;margin-bottom:10px}
+.tlp-codebox small{font-size:11px;font-weight:800;color:#6D28D9}
+.tlp-digits{display:flex;justify-content:center;gap:6px;margin-top:6px}
+.tlp-digits span{width:36px;height:44px;border-radius:10px;background:#fff;border:2px solid #C4B5FD;display:flex;align-items:center;justify-content:center;font-family:"Fredoka",sans-serif;font-size:22px;font-weight:700;color:#2A1240}
+.tlp-qr{border:2px dashed #DDD6FE;border-radius:18px;padding:10px;text-align:center;margin-bottom:10px}
+.tlp-qr img,.tlp-qr svg{width:140px;height:140px;display:block;margin:0 auto;image-rendering:pixelated}
+.tlp-qr small{display:block;margin-top:4px;font-size:11px;color:#64748B;font-weight:700}
+.tlp-note{background:#FFF7ED;border:1.5px dashed #FDBA74;border-radius:12px;color:#9A3412;font-size:11.5px;font-weight:700;padding:7px 10px;text-align:center;margin-top:8px}
+.tlp-gap{display:flex;flex-direction:column;gap:8px}
+.tlp-warnline{display:flex;align-items:center;gap:8px;background:#FFF1F2;border:1px solid #FECDD3;color:#9F1239;border-radius:12px;padding:9px 10px;font-size:12px;font-weight:700;margin-bottom:8px}
+.tlp-hero{display:flex;flex-direction:column;align-items:center;text-align:center;margin:4px 0 12px}
+.tlp-hero h4{font-size:17px;font-weight:800;margin:8px 0 4px;line-height:1.35}
+.tlp-chk{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;font-weight:700;color:#475569;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:9px 10px;margin-bottom:10px;cursor:pointer;text-align:left}
+.tlp-chk input{margin-top:2px;width:16px;height:16px;accent-color:#7C3AED;flex-shrink:0}
+.tlp-emojis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}
+.tlp-emojis button{height:56px;border-radius:16px;border:2px solid #FDE68A;background:#FFFBEB;font-size:26px;cursor:pointer}
+.tlp-species{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.tlp-species button{border:2px solid #E2E8F0;background:#F8FAFC;border-radius:14px;padding:6px 4px;font-size:11.5px;font-weight:800;color:#475569;cursor:pointer;font-family:inherit}
+.tlp-species button.on{border-color:#7C3AED;background:#F5F3FF;color:#5B21B6}
+.tlp-species img{width:48px;height:48px;object-fit:contain;display:block;margin:0 auto 2px}
+.tlp-input{width:100%;height:40px;border:2px solid #E9D5FF;border-radius:12px;padding:0 10px;font-size:14px;font-weight:700;color:#2A1240;margin-bottom:10px;box-sizing:border-box}
+/* leaderboard */
+.tlp-lb{padding:8px}
+.tlp-lbrow{display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:14px}
+.tlp-lbrow+.tlp-lbrow{margin-top:2px}
+.tlp-lbrow.top1{background:#FEF9C3}.tlp-lbrow.top2{background:#F1F5F9}.tlp-lbrow.top3{background:#FFEDD5}
+.tlp-lbrow.me{background:#F5F3FF;border:2px solid #A78BFA}
+.tlp-rank{width:26px;text-align:center;font-weight:800;font-size:14px;color:#64748B;flex-shrink:0}
+.tlp-lbn{flex:1;min-width:0;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tlp-lbs{font-family:"Fredoka",sans-serif;font-weight:700;font-size:15px;white-space:nowrap}
+.tlp-lbs small{font-size:11px;color:#64748B;font-weight:700;margin-left:1px}
+.tlp-mine{position:sticky;bottom:10px;margin-top:12px;display:flex;align-items:center;gap:8px;padding:10px 12px;border-color:#A78BFA}
+.tlp-mine .lbl{font-size:10.5px;font-weight:800;color:#6D28D9;background:#EDE9FE;border-radius:999px;padding:3px 8px;white-space:nowrap}
+/* pet */
+.tlp-petcard{padding:16px 14px;text-align:center}
+.tlp-pethead{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:#475569}
+.tlp-petstage{position:relative;width:180px;height:180px;margin:6px auto 4px}
+.tlp-petstage .pet-avatar-wrap{width:100%;height:100%}
+.tlp-petstage .pet-art-inner{width:180px!important;height:180px!important}
+.tlp-crown{position:absolute;left:50%;top:-6px;transform:translateX(-50%);font-size:34px;z-index:8;filter:drop-shadow(0 2px 0 rgba(0,0,0,.15));pointer-events:none}
+.tlp-petstage.couple::before{content:"";position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle,#FCE7F3 0%,rgba(252,231,243,0) 70%)}
+.tlp-petstage.friend::before{content:"";position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle,#E0F2FE 0%,rgba(224,242,254,0) 70%)}
+.tlp-excl{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(180deg,#FFE566,#F5B400);border:1.5px solid #FFF3A0;color:#5B2C06;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:800;box-shadow:0 2px 0 #C2410C}
+.tlp-excl.fr{background:#E0F2FE;border-color:#BAE6FD;color:#075985;box-shadow:0 2px 0 #7DD3FC}
+.tlp-petname{font-family:"Fredoka","PingFang SC",sans-serif;font-size:22px;font-weight:700;margin-top:8px}
+.tlp-bars{margin:10px 0;text-align:left}
+.tlp-barl{display:flex;justify-content:space-between;font-size:11.5px;font-weight:800;color:#475569;margin:8px 0 4px}
+.tlp-bart{height:10px;border-radius:999px;background:#F1F5F9;overflow:hidden}
+.tlp-barf{height:100%;border-radius:999px;background:linear-gradient(90deg,#FDE047,#F59E0B)}
+.tlp-barf.mood{background:linear-gradient(90deg,#86EFAC,#059669)}
+.tlp-share img{width:100%;border-radius:16px;display:block;margin-bottom:10px}
+#tlpHeroTile{cursor:pointer;position:relative;font-family:inherit;color:inherit;border:0}
+#tlpHeroTile .tlp-dot{position:absolute;top:5px;right:6px;width:8px;height:8px;border-radius:50%;background:#F43F5E;box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.tlp-toastline{font-size:12px}
+@media (max-width:374.98px){.tlp-names{font-size:17px}.tlp-stat b{font-size:16px}.tlp-digits span{width:32px;height:40px;font-size:20px}.tlp-actions .tlp-btn{font-size:11.5px}}
+@media (min-width:768px){.tlp-wrap{padding-top:6px}}
+
+/* release48: partner tile joins the release47 one-row stats grid as a 6th column */
+#heroStats.tlp-6,body.theme-b #heroStats.tlp-6{grid-template-columns:repeat(6,minmax(0,1fr)) !important}
+@media (max-width:399.98px){#heroStats.tlp-6 .hero-stat b,body.theme-b #heroStats.tlp-6 .hero-stat b{font-size:12px !important}#heroStats.tlp-6 .hero-stat span,body.theme-b #heroStats.tlp-6 .hero-stat span{font-size:7.5px !important}}
+
+/* release48-desktop-header: single 64px row at ≥640px; mobile (max-width 639.98px) is untouched */
+@media (min-width: 640px) {
+  #appHeaderInner {
+    height: 64px !important;
+    max-height: 64px;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    overflow: visible;
+  }
+  #headerClusterLeft,
+  #headerClusterCenter,
+  #headerClusterRight,
+  #appHeaderTimer,
+  #appHeaderTimer > div {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    min-width: 0;
+  }
+  #headerClusterCenter,
+  #appHeaderTimer {
+    flex: 0 0 auto;
+    overflow: visible;
+    height: auto !important;
+    max-height: 40px;
+    white-space: nowrap;
+  }
+  #appHeaderTimer {
+    box-sizing: border-box;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  #appHeaderTimer > div { flex-shrink: 0; }
+  #headerStudyTimer {
+    display: inline !important;
+    white-space: nowrap;
+  }
+  #cloudSyncNavBadge { white-space: nowrap; }
+  #headerBrand {
+    flex-shrink: 0 !important;
+    min-width: max-content;
+  }
+  #headerBrand .font-display {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap;
+  }
+  #headerClusterLeft { flex: 0 1 auto; }
+  #headerClusterRight { flex: 0 1 auto; }
+  #headerLangTools,
+  #headerRefreshBtn,
+  #headerPointsBtn,
+  #headerShareBtn,
+  #headerFlagBtn,
+  #petNavBtn,
+  #installAppBtn,
+  #notifyToggleBtn { flex-shrink: 0; }
+  #userProfileChip { flex: 0 1 auto; min-width: 0; }
+}
+
+/* Tight desktop (640–1279): keep every control, shorten labels */
+@media (min-width: 640px) and (max-width: 1279.98px) {
+  #headerBrand .font-display { font-size: 0.875rem !important; }
+  #appHeaderInner {
+    gap: 0.4rem !important;
+    padding-left: 0.7rem !important;
+    padding-right: 0.7rem !important;
+  }
+  #headerClusterLeft,
+  #headerClusterRight { gap: 0.3rem !important; }
+  #appHeaderTimer [data-i18n="今日学习："] { display: none !important; }
+  #cloudSyncNavBadge { display: none !important; }
+  #installAppBtn .install-label,
+  #notifyToggleBtn #notifyToggleLabel { display: none !important; }
+  #headerPointsBtn [data-i18n="| 规则"] { display: none !important; }
+  #headerFlagBtn [data-i18n="立今日 Flag"] { display: none !important; }
+  #headerFlagBtn .header-flag-label-sm { display: inline !important; }
+  #appHeaderInner .header-action-btn {
+    padding-left: 0.45rem !important;
+    padding-right: 0.45rem !important;
+  }
+  #userProfileChip {
+    gap: 0.25rem !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+    max-width: 10.5rem;
+  }
+  #navUserName { max-width: 4.25rem !important; }
+  #navUserLevel { display: none !important; }
+}
+
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  #userProfileChip { max-width: 9.5rem; }
+  #navUserTitleBadge {
+    max-width: 3.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* 1280–1439: action labels return; timer stays on one line so it cannot sit on the 积分 button */
+@media (min-width: 1280px) and (max-width: 1439.98px) {
+  #appHeaderInner {
+    gap: 0.5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  #headerClusterLeft,
+  #headerClusterRight { gap: 0.4rem !important; }
+  #appHeaderTimer [data-i18n="今日学习："] { display: none !important; }
+  #cloudSyncNavBadge { display: none !important; }
+  #headerPointsBtn [data-i18n="| 规则"] { display: none !important; }
+  #headerFlagBtn [data-i18n="立今日 Flag"] { display: none !important; }
+  #headerFlagBtn .header-flag-label-sm { display: inline !important; }
+  #appHeaderInner .header-action-btn {
+    padding-left: 0.55rem !important;
+    padding-right: 0.55rem !important;
+  }
+  #userProfileChip { max-width: 13.5rem; }
+  #navUserLevel { display: none !important; }
+}
+
+/* 1440+: full labels except “| 规则” (too wide with a long user chip). Still one 64px row. */
+@media (min-width: 1440px) {
+  #appHeaderInner { gap: 0.5rem !important; }
+  #headerClusterLeft,
+  #headerClusterRight { gap: 0.4rem !important; }
+  #headerPointsBtn [data-i18n="| 规则"] { display: none !important; }
+  #appHeaderTimer [data-i18n="今日学习："] { display: none !important; }
+  #userProfileChip { max-width: 14rem; }
+  #cloudSyncNavBadge { flex-shrink: 0; align-self: center; max-height: 28px; }
+  #petNavBtn, #installAppBtn, #notifyToggleBtn { flex-shrink: 0; }
+}
+
+</style>
 </head>
 <body class="theme-b min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-700">
     <svg id="petAccSprites" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
@@ -3320,7 +3604,7 @@ body.theme-b #heroStats .hero-stat span {
         const TL_MAIN_ROOM_NAME = 'Team Main';
         const TL_MAX_GROUP_NAME = 30;
         const TL_MAX_GROUPS_PER_USER = 5;
-        window.__TL_RELEASE = 47; // release47-refresh-button
+        window.__TL_RELEASE = 48; // release48-study-partners
         async function forceReloadLatest() {
             if (window.__tlForceReloading) return;
             window.__tlForceReloading = true;
@@ -5797,6 +6081,7 @@ body.theme-b #heroStats .hero-stat span {
             appState.inviteInfo = null;
             claimInviteRewardIfAny();
             loadMyInviteInfo(true);
+            try { if (window.tlPartnerAfterLogin) window.tlPartnerAfterLogin(); } catch (_) {} // release48-study-partners
             await refreshWrongAnswers();
             await refreshTitleSkills();
             await refreshStealPanel();
@@ -9721,6 +10006,7 @@ body.theme-b #heroStats .hero-stat span {
             appState.currentRoom = null;
             try { renderGroupUI(); } catch (_) {}
             appState.inviteInfo = null;
+            try { if (window.tlPartnerOnLogout) window.tlPartnerOnLogout(); } catch (_) {} // release48-study-partners
             updateInviteLeaderboardBanner();
             switchAuthMode('login');
             document.getElementById('authPasswordInput').value = '';
@@ -11788,6 +12074,7 @@ body.theme-b #heroStats .hero-stat span {
                 }
             }
 
+            try { if (!claimFailed && !skipScoring && window.tlPartnerOnAnswer) window.tlPartnerOnAnswer(); } catch (_) {} // release48-study-partners
             const denyAwards = alreadyToday || claimFailed;
             let levelChangeNotice = '';
             let pointsNotice = '';
@@ -13048,5 +13335,723 @@ body.theme-b #heroStats .hero-stat span {
 
 <script>/* qrcode-generator 2.0.4 (c) Kazuhiko Arase, MIT */
 var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(o*r,n*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)};
+</script>
+<script>/* release48-study-partners */
+(function(){try{var en=(window.__TL_I18N_DATA||{}).en;if(!en)return;var d={" 天": " days", "7 天内不能和 {name} 重新绑定": "You can't re-pair with {name} for 7 days", "7 天火苗": "7-day streak", "PK 结果": "PK result", "PK 胜利": "PK win", "TA 已打卡": "Partner done", "{days} 天没上线": "Offline {days} days", "{name} 今天学了 {min} 分钟、做了 {n} 道题": "{name} studied {min} min and answered {n} questions today", "{name} 完成了第一次学习（本月邀请奖励已达上限）": "{name} finished their first study (monthly invite reward cap reached)", "{name} 完成第一次学习后，你们各得 +50 积分 🎁": "When {name} finishes their first study, you both get +50 points 🎁", "{name} 已经 {days} 天没上线了，可以解除或换一个搭档": "{name} hasn't been online for {days} days. You can unpair or find a new partner.", "{name} 已经打卡，就差你了 💪": "{name} has checked in. Only you left! 💪", "{name} 戳了你一下 {emoji} 快来一起学！": "{name} poked you {emoji} Come study together!", "{name} 解除了和你的搭档关系。": "{name} ended your partnership.", "{name} 邀请你成为": "{name} invites you to be their", "{name} 领先": "{name} leads", "{n} 天": "{n} days", "{n} 道": "{n} Qs", "一起养": "raise together", "一起学英语第 {n} 天": "Day {n} learning English together", "上周 PK 输给了 {name}（{me}:{them}），这周加油！": "You lost last week's PK to {name} ({me}:{them}). Go for it this week!", "不当昵称或头像": "Inappropriate name or avatar", "不能接受自己发出的邀请": "You can't accept your own invite", "不要了": "No thanks", "为你找到了「{name}」，等对方确认后就是搭档了": "Found {name} for you. You'll be partners once they confirm.", "举报 / 拉黑": "Report / Block", "举报/拉黑": "Report/Block", "二维码生成失败": "Couldn't create QR code", "今天 {name} 已喂养，就差你了": "{name} fed it today. Only you left!", "今天你们俩都喂过了，{name} 吃得饱饱的 🥰": "You both fed {name} today. It's full 🥰", "今天的次数用完了，明天再来": "No more today. Come back tomorrow", "今日已打卡": "checked in", "今日未打卡": "not yet", "任一方今天不学习，宠物就会饿。做完一道题就能喂养。": "If either of you skips studying, the pet gets hungry. Answer one question to feed it.", "你今天已经喂过了": "You already fed it today", "你们已经是搭档了": "You're already partners", "你们已经有共养宠物了": "You already have a shared pet", "你已经喂过了，等 {name} 来喂": "You've fed it. Waiting for {name}.", "你已经有一个等待确认的匹配": "You already have a match waiting for confirmation", "你已经有情侣搭档了，需先解除": "You already have a couple partner. Unpair first.", "你还没有好友搭档，绑定后就能上好友榜": "Pair with a friend to join the friend board", "你还没有情侣搭档，绑定后就能上情侣榜": "Pair with your partner to join the couple board", "保存图片": "Save image", "做题": "Qs", "先去做一道题再来喂": "Answer a question first, then feed", "先完成一道题，才能喂养共养宠物": "Answer one question before feeding the shared pet", "先选标签，再把邀请发给对方": "Pick a tag, then send the invite", "免费团队英语练习 · 和搭档一起打卡": "Free team English practice · check in with your partner", "免费领养共养宠物": "Adopt a shared pet (free)", "共养宠物": "Shared pet", "共养宠物将冻结保留 14 天，冷静期过后复合可恢复": "The shared pet is frozen for 14 days and comes back if you re-pair after the cooldown", "共养宠物已恢复": "Shared pet restored", "共养第 {d} 天": "Day {d} together", "再想想": "Let me think", "分享": "Share", "分享图": "Share image", "刚戳过，等一分钟再戳吧": "You just poked. Wait a minute.", "刚绑定的搭档还不能补签": "New partners can't make up a streak yet", "前一天也没有连上，无法补签": "The day before wasn't a streak day, so no makeup", "加载中…": "Loading…", "势均力敌": "Neck and neck", "匹配": "Matched", "匹配好友": "Matched friend", "匹配成功，你们成为好友学习搭档了！": "Matched! You're now study partners.", "去做题": "Practice", "去喂养": "Feed", "双人火苗": "Duo streak", "双人火苗将清零，连续打卡天数不再保留": "Your duo streak resets to 0", "双人火苗连续 {n} 天": "{n}-day duo streak", "发给微信好友": "Send to a friend", "只匹配好友搭档，不匹配情侣。双方都确认后才成为搭档；对方只能看到你的昵称、头像和学习数据。": "Matching is for friend partners only, never couples. You pair only after both confirm, and they see only your nickname, avatar and study data.", "同意成为搭档": "Accept", "同时拉黑对方": "Also block this person", "周榜": "Weekly", "喂好了！成长 +10 🍖": "Fed! Growth +10 🍖", "复制失败，请手动复制": "Copy failed. Please copy manually.", "复制链接": "Copy link", "好友": "Friend", "好友专属装扮 · 友谊围巾": "Friend look · friendship scarf", "好友学习搭档": "friend study partner", "好友搭档": "Friend partners", "好友搭档已满 3 个": "You already have 3 friend partners", "好友搭档未满 3 个": "Fewer than 3 friend partners", "好友榜": "Friends", "好友每组可以共养一只宠物，戴专属「友谊围巾」。两个人每天都学，宠物才吃得饱。": "Each friend pair can raise one pet with a friendship scarf. It stays full only if you both study every day.", "学习搭档": "Study partners", "学习搭档加载失败：": "Couldn't load study partners: ", "学习搭档第 {n} 天": "Day {n} as study partners", "完成第一次学习（做 5 道题），你和邀请人各得 +50 积分 🎁": "Finish your first study (5 questions) and you and your inviter each get +50 points 🎁", "对方已拒绝": "They declined", "对方的搭档名额已满": "Their partner slots are full", "对方确认后绑定，邀请 7 天内有效。对方第一次学习后你们各得 +50 积分。": "You pair once they accept. The invite lasts 7 days. After their first study you both get +50 points.", "小红书版（图上不带网址）": "Version without the web address", "少年": "Young ", "已复制邀请文字，打开微信粘贴给好友": "Invite text copied. Paste it to your friend.", "已拒绝": "Declined", "已提交，谢谢你的反馈": "Submitted. Thanks for the feedback.", "已确认，等待对方确认": "Confirmed. Waiting for them.", "已确认，等待对方确认（48 小时内有效）": "Confirmed. Waiting for them (valid 48 hours).", "已经成为搭档": "Already partners", "已经戳了 {name} {emoji}": "Poked {name} {emoji}", "已解除搭档关系": "Partnership ended", "帮我找一个学习搭档": "Find me a study partner", "年满 18 岁（自己确认）": "18 or older (self-confirmed)", "幼年": "Baby ", "广告或拉人": "Ads or spam", "心情": "Mood", "忽略": "Ignore", "总榜": "All-time", "总榜从绑定那天起一直累计；周榜每周一（新西兰时间）重新开始。一个人在多个好友组里，只算排名最高的一组。": "All-time counts from the day you paired and never resets. Weekly restarts every Monday (NZ time). Someone in several friend pairs counts only in their highest pair.", "情侣": "Couple", "情侣专属装扮 · 爱心小皇冠": "Couple look · heart crown", "情侣共养宠物有专属装扮「爱心小皇冠」。两个人每天都学，宠物才吃得饱。": "Couple pets wear an exclusive heart crown. It stays full only if you both study every day.", "情侣天数": "Days together", "情侣学习搭档": "couple study partner", "情侣标签仅限 18 岁以上。我确认已年满 18 岁。": "The couple tag is 18+ only. I confirm I'm 18 or older.", "情侣榜": "Couples", "情侣第几天": "Days together", "成年": "Adult ", "成长 {g}": "Growth {g}", "我们一起在 TeamLingua 学英语吧！做我的情侣学习搭档 💕 一起打卡、PK、养宠物：{url} （搭档码 {code}）": "Let's learn English together on TeamLingua! Be my couple study partner 💕 Check in, PK and raise a pet: {url} (partner code {code})", "我的排名": "My rank", "我的搭档徽章": "My partner badges", "我确认已年满 18 岁": "I confirm I'm 18 or older", "戳 {name} 来喂": "Poke {name} to feed", "戳一下 {name}": "Poke {name}", "戳一下提醒": "Poke to remind", "手机上也可以长按图片保存": "On a phone, long-press the image to save it", "打开“接受匹配”": "Turn on \"accept matches\"", "找不到搭档？系统帮你配一个": "No partner? We'll match you", "拉黑后会立即解除搭档，并且永远不会再匹配到对方。": "Blocking ends the partnership right away and you'll never be matched again.", "按两人做题数合计排名": "Ranked by both partners' total questions", "按做题数 · 情侣/好友分榜": "By questions · couples and friends", "排行榜": "Leaderboard", "排行榜加载失败：": "Couldn't load leaderboard: ", "接受匹配：允许系统把我推荐给其他学习者": "Accept matches: let us suggest me to other learners", "接受后将开始计算双人火苗、PK 和共养宠物。": "After you accept, your duo streak, PK and shared pet start.", "接受邀请": "Accept invite", "提交": "Submit", "搭档": "Partner", "搭档只能看到你的昵称、头像、学习时长、积分和打卡，看不到邮箱等其他信息。没有私聊，想聊天请去微信。": "Partners see only your nickname, avatar, study time, points and check-ins, never your email. There's no private chat.", "搭档天数": "Days paired", "搭档码不正确或已失效": "Wrong or expired partner code", "搭档码（6 位）": "Partner code (6 digits)", "撤回": "Withdraw", "操作太频繁，请稍后再试": "Too many tries. Please wait.", "昨天火苗断了，可以用 {cost} 积分补签一次": "Your streak broke yesterday. Make it up once for {cost} points.", "普通练习": "Practice", "暂时无法和对方成为搭档": "Can't pair with this person right now", "暂时没有合适的搭档，晚点再试试": "No match right now. Try again later.", "更多玩法": "More", "有情侣搭档时不能取消 18 岁确认": "Can't remove 18+ confirmation while you have a couple partner", "本周 PK 做题": "This week's PK", "本周做题数 · {w}": "Questions this week · {w}", "本周学习 PK": "This week's study PK", "来做我的 TeamLingua 学习搭档吧 🤝 每天一起打卡、比做题、养宠物：{url} （搭档码 {code}）": "Be my TeamLingua study partner 🤝 Check in daily, race on questions and raise a pet: {url} (partner code {code})", "正在生成邀请…": "Creating invite…", "每人每天喂一次，成长 +10；每周 PK 获胜宠物再成长 +20。": "Each of you can feed once a day (+10 growth). Winning the weekly PK adds +20.", "没有找到这个搭档": "Partner not found", "没有找到这条记录": "Not found", "注册满 3 天（已 {d} 天）": "Registered 3+ days ({d} so far)", "火苗": "Streak", "火苗没有断，不需要补签": "Your streak isn't broken", "生成分享图": "Share image", "用 {cost} 积分补签昨天的火苗？每次断签只能补一次。": "Use {cost} points to make up yesterday's streak? Only once per break.", "确定要解除和 {name} 的搭档关系吗？": "End your partnership with {name}?", "确认": "Confirm", "确认并生成情侣邀请": "Confirm and create couple invite", "确认解除": "Unpair", "积分": "Points", "积分不够": "Not enough points", "第 {n} 天": "Day {n}", "等待对方接受：{kind}搭档码 {code}（{date} 前有效）": "Waiting: {kind} code {code} (valid until {date})", "等待确认": "Waiting", "累计做题": "Total questions", "累计学习 60 分钟以上（已 {m} 分钟）": "60+ minutes of study ({m} so far)", "绑定": "Pair", "给宠物起个名字": "Name your pet", "补签": "Make up", "补签成功，火苗 {n} 天 🔥": "Made up! Streak {n} days 🔥", "解除": "Unpair", "解除后 7 天内不能再和同一个人绑定": "You can't re-pair with the same person for 7 days", "解除后 7 天内不能再和同一个人绑定（还剩 {days} 天）": "You can't re-pair with the same person for 7 days ({days} left)", "解除搭档": "Unpair", "让对方用手机扫码": "Let them scan with their phone", "请先勾选确认已年满 18 岁": "Please confirm you're 18 or older", "请输入 6 位数字搭档码": "Enter the 6-digit partner code", "输入 6 位搭档码": "6-digit partner code", "近 14 天学习": "Studied (14 days)", "返回": "Back", "返回搭档列表": "Back to partners", "还没有共养宠物": "No shared pet yet", "还没有搭档上榜，快邀请一个搭档一起冲榜吧": "No pairs yet. Invite a partner and climb the board!", "还没达到随机匹配门槛": "Not eligible for matching yet", "这个浏览器不支持直接分享，请保存图片后再发": "This browser can't share directly. Save the image first.", "这个邀请已经被使用了": "This invite was already used", "这个邀请已过期（7 天有效）": "This invite expired (valid 7 days)", "这是你自己发出的搭档邀请，发给对方就好": "This is your own invite. Send it to your partner.", "这次断签已经补过了": "You already made up this break", "选一个鼓励表情，对方会收到提醒（每天最多 5 次）": "Pick an emoji; they'll get a reminder (up to 5 a day)", "道": " Qs", "邀请": "Invite", "邀请好友": "Invite a friend", "邀请学习搭档": "Invite a study partner", "邀请已撤回": "Invite withdrawn", "邀请情侣学习搭档（限 1 位，18 岁以上）": "Invite your couple partner (1 only, 18+)", "邀请搭档": "Invite partner", "邀请链接已复制，粘贴发给对方吧": "Invite link copied. Paste it to them.", "随机匹配": "Random match", "零基础": "Beginner", "需要先确认你已年满 18 岁": "Please confirm you're 18 or older first", "领养成功！两个人每天都学，宠物就会吃饱 🐾": "Adopted! Study every day together to keep it full 🐾", "饱食度": "Fullness", "饿了": "hungry", "骚扰或不友善": "Harassment or unkind", "🎁 搭档邀请奖励 +{points} 积分已到账（{name}）": "🎁 Partner invite reward +{points} points ({name})", "🎉 {name} 接受了你的邀请，成为{kind}！": "🎉 {name} accepted and is now your {kind}!", "🏆 上周 PK 你赢了 {name}（{me}:{them} 道），获得 PK 徽章！": "🏆 You beat {name} in last week's PK ({me}:{them}) and earned a PK badge!", "💞 你和 {name} 成为{kind}了！": "💞 You and {name} are now {kind}s!", "💞 你和 {name} 成为学习搭档了！": "💞 You and {name} are now study partners!", "💞 你收到一个「学习搭档」邀请。注册或登录后会自动弹出确认，接受后就能一起打卡、PK、养宠物。": "💞 You've got a study partner invite. Sign up or log in and it will pop up so you can accept.", "🔥 和 {name} 的双人火苗满 7 天，获得火苗徽章！": "🔥 7-day duo streak with {name}! Streak badge earned.", "🤝 上周 PK 和 {name} 打平（{me}:{them}），双方都得徽章！": "🤝 Last week's PK with {name} was a tie ({me}:{them}). Badges for both!", "🤝 你和 {name} 匹配成功，成为好友学习搭档！": "🤝 You and {name} matched as study partners!", "🤝 系统为你匹配了一位学习搭档「{name}」，去学习搭档页确认吧": "🤝 We matched you with {name}. Confirm on the Study partners page.", "🧊 和 {partner} 的共养宠物「{name}」已冻结，{date} 前重新绑定可以恢复": "🧊 Your shared pet {name} with {partner} is frozen. Re-pair before {date} to restore it.", "我": "Me", "云端不可用": "Cloud unavailable", "请先登录": "Please log in first", "关闭": "Close", "其他": "Other"};for(var k in d){if(en[k]==null)en[k]=d[k];}}catch(e){}})();
+/* release48-study-partners: 学习搭档 (couple + friend partners). All writes go through partner_* RPCs. */
+(function () {
+  'use strict';
+  var PENDING_KEY = 'tl_pending_partner_v1';
+  var EMOJIS = ['👋', '💪', '🔥', '❤️', '🎉', '📚'];
+  var AV_HEX = { 'bg-indigo-600': '#4F46E5', 'bg-violet-600': '#7C3AED', 'bg-emerald-600': '#059669', 'bg-sky-600': '#0284C7',
+    'bg-amber-600': '#D97706', 'bg-rose-600': '#E11D48', 'bg-teal-600': '#0D9488', 'bg-fuchsia-600': '#C026D3',
+    'bg-pink-600': '#DB2777', 'bg-orange-600': '#EA580C', 'bg-cyan-600': '#0891B2', 'bg-blue-600': '#2563EB', 'bg-purple-600': '#9333EA' };
+  var S = { ov: null, view: 'home', relId: null, board: { kind: 'couple', track: 'normal', period: 'total' }, busy: false,
+            loading: null, lastLoad: 0, timer: null, answerTimer: null, invite: { kind: 'couple' }, seenNotice: {} };
+  window.__tlPartner = S;
+
+  function T(k, v) { try { return (typeof t === 'function') ? t(k, v) : k; } catch (e) { return k; } }
+  function E(s) { try { return escapeHTML(String(s == null ? '' : s)); } catch (e) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); } }
+  function toast(m, ty) { try { showToast(m, ty || 'info'); } catch (e) {} }
+  function sbc() { try { return (typeof sb !== 'undefined') ? sb : null; } catch (e) { return null; } }
+  function me() { try { return appState && appState.currentUser; } catch (e) { return null; } }
+  function $(id) { return document.getElementById(id); }
+  function avHex(av, name) {
+    if (av && AV_HEX[av]) return AV_HEX[av];
+    if (av && /^#[0-9a-f]{6}$/i.test(av)) return av;
+    var keys = Object.keys(AV_HEX), h = 0, s = String(name || '');
+    for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return AV_HEX[keys[h % 8]];
+  }
+  function initial(n) { var s = String(n || '?').trim(); return s ? Array.from(s)[0].toUpperCase() : '?'; }
+  function avatar(name, av, cls) {
+    return '<span class="tlp-av ' + (cls || '') + '" style="background:' + avHex(av, name) + '">' + E(initial(name)) + '</span>';
+  }
+  function myName() { var u = me(); return (u && (u.name || u.username)) || T('我'); }
+  function myAv() { var u = me(); return (u && (u.color || u.avatar)) || ''; }
+  async function rpc(name, args) {
+    var c = sbc();
+    if (!c) throw new Error(T('云端不可用'));
+    var r = await c.rpc(name, args || {});
+    if (r.error) throw r.error;
+    return r.data;
+  }
+  var REASONS = {
+    need_adult: '需要先确认你已年满 18 岁', couple_full: '你已经有情侣搭档了，需先解除', friend_full: '好友搭档已满 3 个',
+    inviter_full: '对方的搭档名额已满', bad_code: '搭档码不正确或已失效', expired: '这个邀请已过期（7 天有效）',
+    used: '这个邀请已经被使用了', self: '不能接受自己发出的邀请', already_partners: '你们已经是搭档了',
+    cooldown: '解除后 7 天内不能再和同一个人绑定', unavailable: '暂时无法和对方成为搭档', rate_limited: '操作太频繁，请稍后再试',
+    points: '积分不够', not_broken: '火苗没有断，不需要补签', already_used: '这次断签已经补过了', no_streak: '前一天也没有连上，无法补签',
+    too_new: '刚绑定的搭档还不能补签', too_fast: '刚戳过，等一分钟再戳吧', daily_limit: '今天的次数用完了，明天再来',
+    study_first: '先完成一道题，才能喂养共养宠物', already_fed: '你今天已经喂过了', no_pet: '还没有共养宠物', exists: '你们已经有共养宠物了',
+    not_eligible: '还没达到随机匹配门槛', no_candidate: '暂时没有合适的搭档，晚点再试试', pending_exists: '你已经有一个等待确认的匹配',
+    not_found: '没有找到这条记录', has_couple: '有情侣搭档时不能取消 18 岁确认', declined: '对方已拒绝', accepted: '已经成为搭档'
+  };
+  function reasonText(r, extra) {
+    var k = REASONS[r] || '操作失败，请重试';
+    if (r === 'cooldown' && extra && extra.days) return T('解除后 7 天内不能再和同一个人绑定（还剩 {days} 天）', { days: extra.days });
+    return T(k);
+  }
+
+  // ---------- pending invite from link ----------
+  function capturePartnerParam() {
+    try {
+      var q = new URLSearchParams(location.search);
+      var raw = (q.get('partner') || '').replace(/[^0-9]/g, '');
+      if (raw.length === 6) localStorage.setItem(PENDING_KEY, JSON.stringify({ code: raw, ts: Date.now() }));
+    } catch (e) {}
+  }
+  function getPending() {
+    try {
+      var o = JSON.parse(localStorage.getItem(PENDING_KEY) || 'null');
+      if (o && o.code && Date.now() - (o.ts || 0) < 7 * 86400000) return o.code;
+    } catch (e) {}
+    return '';
+  }
+  function clearPending() { try { localStorage.removeItem(PENDING_KEY); } catch (e) {} }
+  window.tlPartnerHasPending = function () { return !!getPending(); };
+  function loggedOutBanner() {
+    if (!getPending() || me()) return;
+    var el = $('inviteBanner');
+    if (!el) return;
+    if (!el.classList.contains('hidden') && el.textContent) return; // legacy invite banner wins
+    el.textContent = T('💞 你收到一个「学习搭档」邀请。注册或登录后会自动弹出确认，接受后就能一起打卡、PK、养宠物。');
+    el.classList.remove('hidden');
+  }
+
+  // ---------- modal ----------
+  function modal(html) {
+    var m = $('tlpModal');
+    m.innerHTML = '<div class="tlp-modal" role="dialog" aria-modal="true">' + '<button type="button" class="tlp-x" data-tlp="close" aria-label="' + E(T('关闭')) + '">✕</button>' + html + '</div>';
+    m.classList.remove('hidden');
+  }
+  function closeModal() { var m = $('tlpModal'); if (m) { m.classList.add('hidden'); m.innerHTML = ''; } }
+  window.tlpCloseModal = closeModal;
+
+  // ---------- data ----------
+  async function load(silent) {
+    if (!me() || !sbc()) return null;
+    if (S.loading) return S.loading;
+    S.loading = (async function () {
+      try {
+        var d = await rpc('partner_get_overview');
+        if (d && d.ok) { S.ov = d; S.lastLoad = Date.now(); handleNotices(d.notices || []); partnerDoneReminder(); }
+        return d;
+      } catch (e) {
+        if (!silent) toast(T('学习搭档加载失败：') + (e.message || e), 'error');
+        return null;
+      } finally { S.loading = null; renderTile(); if (isOpen()) render(); }
+    })();
+    return S.loading;
+  }
+  function rel(id) { return ((S.ov && S.ov.relations) || []).filter(function (r) { return r.id === id; })[0] || null; }
+  function couple() { return ((S.ov && S.ov.relations) || []).filter(function (r) { return r.kind === 'couple'; })[0] || null; }
+  function friends() { return ((S.ov && S.ov.relations) || []).filter(function (r) { return r.kind === 'friend'; }); }
+
+  function noticeText(n) {
+    var p = n.payload || {}, nm = p.name || T('搭档');
+    switch (n.kind) {
+      case 'bound': return T('💞 你和 {name} 成为{kind}了！', { name: nm, kind: p.kind === 'couple' ? T('情侣学习搭档') : T('好友学习搭档') });
+      case 'invite_accepted': return T('🎉 {name} 接受了你的邀请，成为{kind}！', { name: nm, kind: p.kind === 'couple' ? T('情侣学习搭档') : T('好友学习搭档') });
+      case 'unbound': return T('{name} 解除了和你的搭档关系。', { name: nm });
+      case 'poke': return T('{name} 戳了你一下 {emoji} 快来一起学！', { name: nm, emoji: p.emoji || '👋' });
+      case 'reward': return p.points > 0 ? T('🎁 搭档邀请奖励 +{points} 积分已到账（{name}）', { points: p.points, name: nm }) : T('{name} 完成了第一次学习（本月邀请奖励已达上限）', { name: nm });
+      case 'pk': return p.result === 'win' ? T('🏆 上周 PK 你赢了 {name}（{me}:{them} 道），获得 PK 徽章！', p) : (p.result === 'tie' ? T('🤝 上周 PK 和 {name} 打平（{me}:{them}），双方都得徽章！', p) : T('上周 PK 输给了 {name}（{me}:{them}），这周加油！', p));
+      case 'badge': return T('🔥 和 {name} 的双人火苗满 7 天，获得火苗徽章！', { name: nm });
+      case 'match_proposal': return T('🤝 系统为你匹配了一位学习搭档「{name}」，去学习搭档页确认吧', { name: nm });
+      case 'match_accepted': return T('🤝 你和 {name} 匹配成功，成为好友学习搭档！', { name: nm });
+    }
+    return '';
+  }
+  function handleNotices(list) {
+    var ids = [], shown = 0;
+    list.forEach(function (n) {
+      if (S.seenNotice[n.id]) return;
+      S.seenNotice[n.id] = 1; ids.push(n.id);
+      var txt = noticeText(n);
+      if (txt && shown < 3) { shown++; setTimeout(function () { toast(txt, n.kind === 'unbound' ? 'warning' : 'success'); }, 300 + shown * 900); }
+      if (n.kind === 'reward' && n.payload && n.payload.points > 0) { try { if (typeof refreshRoomData === 'function') refreshRoomData(); } catch (e) {} }
+    });
+    if (ids.length) rpc('partner_mark_notices_seen', { p_ids: ids }).catch(function () {});
+  }
+  function partnerDoneReminder() {
+    if (!S.ov) return;
+    var day = S.ov.today;
+    (S.ov.relations || []).forEach(function (r) {
+      if (!(r.partner.studied_today && !r.me_studied)) return;
+      var key = 'tl_partner_done_' + r.id + '_' + day;
+      try { if (localStorage.getItem(key)) return; localStorage.setItem(key, '1'); } catch (e) { return; }
+      var msg = T('{name} 已经打卡，就差你了 💪', { name: r.partner.name });
+      if (window.__tlPushEnabled) {
+        toast(msg, 'info');
+        try {
+          if (document.hidden && 'serviceWorker' in navigator && window.Notification && Notification.permission === 'granted') {
+            navigator.serviceWorker.getRegistration().then(function (reg) { if (reg) reg.showNotification('TeamLingua', { body: msg, tag: key, icon: 'icons/icon-192.png' }); });
+          }
+        } catch (e) {}
+      }
+    });
+  }
+
+  // ---------- hero tile on dashboard ----------
+  function renderTile() {
+    var box = $('heroStats');
+    if (!box) return;
+    var tile = $('tlpHeroTile');
+    if (!tile) {
+      tile = document.createElement('button');
+      tile.type = 'button'; tile.id = 'tlpHeroTile'; tile.className = 'hero-stat';
+      tile.addEventListener('click', function () { window.openPartnerPage(); });
+      box.appendChild(tile);
+    }
+    box.classList.add('tlp-6');
+    var ov = S.ov, label = T('学习搭档'), val = T('邀请');
+    if (ov && ov.counts) {
+      var c = ov.counts.couple || 0, f = ov.counts.friend || 0;
+      if (c || f) val = (c ? '💕' : '') + (f ? ('🤝' + f) : '');
+      var cp = couple();
+      if (cp) val = '🔥 ' + (cp.streak || 0) + T(' 天');
+    }
+    var dot = ov && ((ov.match && (ov.match.proposals || []).some(function (p) { return p.incoming && !p.me_ok; })) ||
+              (ov.relations || []).some(function (r) { return r.partner.studied_today && !r.me_studied; }));
+    tile.innerHTML = '<b>' + E(val) + '</b><span>' + E(label) + '</span>' + (dot ? '<i class="tlp-dot"></i>' : '');
+    tile.title = T('学习搭档');
+  }
+
+  // ---------- page ----------
+  function isOpen() { var p = $('tlpPage'); return p && !p.classList.contains('hidden'); }
+  function headerH() { var h = document.querySelector('header'); return h ? Math.max(0, Math.round(h.getBoundingClientRect().bottom)) : 0; }
+  window.openPartnerPage = function (view, relId) {
+    if (!me()) { toast(T('请先登录'), 'warning'); try { $('loginModal').classList.remove('hidden'); } catch (e) {} return; }
+    var p = $('tlpPage');
+    p.style.setProperty('--tlp-hh', headerH() + 'px');
+    S.view = view || 'home'; S.relId = relId || null;
+    p.classList.remove('hidden');
+    document.documentElement.style.overflow = 'hidden';
+    render();
+    if (!S.ov || Date.now() - S.lastLoad > 15000) load();
+    if (S.view === 'board') loadBoard();
+  };
+  window.closePartnerPage = function () {
+    var p = $('tlpPage'); if (p) p.classList.add('hidden');
+    document.documentElement.style.overflow = '';
+  };
+  function go(view, relId) { S.view = view; S.relId = relId || null; render(); var p = $('tlpPage'); if (p) p.scrollTop = 0; if (view === 'board') loadBoard(); }
+
+  function bar(title, sub) {
+    return '<div class="tlp-bar"><button type="button" class="tlp-back" data-tlp="back" aria-label="' + E(T('返回')) + '">‹</button><h1>' + E(title) + '</h1>' + (sub || '') + '</div>';
+  }
+  function render() {
+    var p = $('tlpPage'); if (!p) return;
+    p.style.setProperty('--tlp-hh', headerH() + 'px');
+    var html = '';
+    if (S.view === 'board') html = renderBoard();
+    else if (S.view === 'pet') html = renderPet();
+    else if (S.view === 'match') html = renderMatch();
+    else html = renderHome();
+    p.innerHTML = '<div class="tlp-wrap">' + html + '</div>';
+  }
+
+  function nudges(r) {
+    var h = '';
+    if (r.partner.studied_today && !r.me_studied) h += '<div class="tlp-nudge">' + E(T('{name} 已经打卡，就差你了 💪', { name: r.partner.name })) + '<button type="button" data-tlp="practice">' + E(T('去做题')) + '</button></div>';
+    if (r.makeup && r.makeup.available) h += '<div class="tlp-nudge info">' + E(T('昨天火苗断了，可以用 {cost} 积分补签一次', { cost: r.makeup.cost })) + '<button type="button" data-tlp="makeup" data-id="' + r.id + '">' + E(T('补签')) + '</button></div>';
+    if (r.partner.inactive14) h += '<div class="tlp-nudge warn">' + E(T('{name} 已经 {days} 天没上线了，可以解除或换一个搭档', { name: r.partner.name, days: r.partner.inactive_days })) + '<button type="button" data-tlp="unbind" data-id="' + r.id + '">' + E(T('解除')) + '</button></div>';
+    if (r.reward_status === 'waiting') h += '<div class="tlp-nudge info">' + E(r.i_am_invitee ? T('完成第一次学习（做 5 道题），你和邀请人各得 +50 积分 🎁') : T('{name} 完成第一次学习后，你们各得 +50 积分 🎁', { name: r.partner.name })) + '</div>';
+    return h;
+  }
+  function relHero(r) {
+    var isC = r.kind === 'couple', pn = r.partner.name;
+    return '<section class="tlp-couple' + (isC ? '' : ' tlp-friendhero') + '" data-rel="' + r.id + '">' +
+      '<div class="tlp-rowb"><span class="tlp-tag">' + (isC ? '💕 ' + E(T('情侣')) : (r.source === 'match' ? '🎲 ' + E(T('匹配好友')) : '🤝 ' + E(T('好友')))) + '</span>' +
+      '<span><button type="button" class="tlp-link" data-tlp="report" data-id="' + r.id + '">' + E(T('举报/拉黑')) + '</button> · <button type="button" class="tlp-link" data-tlp="unbind" data-id="' + r.id + '">' + E(T('解除搭档')) + '</button></span></div>' +
+      '<div class="tlp-pair"><div class="tlp-avs">' + avatar(myName(), myAv(), 'lg ring') + avatar(pn, r.partner.avatar, 'lg ring ov') + '</div>' +
+      '<div style="min-width:0"><div class="tlp-names">' + E(myName()) + ' &amp; ' + E(pn) + '</div><div class="tlp-meta">' + E(isC ? T('情侣学习搭档') : T('好友学习搭档')) + ' · ' + E(T('积分')) + ' ' + E(r.partner.points) + '</div></div></div>' +
+      '<div class="tlp-stats three"><div class="tlp-stat"><b>' + E(r.days) + E(T(' 天')) + '</b><span>' + E(isC ? T('情侣第几天') : T('搭档天数')) + '</span></div>' +
+      '<div class="tlp-stat"><b>🔥 ' + E(r.streak) + E(T(' 天')) + '</b><span>' + E(T('双人火苗')) + '</span></div>' +
+      '<div class="tlp-stat"><b>' + E(r.pk.me) + ':' + E(r.pk.partner) + '</b><span>' + E(T('本周 PK 做题')) + '</span></div></div>' +
+      '<div class="tlp-checks"><div class="tlp-check"><span class="tlp-tick' + (r.me_studied ? '' : ' no') + '">' + (r.me_studied ? '✓' : '·') + '</span>' + E(myName()) + ' ' + E(r.me_studied ? T('今日已打卡') : T('今日未打卡')) + '</div>' +
+      '<div class="tlp-check"><span class="tlp-tick' + (r.partner.studied_today ? '' : ' no') + '">' + (r.partner.studied_today ? '✓' : '·') + '</span>' + E(pn) + ' ' + E(r.partner.studied_today ? T('今日已打卡') : T('今日未打卡')) + '</div></div>' +
+      '<div class="tlp-muted" style="color:rgba(255,255,255,.9);margin:-4px 0 8px">' + E(T('{name} 今天学了 {min} 分钟、做了 {n} 道题', { name: pn, min: r.partner.today_minutes, n: r.partner.today_count })) + '</div>' +
+      '<button type="button" class="tlp-btn tlp-gold" data-tlp="poke" data-id="' + r.id + '">👋 ' + E(T('戳一下提醒')) + '</button>' +
+      '<div class="tlp-actions"><button type="button" class="tlp-btn tlp-glass" data-tlp="pet" data-id="' + r.id + '">🐾 ' + E(T('共养宠物')) + '</button>' +
+      '<button type="button" class="tlp-btn tlp-glass" data-tlp="share" data-id="' + r.id + '">📸 ' + E(T('分享图')) + '</button>' +
+      '<button type="button" class="tlp-btn tlp-glass" data-tlp="board">🏆 ' + E(T('排行榜')) + '</button></div>' +
+      '</section>' + nudges(r);
+  }
+  function renderHome() {
+    var ov = S.ov;
+    var h = bar(T('学习搭档'), '<button type="button" class="tlp-sub" data-tlp="board">🏆 ' + E(T('排行榜')) + '</button>');
+    if (!ov) return h + '<div class="tlp-card" style="padding:18px;text-align:center"><div class="tlp-muted">' + E(T('加载中…')) + '</div></div>';
+    var cp = couple(), fr = friends();
+    if (S.relId && rel(S.relId) && rel(S.relId).kind === 'friend') {
+      h += relHero(rel(S.relId));
+      h += '<button type="button" class="tlp-btn tlp-ghost" style="margin-top:10px" data-tlp="home">' + E(T('返回搭档列表')) + '</button>';
+      return h;
+    }
+    h += cp ? relHero(cp) : '<button type="button" class="tlp-slot couple" data-tlp="invite" data-kind="couple"><span class="tlp-plus" style="background:#FCE7F3;color:#BE185D">💕</span>' + E(T('邀请情侣学习搭档（限 1 位，18 岁以上）')) + '</button>';
+    var doneFr = fr.filter(function (r) { return r.partner.studied_today && !r.me_studied; });
+    if (doneFr.length) h += '<div class="tlp-nudge" style="margin-top:12px">' + E(T('{name} 已经打卡，就差你了 💪', { name: doneFr.map(function (r) { return r.partner.name; }).join('、') })) + '<button type="button" data-tlp="practice">' + E(T('去做题')) + '</button></div>';
+    h += '<div class="tlp-sec"><h2>' + E(T('好友搭档')) + '</h2><span class="tlp-count">' + fr.length + ' / 3</span></div><div class="tlp-list">';
+    fr.forEach(function (r) {
+      var warn = (r.partner.studied_today && !r.me_studied) ? ' · <b style="color:#C2410C">' + E(T('TA 已打卡')) + '</b>' : '';
+      h += '<button type="button" class="tlp-card tlp-friend" data-tlp="friend" data-id="' + r.id + '">' + avatar(r.partner.name, r.partner.avatar, 'lg') +
+        '<div class="tlp-info"><div class="tlp-fn"><span class="nm">' + E(r.partner.name) + '</span><span class="tlp-tag ' + (r.source === 'match' ? 'match' : 'friend') + '">' + (r.source === 'match' ? '🎲 ' + E(T('匹配')) : '🤝 ' + E(T('好友'))) + '</span></div>' +
+        '<div class="tlp-fmeta"><span>🔥 ' + E(T('火苗')) + ' <b>' + E(r.streak) + E(T(' 天')) + '</b></span><span>' + E(T('做题')) + ' <b>' + E(r.total) + '</b></span><span>PK <b>' + E(r.pk.me) + ':' + E(r.pk.partner) + '</b></span>' + warn + '</div>' +
+        (r.partner.inactive14 ? '<div class="tlp-fmeta" style="color:#BE123C">' + E(T('{days} 天没上线', { days: r.partner.inactive_days })) + '</div>' : '') +
+        '</div><span class="tlp-chev">›</span></button>';
+    });
+    if (fr.length < 3) h += '<button type="button" class="tlp-slot" data-tlp="invite" data-kind="friend"><span class="tlp-plus">+</span>' + E(T('邀请好友')) + '</button>';
+    h += '</div>';
+    h += '<button type="button" class="tlp-btn tlp-purple" style="margin-top:14px" data-tlp="invite">👥 ' + E(T('邀请搭档')) + '</button>';
+    h += '<div class="tlp-card tlp-code-in" style="margin-top:12px"><input id="tlpCodeInput" inputmode="numeric" maxlength="6" placeholder="' + E(T('输入 6 位搭档码')) + '" aria-label="' + E(T('输入 6 位搭档码')) + '"><button type="button" data-tlp="usecode">' + E(T('绑定')) + '</button></div>';
+    // pending invites I sent
+    (ov.invites || []).forEach(function (iv) {
+      h += '<div class="tlp-nudge info">' + E(T('等待对方接受：{kind}搭档码 {code}（{date} 前有效）', { kind: iv.kind === 'couple' ? T('情侣') : T('好友'), code: iv.code, date: new Date(iv.expires_at).toLocaleDateString() })) +
+        '<button type="button" data-tlp="cancelinv" data-id="' + iv.id + '">' + E(T('撤回')) + '</button></div>';
+    });
+    var props = (ov.match && ov.match.proposals) || [];
+    var incoming = props.filter(function (p) { return p.incoming && !p.me_ok; }).length;
+    h += '<div class="tlp-sec"><h2>' + E(T('更多玩法')) + '</h2></div><div class="tlp-tiles">' +
+      '<button type="button" class="tlp-card tlp-tile" data-tlp="board"><b>🏆 ' + E(T('排行榜')) + '</b><span>' + E(T('按做题数 · 情侣/好友分榜')) + '</span></button>' +
+      '<button type="button" class="tlp-card tlp-tile" data-tlp="match"><b>🎲 ' + E(T('随机匹配')) + (incoming ? ' <span style="color:#E11D48">●</span>' : '') + '</b><span>' + E(T('找不到搭档？系统帮你配一个')) + '</span></button></div>';
+    if ((ov.badges || []).length) {
+      h += '<div class="tlp-sec"><h2>' + E(T('我的搭档徽章')) + '</h2></div><div class="tlp-card tlp-badges">';
+      ov.badges.slice(0, 12).forEach(function (b) { h += '<span class="tlp-badge">' + (b.badge === 'streak7' ? '🔥 ' + E(T('7 天火苗')) : '🏆 ' + E(T('PK 胜利'))) + ' · ' + E(b.partner || '') + '</span>'; });
+      h += '</div>';
+    }
+    (ov.frozen_pets || []).forEach(function (fp) {
+      h += '<div class="tlp-nudge info">' + E(T('🧊 和 {partner} 的共养宠物「{name}」已冻结，{date} 前重新绑定可以恢复', { partner: fp.partner, name: fp.name, date: new Date(fp.frozen_until).toLocaleDateString() })) + '</div>';
+    });
+    h += '<p class="tlp-muted" style="margin:14px 4px 0">' + E(T('搭档只能看到你的昵称、头像、学习时长、积分和打卡，看不到邮箱等其他信息。没有私聊，想聊天请去微信。')) + '</p>';
+    return h;
+  }
+
+  // ---------- leaderboard ----------
+  async function loadBoard() {
+    var b = S.board, key = b.kind + b.track + b.period;
+    S.boardData = S.boardData || {};
+    try {
+      var d = await rpc('partner_get_leaderboard', { p_kind: b.kind, p_track: b.track, p_period: b.period });
+      S.boardData[key] = d;
+    } catch (e) { toast(T('排行榜加载失败：') + (e.message || e), 'error'); }
+    if (isOpen() && S.view === 'board') render();
+  }
+  function renderBoard() {
+    var b = S.board, d = (S.boardData || {})[b.kind + b.track + b.period];
+    var h = bar(T('排行榜'));
+    h += '<div class="tlp-card" style="padding:8px"><div class="tlp-seg" style="margin-bottom:8px">' +
+      '<button type="button" class="' + (b.kind === 'couple' ? 'on' : '') + '" data-tlp="bk" data-v="couple">💕 ' + E(T('情侣榜')) + '</button>' +
+      '<button type="button" class="' + (b.kind === 'friend' ? 'on fr' : '') + '" data-tlp="bk" data-v="friend">🤝 ' + E(T('好友榜')) + '</button></div>' +
+      '<div class="tlp-seg sm" style="margin-bottom:0"><button type="button" class="' + (b.track === 'zero' ? 'on' : '') + '" data-tlp="bt" data-v="zero">🌱 ' + E(T('零基础')) + '</button>' +
+      '<button type="button" class="' + (b.track === 'normal' ? 'on' : '') + '" data-tlp="bt" data-v="normal">' + E(T('普通练习')) + '</button></div></div>';
+    h += '<div class="tlp-rowb" style="margin:10px 2px 8px"><span class="tlp-muted" style="color:#7C2D12;font-weight:800">' + E(T('按两人做题数合计排名')) + '</span>' +
+      '<span class="tlp-seg sm" style="display:inline-grid;margin:0;width:120px"><button type="button" class="' + (b.period === 'total' ? 'on' : '') + '" data-tlp="bp" data-v="total">' + E(T('总榜')) + '</button>' +
+      '<button type="button" class="' + (b.period === 'week' ? 'on' : '') + '" data-tlp="bp" data-v="week">' + E(T('周榜')) + '</button></span></div>';
+    h += '<div class="tlp-card tlp-lb">';
+    if (!d) h += '<div class="tlp-muted" style="padding:16px;text-align:center">' + E(T('加载中…')) + '</div>';
+    else if (!d.rows.length) h += '<div class="tlp-muted" style="padding:16px;text-align:center">' + E(T('还没有搭档上榜，快邀请一个搭档一起冲榜吧')) + '</div>';
+    else d.rows.forEach(function (x) {
+      var medal = x.rank === 1 ? '🥇' : x.rank === 2 ? '🥈' : x.rank === 3 ? '🥉' : x.rank;
+      h += '<div class="tlp-lbrow ' + (x.rank <= 3 ? 'top' + x.rank : '') + (x.is_me ? ' me' : '') + '"><span class="tlp-rank">' + medal + '</span><span class="tlp-avs">' + avatar(x.a_name, x.a_avatar, 'sm') + avatar(x.b_name, x.b_avatar, 'sm ov') + '</span>' +
+        '<span class="tlp-lbn">' + E(x.a_name) + ' &amp; ' + E(x.b_name) + '</span><span class="tlp-lbs">' + E(x.score) + '<small>' + E(T('道')) + '</small></span></div>';
+    });
+    h += '</div>';
+    if (d && d.me) h += '<div class="tlp-card tlp-mine"><span class="lbl">' + E(T('我的排名')) + '</span><b>' + E(d.me.rank) + '</b>' + avatar(d.me.a_name, d.me.a_avatar, 'sm') + avatar(d.me.b_name, d.me.b_avatar, 'sm ov') + '<span class="tlp-lbn">' + E(d.me.a_name) + ' &amp; ' + E(d.me.b_name) + '</span><span class="tlp-lbs">' + E(d.me.score) + '<small>' + E(T('道')) + '</small></span></div>';
+    else if (d) h += '<div class="tlp-nudge info">' + E(b.kind === 'couple' ? T('你还没有情侣搭档，绑定后就能上情侣榜') : T('你还没有好友搭档，绑定后就能上好友榜')) + '</div>';
+    h += '<p class="tlp-muted" style="margin:10px 4px">' + E(T('总榜从绑定那天起一直累计；周榜每周一（新西兰时间）重新开始。一个人在多个好友组里，只算排名最高的一组。')) + '</p>';
+    return h;
+  }
+
+  // ---------- pet ----------
+  function speciesList() { try { return PET_SPECIES; } catch (e) { return [{ id: 'cat', key: '小猫' }, { id: 'dog', key: '小狗' }, { id: 'rabbit', key: '兔子' }, { id: 'panda', key: '熊猫' }, { id: 'kiwi', key: '几维鸟' }, { id: 'fox', key: '小狐狸' }]; } }
+  function petImg(sp) { try { return petImageSrc(sp, 'adult'); } catch (e) { return ''; } }
+  function renderPet() {
+    var r = rel(S.relId);
+    var h = bar(T('共养宠物'));
+    if (!r) return h + '<div class="tlp-card" style="padding:16px">' + E(T('没有找到这个搭档')) + '</div>';
+    var isC = r.kind === 'couple', p = r.pet;
+    h += '<div class="tlp-card tlp-petcard"><div class="tlp-pethead">' + avatar(myName(), myAv(), 'sm') + avatar(r.partner.name, r.partner.avatar, 'sm ov') + ' ' + E(myName()) + ' &amp; ' + E(r.partner.name) + ' ' + E(T('一起养')) + '</div>';
+    if (!p) {
+      S.adopt = S.adopt || { species: 'rabbit' };
+      h += '<p class="tlp-muted" style="margin:10px 0">' + E(isC ? T('情侣共养宠物有专属装扮「爱心小皇冠」。两个人每天都学，宠物才吃得饱。') : T('好友每组可以共养一只宠物，戴专属「友谊围巾」。两个人每天都学，宠物才吃得饱。')) + '</p><div class="tlp-species">';
+      speciesList().forEach(function (s) {
+        h += '<button type="button" class="' + (S.adopt.species === s.id ? 'on' : '') + '" data-tlp="species" data-v="' + E(s.id) + '">' + (petImg(s.id) ? '<img alt="" src="' + petImg(s.id) + '">' : '') + E(T(s.key)) + '</button>';
+      });
+      h += '</div><input id="tlpPetName" class="tlp-input" maxlength="12" placeholder="' + E(T('给宠物起个名字')) + '" value="' + E(S.adopt.name || '') + '">' +
+        '<button type="button" class="tlp-btn tlp-gold" data-tlp="adopt" data-id="' + r.id + '">🐾 ' + E(T('免费领养共养宠物')) + '</button></div>';
+      return h;
+    }
+    var petObj = { species: p.species, stage: p.stage, equipped: p.equipped || [], name: p.name };
+    var art = '';
+    try { art = petAvatarHtml(petObj, { sizeClass: 'w-44 h-44', alt: p.name, rareTier: 0 }); } catch (e) { art = '<div style="font-size:80px">🐾</div>'; }
+    var stageLbl = { baby: T('幼年'), young: T('少年'), adult: T('成年') }[p.stage] || '';
+    var spLbl = ''; try { spLbl = petSpeciesLabel(p.species); } catch (e) {}
+    h += '<div class="tlp-petstage ' + (isC ? 'couple' : 'friend') + '">' + (isC ? '<span class="tlp-crown" aria-hidden="true">👑</span>' : '') + art + '</div>' +
+      '<span class="tlp-excl' + (isC ? '' : ' fr') + '">' + (isC ? '💕 ' + E(T('情侣专属装扮 · 爱心小皇冠')) : '🧣 ' + E(T('好友专属装扮 · 友谊围巾'))) + '</span>' +
+      '<div class="tlp-petname">' + E(p.name) + '</div><div class="tlp-muted">' + E(stageLbl + spLbl) + ' · ' + E(T('共养第 {d} 天', { d: p.days })) + ' · ' + E(T('成长 {g}', { g: p.growth })) + '</div>' +
+      '<div class="tlp-bars"><div class="tlp-barl"><span>' + E(T('心情')) + '</span><span>' + E(p.mood_value) + '%</span></div><div class="tlp-bart"><div class="tlp-barf mood" style="width:' + (+p.mood_value || 0) + '%"></div></div>' +
+      '<div class="tlp-barl"><span>' + E(T('饱食度')) + (p.hungry ? ' · ' + E(T('饿了')) : '') + '</span><span>' + E(p.fullness) + '%</span></div><div class="tlp-bart"><div class="tlp-barf" style="width:' + (+p.fullness || 0) + '%"></div></div></div>';
+    var msg;
+    if (p.me_fed && p.partner_fed) msg = T('今天你们俩都喂过了，{name} 吃得饱饱的 🥰', { name: p.name });
+    else if (p.partner_fed) msg = T('今天 {name} 已喂养，就差你了', { name: r.partner.name });
+    else if (p.me_fed) msg = T('你已经喂过了，等 {name} 来喂', { name: r.partner.name });
+    else msg = T('任一方今天不学习，宠物就会饿。做完一道题就能喂养。');
+    h += '<div class="tlp-nudge">' + E(msg) + '</div>';
+    if (!p.me_fed) h += r.me_studied ? '<button type="button" class="tlp-btn tlp-gold" data-tlp="feed" data-id="' + r.id + '">🍖 ' + E(T('去喂养')) + '</button>'
+                                     : '<button type="button" class="tlp-btn tlp-gold" data-tlp="practice">✏️ ' + E(T('先去做一道题再来喂')) + '</button>';
+    else if (!p.partner_fed) h += '<button type="button" class="tlp-btn tlp-gold" data-tlp="poke" data-id="' + r.id + '">👋 ' + E(T('戳 {name} 来喂', { name: r.partner.name })) + '</button>';
+    h += '<p class="tlp-muted" style="margin-top:10px">' + E(T('每人每天喂一次，成长 +10；每周 PK 获胜宠物再成长 +20。')) + '</p></div>';
+    return h;
+  }
+
+  // ---------- random match ----------
+  function renderMatch() {
+    var h = bar(T('随机匹配'));
+    var m = S.ov && S.ov.match;
+    if (!m) return h + '<div class="tlp-card" style="padding:16px">' + E(T('加载中…')) + '</div>';
+    var line = function (ok, txt) { return '<div class="tlp-check" style="background:' + (ok ? '#F0FDF4' : '#F8FAFC') + ';color:#2A1240;margin-bottom:6px"><span class="tlp-tick' + (ok ? '' : ' no') + '" style="' + (ok ? '' : 'background:#CBD5E1') + '">' + (ok ? '✓' : '·') + '</span>' + E(txt) + '</div>'; };
+    h += '<div class="tlp-card" style="padding:14px"><p class="tlp-muted" style="margin-bottom:10px">' + E(T('只匹配好友搭档，不匹配情侣。双方都确认后才成为搭档；对方只能看到你的昵称、头像和学习数据。')) + '</p>' +
+      line(m.days_ok, T('注册满 3 天（已 {d} 天）', { d: m.days })) +
+      line(m.study_ok, T('累计学习 60 分钟以上（已 {m} 分钟）', { m: m.minutes })) +
+      line(m.adult, T('年满 18 岁（自己确认）')) +
+      line(m.opt_in, T('打开“接受匹配”')) +
+      line((m.friends || 0) < 3, T('好友搭档未满 3 个')) +
+      (!m.adult ? '<label class="tlp-chk"><input type="checkbox" id="tlpAdultChk"> ' + E(T('我确认已年满 18 岁')) + '</label><button type="button" class="tlp-btn tlp-ghost" data-tlp="setadult">' + E(T('确认')) + '</button>'
+                : '<label class="tlp-chk" style="margin-top:6px"><input type="checkbox" id="tlpOptChk" data-tlp="optin"' + (m.opt_in ? ' checked' : '') + '> ' + E(T('接受匹配：允许系统把我推荐给其他学习者')) + '</label>') +
+      '<button type="button" class="tlp-btn tlp-purple" style="margin-top:8px" data-tlp="findmatch"' + (m.eligible ? '' : ' disabled style="margin-top:8px;opacity:.5"') + '>🎲 ' + E(T('帮我找一个学习搭档')) + '</button></div>';
+    var props = m.proposals || [];
+    if (props.length) {
+      h += '<div class="tlp-sec"><h2>' + E(T('等待确认')) + '</h2></div><div class="tlp-list">';
+      props.forEach(function (p) {
+        var c = p.card || {};
+        h += '<div class="tlp-card" style="padding:12px"><div class="tlp-friend" style="padding:0;cursor:default">' + avatar(c.name, c.avatar, 'lg') + '<div class="tlp-info"><div class="tlp-fn"><span class="nm">' + E(c.name) + '</span></div>' +
+          '<div class="tlp-fmeta"><span>' + E(T('累计做题')) + ' <b>' + E(c.questions) + '</b></span><span>' + E(T('近 14 天学习')) + ' <b>' + E(c.study_days_14) + E(T(' 天')) + '</b></span><span>' + E(T('积分')) + ' <b>' + E(c.points) + '</b></span></div></div></div>';
+        if (!p.me_ok) h += '<div class="tlp-seg" style="margin:10px 0 0"><button type="button" class="on fr" data-tlp="respond" data-id="' + p.id + '" data-v="1">' + E(T('同意成为搭档')) + '</button><button type="button" data-tlp="respond" data-id="' + p.id + '" data-v="0">' + E(T('不要了')) + '</button></div>';
+        else h += '<div class="tlp-nudge info" style="margin-bottom:0">' + E(T('已确认，等待对方确认（48 小时内有效）')) + '</div>';
+        h += '<button type="button" class="tlp-link" style="color:#94A3B8;margin-top:6px" data-tlp="reportp" data-id="' + p.id + '">' + E(T('举报/拉黑')) + '</button></div>';
+      });
+      h += '</div>';
+    }
+    return h;
+  }
+
+  // ---------- modals ----------
+  function inviteUrl(code) {
+    var base = ''; try { base = getPublicAppUrl(); } catch (e) {}
+    if (!base || /^file:/.test(base) || /127\.0\.0\.1|localhost/.test(base)) base = 'https://teamlingua.github.io/';
+    return base + '?partner=' + encodeURIComponent(code);
+  }
+  function qrSvg(text) {
+    try {
+      var q = qrcode(0, 'M'); q.addData(text); q.make();
+      return q.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+    } catch (e) { return '<div class="tlp-muted">' + E(T('二维码生成失败')) + '</div>'; }
+  }
+  async function openInvite(kind) {
+    var ov = S.ov || (await load());
+    if (!ov) return;
+    kind = kind || (couple() ? 'friend' : 'couple');
+    S.invite = { kind: kind, data: null };
+    renderInvite();
+    await createInvite();
+  }
+  async function createInvite() {
+    var k = S.invite.kind;
+    if (k === 'couple' && !(S.ov && S.ov.settings.adult)) { renderInvite(); return; }
+    try {
+      var d = await rpc('partner_create_invite', { p_kind: k });
+      if (!d.ok) { S.invite.error = reasonText(d.reason); S.invite.data = null; }
+      else { S.invite.data = d; S.invite.error = null; }
+    } catch (e) { S.invite.error = e.message || String(e); }
+    renderInvite();
+  }
+  function renderInvite() {
+    var k = S.invite.kind, d = S.invite.data;
+    var h = '<h3>' + E(T('邀请学习搭档')) + '</h3><div class="tlp-lead">' + E(T('先选标签，再把邀请发给对方')) + '</div>' +
+      '<div class="tlp-seg"><button type="button" class="' + (k === 'couple' ? 'on' : '') + '" data-tlp="ikind" data-v="couple">💕 ' + E(T('情侣')) + '</button>' +
+      '<button type="button" class="' + (k === 'friend' ? 'on fr' : '') + '" data-tlp="ikind" data-v="friend">🤝 ' + E(T('好友')) + '</button></div>';
+    if (k === 'couple' && !(S.ov && S.ov.settings.adult)) {
+      h += '<label class="tlp-chk"><input type="checkbox" id="tlpAdultChk"> ' + E(T('情侣标签仅限 18 岁以上。我确认已年满 18 岁。')) + '</label>' +
+        '<button type="button" class="tlp-btn tlp-gold" data-tlp="adultinvite">' + E(T('确认并生成情侣邀请')) + '</button>';
+    } else if (S.invite.error) {
+      h += '<div class="tlp-nudge warn">' + E(S.invite.error) + '</div>';
+    } else if (!d) {
+      h += '<div class="tlp-muted" style="text-align:center;padding:20px">' + E(T('正在生成邀请…')) + '</div>';
+    } else {
+      var url = inviteUrl(d.code);
+      h += '<div class="tlp-codebox"><small>' + E(T('搭档码（6 位）')) + '</small><div class="tlp-digits" id="tlpCodeDigits">' + d.code.split('').map(function (c) { return '<span>' + E(c) + '</span>'; }).join('') + '</div></div>' +
+        '<div class="tlp-qr" id="tlpQr">' + qrSvg(url) + '<small>' + E(T('让对方用手机扫码')) + '</small></div>' +
+        '<div class="tlp-gap"><button type="button" class="tlp-btn tlp-gold" data-tlp="copylink" data-url="' + E(url) + '">🔗 ' + E(T('复制链接')) + '</button>' +
+        '<button type="button" class="tlp-btn tlp-purple" style="height:44px;font-size:14px" data-tlp="sharelink" data-url="' + E(url) + '">💬 ' + E(T('发给微信好友')) + '</button></div>' +
+        '<div class="tlp-note">' + E(T('对方确认后绑定，邀请 7 天内有效。对方第一次学习后你们各得 +50 积分。')) + '</div>';
+    }
+    modal(h);
+  }
+  function inviteText(url) {
+    var k = S.invite.kind;
+    return (k === 'couple' ? T('我们一起在 TeamLingua 学英语吧！做我的情侣学习搭档 💕 一起打卡、PK、养宠物：{url} （搭档码 {code}）', { url: url, code: S.invite.data.code })
+                          : T('来做我的 TeamLingua 学习搭档吧 🤝 每天一起打卡、比做题、养宠物：{url} （搭档码 {code}）', { url: url, code: S.invite.data.code }));
+  }
+  async function copyText(s) {
+    try { await navigator.clipboard.writeText(s); return true; } catch (e) {
+      try { var ta = document.createElement('textarea'); ta.value = s; document.body.appendChild(ta); ta.select(); var ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e2) { return false; }
+    }
+  }
+
+  async function showAcceptFor(code) {
+    if (!me()) return;
+    var d;
+    try { d = await rpc('partner_peek_invite', { p_code: code }); } catch (e) { return; }
+    if (!d || !d.ok) { clearPending(); if (d && d.reason) toast(reasonText(d.reason), 'warning'); return; }
+    if (d.self) { clearPending(); toast(T('这是你自己发出的搭档邀请，发给对方就好'), 'info'); return; }
+    S.accept = { code: code, info: d };
+    var isC = d.kind === 'couple';
+    modal('<div class="tlp-hero">' + avatar(d.inviter, d.avatar, 'lg') + '<h4>' + E(T('{name} 邀请你成为', { name: d.inviter })) + '<br>' + E(isC ? T('情侣学习搭档') : T('好友学习搭档')) + '</h4>' +
+      '<div class="tlp-muted">' + E(T('接受后将开始计算双人火苗、PK 和共养宠物。')) + '</div></div>' +
+      (isC && !(S.ov && S.ov.settings.adult) ? '<label class="tlp-chk"><input type="checkbox" id="tlpAdultChk"> ' + E(T('情侣标签仅限 18 岁以上。我确认已年满 18 岁。')) + '</label>' : '') +
+      '<div class="tlp-gap"><button type="button" class="tlp-btn tlp-gold" data-tlp="accept">' + E(T('接受邀请')) + '</button>' +
+      '<button type="button" class="tlp-btn tlp-ghost" data-tlp="ignore">' + E(T('忽略')) + '</button></div>');
+  }
+  async function doAccept() {
+    var a = S.accept; if (!a) return;
+    var chk = $('tlpAdultChk');
+    if (a.info.kind === 'couple' && chk && !chk.checked) { toast(T('请先勾选确认已年满 18 岁'), 'warning'); return; }
+    try {
+      var d = await rpc('partner_accept_invite', { p_code: a.code, p_adult: !!(chk && chk.checked) || !!(S.ov && S.ov.settings.adult) });
+      clearPending();
+      if (!d.ok) { closeModal(); toast(reasonText(d.reason, d), 'warning'); return; }
+      closeModal();
+      toast(T('💞 你和 {name} 成为学习搭档了！', { name: d.partner }) + (d.pet_restored ? ' ' + T('共养宠物已恢复') : ''), 'success');
+      await load(true);
+      window.openPartnerPage(d.kind === 'friend' ? 'home' : 'home', d.kind === 'friend' ? d.relation_id : null);
+    } catch (e) { toast(e.message || String(e), 'error'); }
+  }
+  function openUnbind(id) {
+    var r = rel(id); if (!r) return;
+    var n = r.partner.name;
+    modal('<h3>' + E(T('确定要解除和 {name} 的搭档关系吗？', { name: n })) + '</h3><div style="height:8px"></div>' +
+      '<div class="tlp-warnline">🔥 ' + E(T('双人火苗将清零，连续打卡天数不再保留')) + '</div>' +
+      '<div class="tlp-warnline">🐰 ' + E(T('共养宠物将冻结保留 14 天，冷静期过后复合可恢复')) + '</div>' +
+      '<div class="tlp-warnline">⏳ ' + E(T('7 天内不能和 {name} 重新绑定', { name: n })) + '</div>' +
+      '<div class="tlp-gap" style="margin-top:12px"><button type="button" class="tlp-btn tlp-gold" data-tlp="close" id="tlpUnbindCancel">' + E(T('再想想')) + '</button>' +
+      '<button type="button" class="tlp-btn tlp-danger" data-tlp="unbindok" data-id="' + r.id + '" id="tlpUnbindConfirm">' + E(T('确认解除')) + '</button></div>');
+  }
+  function openPoke(id) {
+    var r = rel(id); if (!r) return;
+    modal('<h3>' + E(T('戳一下 {name}', { name: r.partner.name })) + '</h3><div class="tlp-lead">' + E(T('选一个鼓励表情，对方会收到提醒（每天最多 5 次）')) + '</div><div class="tlp-emojis">' +
+      EMOJIS.map(function (em) { return '<button type="button" data-tlp="pokeok" data-id="' + r.id + '" data-v="' + em + '">' + em + '</button>'; }).join('') + '</div>');
+  }
+  function openReport(kind, id) {
+    var reasons = ['骚扰或不友善', '广告或拉人', '不当昵称或头像', '其他'];
+    modal('<h3>' + E(T('举报 / 拉黑')) + '</h3><div class="tlp-lead">' + E(T('拉黑后会立即解除搭档，并且永远不会再匹配到对方。')) + '</div><div class="tlp-gap" id="tlpReasons">' +
+      reasons.map(function (x, i) { return '<label class="tlp-chk" style="margin:0"><input type="radio" name="tlpReason" value="' + E(x) + '"' + (i === 0 ? ' checked' : '') + '> ' + E(T(x)) + '</label>'; }).join('') +
+      '<label class="tlp-chk" style="margin:0"><input type="checkbox" id="tlpBlockChk" checked> ' + E(T('同时拉黑对方')) + '</label>' +
+      '<button type="button" class="tlp-btn tlp-danger" data-tlp="reportok" data-kind="' + kind + '" data-id="' + id + '">' + E(T('提交')) + '</button></div>');
+  }
+
+  // ---------- share image ----------
+  function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function drawShare(r, mode, noUrl) {
+    var W = 720, H = 1160, c = document.createElement('canvas'); c.width = W; c.height = H;
+    var x = c.getContext('2d'), F = '"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
+    var g = x.createLinearGradient(0, 0, W * 0.4, H); g.addColorStop(0, '#6D28D9'); g.addColorStop(0.45, '#7C3AED'); g.addColorStop(1, r.kind === 'couple' ? '#DB2777' : '#0EA5E9');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    x.fillStyle = 'rgba(255,255,255,0.10)'; x.beginPath(); x.arc(W - 40, 70, 190, 0, 7); x.fill(); x.beginPath(); x.arc(40, H - 300, 130, 0, 7); x.fill();
+    // brand
+    var lg = x.createLinearGradient(48, 48, 108, 108); lg.addColorStop(0, '#FBBF24'); lg.addColorStop(1, '#F97316');
+    x.fillStyle = lg; rr(x, 48, 48, 60, 60, 18); x.fill();
+    x.fillStyle = '#fff'; x.font = 'bold 30px ' + F; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('🎓', 78, 80);
+    x.textAlign = 'left'; x.font = 'bold 32px ' + F; x.fillText('TeamLingua', 124, 80);
+    // avatars
+    function av(cx, name, avc) { x.fillStyle = '#fff'; rr(x, cx - 66, 200, 132, 132, 40); x.fill(); x.fillStyle = avHex(avc, name); rr(x, cx - 58, 208, 116, 116, 34); x.fill(); x.fillStyle = '#fff'; x.font = 'bold 56px ' + F; x.textAlign = 'center'; x.fillText(initial(name), cx, 268); }
+    av(W / 2 - 52, myName(), myAv()); av(W / 2 + 52, r.partner.name, r.partner.avatar);
+    x.textAlign = 'center'; x.fillStyle = '#fff'; x.font = 'bold 50px ' + F;
+    var title = myName() + ' & ' + r.partner.name; if (x.measureText(title).width > W - 80) x.font = 'bold 38px ' + F;
+    x.fillText(title, W / 2, 400);
+    x.font = 'bold 32px ' + F; x.globalAlpha = 0.95;
+    var line = mode === 'pk' ? T('本周学习 PK') : mode === 'streak' ? T('双人火苗连续 {n} 天', { n: r.streak }) : (r.kind === 'couple' ? T('一起学英语第 {n} 天', { n: r.days }) : T('学习搭档第 {n} 天', { n: r.days }));
+    x.fillText(line, W / 2, 462); x.globalAlpha = 1;
+    function box(bx, by, bw, bh, big, small) {
+      x.fillStyle = 'rgba(0,0,0,0.22)'; rr(x, bx, by, bw, bh, 30); x.fill(); x.strokeStyle = 'rgba(255,255,255,0.25)'; x.lineWidth = 2; x.stroke();
+      x.fillStyle = '#fff'; x.font = 'bold 48px ' + F; x.fillText(big, bx + bw / 2, by + bh / 2 - 14); x.font = 'bold 24px ' + F; x.globalAlpha = 0.88; x.fillText(small, bx + bw / 2, by + bh / 2 + 34); x.globalAlpha = 1;
+    }
+    if (mode === 'pk') {
+      var win = r.pk.me === r.pk.partner ? T('势均力敌') : (r.pk.me > r.pk.partner ? T('{name} 领先', { name: myName() }) : T('{name} 领先', { name: r.partner.name }));
+      box(44, 520, W - 88, 170, r.pk.me + ' : ' + r.pk.partner, T('本周做题数 · {w}', { w: win }));
+    } else box(44, 520, W - 88, 170, T('{n} 道', { n: r.total }), T('累计做题'));
+    box(44, 712, (W - 104) / 2, 160, r.kind === 'couple' ? T('第 {n} 天', { n: r.days }) : T('{n} 天', { n: r.days }), r.kind === 'couple' ? T('情侣天数') : T('搭档天数'));
+    box(60 + (W - 104) / 2, 712, (W - 104) / 2, 160, '🔥 ' + T('{n} 天', { n: r.streak }), T('双人火苗'));
+    if (!noUrl) {
+      x.font = 'bold 28px ' + F; var u = 'teamlingua.github.io', uw = x.measureText(u).width + 56;
+      x.fillStyle = 'rgba(255,255,255,0.16)'; rr(x, W / 2 - uw / 2, 960, uw, 64, 32); x.fill(); x.strokeStyle = 'rgba(255,255,255,0.3)'; x.stroke();
+      x.fillStyle = '#fff'; x.fillText(u, W / 2, 993);
+    }
+    x.font = 'bold 24px ' + F; x.globalAlpha = 0.88; x.fillStyle = '#fff'; x.fillText(T('免费团队英语练习 · 和搭档一起打卡'), W / 2, noUrl ? 990 : 1068); x.globalAlpha = 1;
+    return c;
+  }
+  function openShare(id, mode, noUrl) {
+    var r = rel(id); if (!r) return;
+    mode = mode || 'days';
+    S.share = { id: id, mode: mode, noUrl: !!noUrl };
+    var c = drawShare(r, mode, noUrl), url = c.toDataURL('image/png');
+    S.share.url = url;
+    modal('<h3>' + E(T('生成分享图')) + '</h3><div class="tlp-seg sm" style="grid-template-columns:repeat(3,1fr)">' +
+      [['days', r.kind === 'couple' ? '情侣天数' : '搭档天数'], ['streak', '火苗'], ['pk', 'PK 结果']].map(function (m) { return '<button type="button" class="' + (mode === m[0] ? 'on' : '') + '" data-tlp="sharemode" data-id="' + id + '" data-v="' + m[0] + '">' + E(T(m[1])) + '</button>'; }).join('') + '</div>' +
+      '<div class="tlp-share"><img id="tlpShareImg" alt="' + E(T('分享图')) + '" src="' + url + '"></div>' +
+      '<label class="tlp-chk"><input type="checkbox" data-tlp="sharexhs" data-id="' + id + '"' + (noUrl ? ' checked' : '') + '> ' + E(T('小红书版（图上不带网址）')) + '</label>' +
+      '<div class="tlp-gap"><a class="tlp-btn tlp-gold" style="text-decoration:none" download="teamlingua-partner.png" href="' + url + '" id="tlpShareDl">⬇️ ' + E(T('保存图片')) + '</a>' +
+      '<button type="button" class="tlp-btn tlp-ghost" data-tlp="sharenative">' + E(T('分享')) + '</button></div><p class="tlp-muted" style="margin-top:8px;text-align:center">' + E(T('手机上也可以长按图片保存')) + '</p>');
+  }
+
+  // ---------- actions ----------
+  async function act(fn, args, okMsg) {
+    if (S.busy) return null; S.busy = true;
+    try {
+      var d = await rpc(fn, args);
+      if (d && d.ok === false) { toast(reasonText(d.reason, d), 'warning'); return d; }
+      if (okMsg) toast(okMsg, 'success');
+      return d;
+    } catch (e) { toast(e.message || String(e), 'error'); return null; }
+    finally { S.busy = false; }
+  }
+  function goPractice() {
+    closeModal(); window.closePartnerPage();
+    var el = $('practiceChrome'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  async function onClick(ev) {
+    var b = ev.target.closest('[data-tlp]'); if (!b) return;
+    var a = b.getAttribute('data-tlp'), id = b.getAttribute('data-id'), v = b.getAttribute('data-v');
+    if (a === 'optin' || a === 'sharexhs') return; // handled on change
+    if (b.tagName === 'A') return;
+    ev.preventDefault();
+    switch (a) {
+      case 'close': closeModal(); break;
+      case 'back': if (S.view === 'home' && !S.relId) window.closePartnerPage(); else go('home'); break;
+      case 'home': go('home'); break;
+      case 'friend': go('home', id); break;
+      case 'board': go('board'); break;
+      case 'match': go('match'); load(true); break;
+      case 'pet': go('pet', id); break;
+      case 'practice': goPractice(); break;
+      case 'bk': S.board.kind = v; render(); loadBoard(); break;
+      case 'bt': S.board.track = v; render(); loadBoard(); break;
+      case 'bp': S.board.period = v; render(); loadBoard(); break;
+      case 'invite': openInvite(b.getAttribute('data-kind')); break;
+      case 'ikind': S.invite.kind = v; S.invite.data = null; S.invite.error = null; renderInvite(); createInvite(); break;
+      case 'adultinvite': {
+        var c = $('tlpAdultChk'); if (!c || !c.checked) { toast(T('请先勾选确认已年满 18 岁'), 'warning'); return; }
+        var d = await act('partner_set_settings', { p_adult: true }); if (d && d.ok) { S.ov.settings.adult = true; createInvite(); } break;
+      }
+      case 'copylink': { var url = b.getAttribute('data-url'); toast((await copyText(inviteText(url))) ? T('邀请链接已复制，粘贴发给对方吧') : T('复制失败，请手动复制'), 'success'); break; }
+      case 'sharelink': {
+        var u2 = b.getAttribute('data-url'), txt = inviteText(u2);
+        if (navigator.share) { try { await navigator.share({ title: 'TeamLingua', text: txt, url: u2 }); break; } catch (e) { if (e && e.name === 'AbortError') break; } }
+        toast((await copyText(txt)) ? T('已复制邀请文字，打开微信粘贴给好友') : T('复制失败，请手动复制'), 'success'); break;
+      }
+      case 'usecode': {
+        var inp = $('tlpCodeInput'), code = (inp && inp.value || '').replace(/[^0-9]/g, '');
+        if (code.length !== 6) { toast(T('请输入 6 位数字搭档码'), 'warning'); return; }
+        showAcceptFor(code); break;
+      }
+      case 'accept': doAccept(); break;
+      case 'ignore': clearPending(); closeModal(); break;
+      case 'cancelinv': { var dd = await act('partner_cancel_invite', { p_invite_id: id }, T('邀请已撤回')); if (dd) load(true); break; }
+      case 'unbind': openUnbind(id); break;
+      case 'unbindok': { closeModal(); var du = await act('partner_unbind', { p_relation_id: id }, T('已解除搭档关系')); if (du && du.ok) { S.relId = null; S.view = 'home'; await load(true); } break; }
+      case 'poke': openPoke(id); break;
+      case 'pokeok': { closeModal(); var r0 = rel(id); await act('partner_poke', { p_relation_id: id, p_emoji: v }, T('已经戳了 {name} {emoji}', { name: r0 ? r0.partner.name : '', emoji: v })); break; }
+      case 'makeup': {
+        var rm = rel(id); if (!rm) return;
+        if (!confirm(T('用 {cost} 积分补签昨天的火苗？每次断签只能补一次。', { cost: rm.makeup.cost }))) return;
+        var dm = await act('partner_makeup_streak', { p_relation_id: id });
+        if (dm && dm.ok) { toast(T('补签成功，火苗 {n} 天 🔥', { n: dm.streak }), 'success'); try { appState.currentUser.points = dm.points; syncCurrentUserToUI(); } catch (e) {} load(true); }
+        break;
+      }
+      case 'species': S.adopt = S.adopt || {}; S.adopt.name = ($('tlpPetName') || {}).value || ''; S.adopt.species = v; render(); break;
+      case 'adopt': {
+        var nm = ($('tlpPetName') || {}).value || '';
+        var da = await act('partner_adopt_pet', { p_relation_id: id, p_species: (S.adopt || {}).species || 'rabbit', p_name: nm }, T('领养成功！两个人每天都学，宠物就会吃饱 🐾'));
+        if (da && da.ok) { S.adopt = null; await load(true); }
+        break;
+      }
+      case 'feed': { var df = await act('partner_feed_pet', { p_relation_id: id }, T('喂好了！成长 +10 🍖')); if (df && df.ok) await load(true); break; }
+      case 'share': openShare(id); break;
+      case 'sharemode': openShare(id, v, S.share && S.share.noUrl); break;
+      case 'sharenative': {
+        try {
+          var blob = await (await fetch(S.share.url)).blob(), file = new File([blob], 'teamlingua-partner.png', { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'TeamLingua' }); break; }
+        } catch (e) { if (e && e.name === 'AbortError') break; }
+        toast(T('这个浏览器不支持直接分享，请保存图片后再发'), 'info'); break;
+      }
+      case 'report': openReport('relation', id); break;
+      case 'reportp': openReport('proposal', id); break;
+      case 'reportok': {
+        var sel = document.querySelector('input[name="tlpReason"]:checked'), blk = $('tlpBlockChk');
+        closeModal();
+        var dr = await act('partner_report_block', { p_ref_kind: b.getAttribute('data-kind'), p_ref_id: id, p_reason: sel ? sel.value : '', p_block: !!(blk && blk.checked) }, T('已提交，谢谢你的反馈'));
+        if (dr && dr.ok) { S.relId = null; if (S.view !== 'match') S.view = 'home'; await load(true); }
+        break;
+      }
+      case 'setadult': {
+        var ca = $('tlpAdultChk'); if (!ca || !ca.checked) { toast(T('请先勾选确认已年满 18 岁'), 'warning'); return; }
+        var ds = await act('partner_set_settings', { p_adult: true }); if (ds && ds.ok) await load(true); break;
+      }
+      case 'findmatch': {
+        var dfm = await act('partner_find_match', {});
+        if (dfm && dfm.ok) { toast(T('为你找到了「{name}」，等对方确认后就是搭档了', { name: dfm.candidate.name }), 'success'); await load(true); }
+        break;
+      }
+      case 'respond': {
+        var dres = await act('partner_respond_match', { p_proposal_id: id, p_accept: v === '1' });
+        if (dres && dres.ok) { toast(dres.status === 'accepted' ? T('匹配成功，你们成为好友学习搭档了！') : (dres.status === 'waiting' ? T('已确认，等待对方确认') : T('已拒绝')), 'success'); await load(true); }
+        break;
+      }
+    }
+  }
+  async function onChange(ev) {
+    var b = ev.target.closest('[data-tlp]'); if (!b) return;
+    var a = b.getAttribute('data-tlp');
+    if (a === 'optin') { var d = await act('partner_set_settings', { p_match_opt_in: !!b.checked }); if (d && d.ok) await load(true); else b.checked = !b.checked; }
+    if (a === 'sharexhs') openShare(b.getAttribute('data-id'), S.share && S.share.mode, b.checked);
+  }
+
+  // ---------- hooks used by the main app ----------
+  window.tlPartnerAfterLogin = async function () {
+    renderTile();
+    await load(true);
+    var code = getPending();
+    if (code) setTimeout(function () { showAcceptFor(code); }, 700);
+    if (S.timer) clearInterval(S.timer);
+    S.timer = setInterval(function () { if (me() && !document.hidden && S.ov && ((S.ov.relations || []).length || (S.ov.match && S.ov.match.opt_in))) load(true); }, 120000);
+  };
+  window.tlPartnerOnAnswer = function () {
+    if (!me()) return;
+    if (S.answerTimer) clearTimeout(S.answerTimer);
+    S.answerTimer = setTimeout(function () { load(true); }, 3500);
+  };
+  window.tlPartnerOnLogout = function () {
+    S.ov = null; S.boardData = {}; S.seenNotice = {}; if (S.timer) clearInterval(S.timer);
+    window.closePartnerPage(); closeModal(); var tile = $('tlpHeroTile'); if (tile) tile.remove(); var hb = $('heroStats'); if (hb) hb.classList.remove('tlp-6');
+  };
+  window.tlPartnerReload = load;
+
+  function init() {
+    capturePartnerParam();
+    if (!$('tlpPage')) {
+      var p = document.createElement('div'); p.id = 'tlpPage'; p.className = 'hidden'; document.body.appendChild(p);
+      var m = document.createElement('div'); m.id = 'tlpModal'; m.className = 'hidden'; document.body.appendChild(m);
+      p.addEventListener('click', onClick); m.addEventListener('click', onClick);
+      p.addEventListener('change', onChange); m.addEventListener('change', onChange);
+      m.addEventListener('click', function (e) { if (e.target === m) closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (!$('tlpModal').classList.contains('hidden')) closeModal(); else if (isOpen()) window.closePartnerPage(); } });
+      window.addEventListener('resize', function () { if (isOpen()) { var pg = $('tlpPage'); pg.style.setProperty('--tlp-hh', headerH() + 'px'); } });
+    }
+    setTimeout(loggedOutBanner, 1500);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
 </script>
 </body></html>
